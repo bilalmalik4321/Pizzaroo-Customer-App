@@ -9,13 +9,31 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import { CheckBox, Text, Tile, Card } from "react-native-elements";
+import { Text, Tile, Card, Button, Slider } from "react-native-elements";
+import ModalContent from "./modalContent";
 
 function menuScreen() {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <SafeAreaView>
+      <Modal visible={modalVisible} animationType="slide">
+        <View>
+          <Button
+            onPress={() => {
+              setModalVisible(false);
+            }}
+            title="close"
+          />
+          <TextInput
+            placeholder="Quantity"
+            underlineColorAndroid="transparent"
+            style={styles.TextInputStyle}
+            keyboardType={"numeric"}
+          />
+          
+        </View>
+      </Modal>
       <ScrollView>
         <View>
           <Tile
@@ -27,7 +45,7 @@ function menuScreen() {
         </View>
         <View>
           <View>
-            <View style={{ paddingTop: 50, marginLeft:15 }}>
+            <View style={{ paddingTop: 50, marginLeft: 15 }}>
               <Text h3 style={"color:red,"}>
                 Pizzas
               </Text>
@@ -73,7 +91,7 @@ function menuScreen() {
             </TouchableOpacity>
           </View>
           <View>
-            <View style={{ paddingTop:50, marginLeft:15 }}>
+            <View style={{ paddingTop: 50, marginLeft: 15 }}>
               <Text h3 style={"color:red,"}>
                 Drinks
               </Text>
@@ -98,7 +116,7 @@ function menuScreen() {
             </Card>
           </View>
           <View>
-            <View style={{ paddingTop:50, marginLeft:15 }}>
+            <View style={{ paddingTop: 50, marginLeft: 15 }}>
               <Text h3 style={"color:red,"}>
                 Desserts
               </Text>

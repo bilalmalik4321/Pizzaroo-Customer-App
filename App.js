@@ -4,6 +4,7 @@ import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import Restaurants from "./components/restaurantScreen";
 import MenuScreen from "./components/menuScreen";
+import accountScreen from "./components/accountScreen";
 import backButton from "./images/left-chevron.png";
 import { Avatar } from "react-native-elements";
 
@@ -14,7 +15,9 @@ const AppNavigator = createStackNavigator(
       screen: Restaurants,
        navigationOptions: ({ navigation }) => ({
          headerRight: () => (
-          <Avatar rounded icon={{ name: 'user', type: 'font-awesome' }} style={styles.userButton}/>
+          <Avatar rounded icon={{ name: 'user', type: 'font-awesome' }} style={styles.userButton} onPress={() =>
+              navigation.navigate("Account")
+            }/>
         ),
        })
     },
@@ -38,10 +41,32 @@ const AppNavigator = createStackNavigator(
           </TouchableOpacity>
         ),
         headerRight: () => (
-          <Avatar rounded icon={{ name: 'user', type: 'font-awesome' }} style={styles.userButton} />
+          <Avatar rounded icon={{ name: 'user', type: 'font-awesome' }} style={styles.userButton} onPress={() =>
+              navigation.navigate("Account")
+            }/>
         ),
       }),
     },
+
+    Account: {
+      screen: accountScreen,
+      navigationOptions: ({ navigation }) => ({
+        headerLeft: () => (
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("Restaurants")
+            }
+            activeOpacity={0.2}
+          >
+            <Image
+              source={require("./images/left-chevron.png")}
+              style={styles.backButton}
+            />
+          </TouchableOpacity>
+        )
+      }),
+    }
+
   },
   {
     initialRouteName: "Restaurants",
@@ -70,5 +95,5 @@ const styles = StyleSheet.create({
     width: 25,
     height: 25,
     marginRight: 15
-  },
+  }
 });

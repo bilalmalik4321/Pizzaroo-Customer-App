@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { Card, ListItem, Button, Icon, Rating, Avatar } from "react-native-elements";
 
+
 function restaurantScreen(props) {
   
   const { setCurrentStep } = props;
