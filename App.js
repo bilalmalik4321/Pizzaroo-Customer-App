@@ -1,22 +1,35 @@
 import React from "react";
-import { StyleSheet, Text, View, Image, Button, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Button,
+  TouchableOpacity,
+} from "react-native";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import Restaurants from "./components/restaurantScreen";
 import MenuScreen from "./components/menuScreen";
 import backButton from "./images/left-chevron.png";
 import { Avatar } from "react-native-elements";
+import accountScreen from "./components/accountScreen";
 
 const AppNavigator = createStackNavigator(
   {
-    
     Restaurants: {
       screen: Restaurants,
-       navigationOptions: ({ navigation }) => ({
-         headerRight: () => (
-          <Avatar rounded icon={{ name: 'user', type: 'font-awesome' }} style={styles.userButton}/>
+
+      navigationOptions: ({ navigation }) => ({
+        headerRight: () => (
+          <Avatar
+            rounded
+            icon={{ name: "user", type: "font-awesome" }}
+            onPress={() => navigation.navigate("Account")}
+            style={styles.userButton}
+          />
         ),
-       })
+      }),
     },
 
     Menu: {
@@ -26,9 +39,7 @@ const AppNavigator = createStackNavigator(
         title: `${navigation.state.params.title}`,
         headerLeft: () => (
           <TouchableOpacity
-            onPress={() =>
-              navigation.navigate("Restaurants")
-            }
+            onPress={() => navigation.navigate("Restaurants")}
             activeOpacity={0.2}
           >
             <Image
@@ -38,11 +49,35 @@ const AppNavigator = createStackNavigator(
           </TouchableOpacity>
         ),
         headerRight: () => (
-          <Avatar rounded icon={{ name: 'user', type: 'font-awesome' }} style={styles.userButton} />
+          <Avatar
+            rounded
+            icon={{ name: "user", type: "font-awesome" }}
+            onPress={() => navigation.navigate("Account")}
+            style={styles.userButton}
+          />
+        ),
+      }),
+    },
+
+    Account: {
+      screen: accountScreen,
+
+      navigationOptions: ({ navigation }) => ({
+        headerLeft: () => (
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Restaurants")}
+            activeOpacity={0.2}
+          >
+            <Image
+              source={require("./images/left-chevron.png")}
+              style={styles.backButton}
+            />
+          </TouchableOpacity>
         ),
       }),
     },
   },
+
   {
     initialRouteName: "Restaurants",
   }
@@ -64,11 +99,11 @@ const styles = StyleSheet.create({
   backButton: {
     width: 22,
     height: 22,
-    marginLeft: 15
+    marginLeft: 15,
   },
   userButton: {
     width: 25,
     height: 25,
-    marginRight: 15
+    marginRight: 15,
   },
 });
