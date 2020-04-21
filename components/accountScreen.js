@@ -6,21 +6,10 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
-  Image,
-  Avatar
+  Image
 } from "react-native";
 import { Card, ListItem, Button, Icon } from "react-native-elements";
 
-function avatar () {
-  return(
-  <Avatar
-            rounded
-            icon={{ name: "user", type: "font-awesome" }}
-            onPress={() => navigation.navigate("Account")}
-            style={styles.userButton}
-          />
-  );
-}
 function accountScreen(props) {
   const { setCurrentStep } = props;
   const updateUser = props.updateUser;
