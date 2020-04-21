@@ -14,38 +14,44 @@ function accountScreen(props) {
   const { setCurrentStep } = props;
   const updateUser = props.updateUser;
 
-  const users = [
+  const list = [
     {
-      name: "Change email or password",
-      avatar: "https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg",
+      title: "Change email",
+      icon: 'email'
     },
     {
-      name: "Change address",
-      avatar: "https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg",
+      title: "Change password",
+      icon: 'lock'
     },
     {
-      name: "Logout",
-      avatar: "https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg",
+      title: "Change address",
+      icon: 'location-on'
     },
     {
-      name: "Need Help?",
-      avatar: "https://s3.amazonaws.com/uifaces/faces/twitter/brynn/128.jpg",
+      title: "Logout",
+      icon: 'exit-to-app'
+    },
+    {
+      title: "Need Help?",
+      icon: 'help'
+
     },
   ];
 
   return (
     <SafeAreaView>
-      <ScrollView>
+      <ScrollView style={styles.scrollableArea} >
         <View>
-          <Card containerStyle={{ padding: 0 }}>
-            {users.map((u, i) => {
+          <Card containerStyle={ styles.card } dividerStyle>
+            {list.map((item, i) => {
               return (
                 <ListItem
-                  key={i}
-                  roundAvatar
-                  title={u.name}
-                  avatar={{ uri: u.avatar }}
-                />
+        key={i}
+        title={item.title}
+        leftIcon={{ name: item.icon }}
+        bottomDivider
+        chevron
+      />
               );
             })}
           </Card>
@@ -56,3 +62,14 @@ function accountScreen(props) {
 }
 
 export default accountScreen;
+
+
+const styles = StyleSheet.create({
+  scrollableArea: {
+    paddingBottom:300
+  },
+  card: {
+    padding: 0
+  },
+});
+
