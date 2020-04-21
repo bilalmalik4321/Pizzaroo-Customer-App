@@ -16,6 +16,7 @@ import {
   Avatar,
 } from "react-native-elements";
 
+
 function restaurantScreen(props) {
   const { setCurrentStep } = props;
   const updateUser = props.updateUser;

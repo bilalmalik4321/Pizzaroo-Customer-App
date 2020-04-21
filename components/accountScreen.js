@@ -7,20 +7,9 @@ import {
   SafeAreaView,
   ScrollView,
   Image,
-  Avatar
 } from "react-native";
 import { Card, ListItem, Button, Icon } from "react-native-elements";
 
-function avatar () {
-  return(
-  <Avatar
-            rounded
-            icon={{ name: "user", type: "font-awesome" }}
-            onPress={() => navigation.navigate("Account")}
-            style={styles.userButton}
-          />
-  );
-}
 function accountScreen(props) {
   const { setCurrentStep } = props;
   const updateUser = props.updateUser;
@@ -45,6 +34,7 @@ function accountScreen(props) {
     {
       title: "Need Help?",
       icon: 'help'
+
     },
   ];
 
@@ -73,6 +63,7 @@ function accountScreen(props) {
 
 export default accountScreen;
 
+
 const styles = StyleSheet.create({
   scrollableArea: {
     paddingBottom:300
@@ -81,3 +72,4 @@ const styles = StyleSheet.create({
     padding: 0
   },
 });
+
