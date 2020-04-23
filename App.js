@@ -12,17 +12,36 @@ import { createStackNavigator } from "react-navigation-stack";
 import Restaurants from "./components/restaurantScreen";
 import MenuScreen from "./components/menuScreen";
 import accountScreen from "./components/accountScreen";
+import Introduction from "./components/intro";
+import LoginScreen from "./components/login.js";
 import backButton from "./images/left-chevron.png";
 import { Avatar } from "react-native-elements";
-import accountScreen from "./components/accountScreen";
 
 const AppNavigator = createStackNavigator(
   {
+    Introduction: {
+      screen: Introduction,
+
+      navigationOptions: {
+        header: null,
+      },
+    },
+
+    LoginScreen: {
+      screen: LoginScreen,
+
+      navigationOptions: {
+        header: null,
+      },
+    },
+
     Restaurants: {
       screen: Restaurants,
 
 
       navigationOptions: ({ navigation }) => ({
+        gestureEnabled: false,
+
         headerRight: () => (
           <Avatar
             rounded
@@ -32,6 +51,9 @@ const AppNavigator = createStackNavigator(
           />
 
         ),
+        headerLeft: () => {
+          null;
+        },
       }),
     },
 
@@ -104,7 +126,7 @@ const AppNavigator = createStackNavigator(
   },
 
   {
-    initialRouteName: "Restaurants",
+    initialRouteName: "Introduction",
   }
 );
 
