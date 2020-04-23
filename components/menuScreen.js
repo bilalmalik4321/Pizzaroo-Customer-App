@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
+
 import {
   CheckBox,
   Text,
@@ -20,6 +21,7 @@ import {
 } from "react-native-elements";
 
 const price = 12.99;
+
 
 function menuScreen() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -81,12 +83,14 @@ function menuScreen() {
               errorMessage="ENTER A VALID ERROR HERE"
             />
           </View>*/}
+
           <Button
             onPress={() => {
               setModalVisible(false);
             }}
             title="Add to Order"
           />
+
         </View>
       </Modal>
       <ScrollView>

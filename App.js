@@ -38,6 +38,7 @@ const AppNavigator = createStackNavigator(
     Restaurants: {
       screen: Restaurants,
 
+
       navigationOptions: ({ navigation }) => ({
         gestureEnabled: false,
 
@@ -48,6 +49,7 @@ const AppNavigator = createStackNavigator(
             onPress={() => navigation.navigate("Account")}
             style={styles.userButton}
           />
+
         ),
         headerLeft: () => {
           null;
@@ -72,6 +74,7 @@ const AppNavigator = createStackNavigator(
           </TouchableOpacity>
         ),
         headerRight: () => (
+
           <Avatar
             rounded
             icon={{ name: "user", type: "font-awesome" }}
@@ -96,9 +99,30 @@ const AppNavigator = createStackNavigator(
               style={styles.backButton}
             />
           </TouchableOpacity>
+
         ),
       }),
     },
+
+    Account: {
+      screen: accountScreen,
+      navigationOptions: ({ navigation }) => ({
+        headerLeft: () => (
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("Restaurants")
+            }
+            activeOpacity={0.2}
+          >
+            <Image
+              source={require("./images/left-chevron.png")}
+              style={styles.backButton}
+            />
+          </TouchableOpacity>
+        )
+      }),
+    }
+
   },
 
   {
@@ -129,4 +153,5 @@ const styles = StyleSheet.create({
     height: 25,
     marginRight: 15,
   },
+
 });

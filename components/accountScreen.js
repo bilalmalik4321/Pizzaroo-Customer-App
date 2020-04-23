@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
-  Image
+  Image,
 } from "react-native";
 import { Card, ListItem, Button, Icon } from "react-native-elements";
 
@@ -34,6 +34,7 @@ function accountScreen(props) {
     {
       title: "Need Help?",
       icon: 'help'
+
     },
   ];
 
@@ -62,6 +63,7 @@ function accountScreen(props) {
 
 export default accountScreen;
 
+
 const styles = StyleSheet.create({
   scrollableArea: {
     paddingBottom:300
@@ -70,3 +72,4 @@ const styles = StyleSheet.create({
     padding: 0
   },
 });
+
