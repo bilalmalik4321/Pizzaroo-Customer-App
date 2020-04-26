@@ -53,11 +53,17 @@ export const createUser = async payload => {
 			.set({...userInfo},{merge: true});
 
 		// return true after success
-		return true;
+		return {
+			result: true,
+			error: ''
+		}
     
   } catch (error) {
-		console.log('create user fails',error);
-    return false;
+		console.log('create user fails',error.message);
+		return {
+			result: false,
+			error: error.message
+		}
   }
 };
 
