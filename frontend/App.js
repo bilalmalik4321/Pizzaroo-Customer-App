@@ -74,7 +74,8 @@ import Introduction from "./components/intro";
 import LoginScreen from "./components/login.js";
 import backButton from "./images/left-chevron.png";
 import { Avatar } from "react-native-elements";
-
+import store from './shared_/store';
+import { Provider } from "react-contextual";
 const AppNavigator = createStackNavigator(
   {
     Introduction: {
@@ -191,7 +192,10 @@ const AppNavigator = createStackNavigator(
 const AppContainer = createAppContainer(AppNavigator);
 
 export default function App() {
-  return <AppContainer />;
+  return (
+  <Provider {...store}>
+      <AppContainer />    
+  </Provider> );
 }
 
 const styles = StyleSheet.create({

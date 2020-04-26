@@ -4,20 +4,19 @@ import { Button, CheckBox, Divider } from 'react-native-elements';
 import { subscribe } from 'react-contextual';
 import styles from "./style";
 import * as validations from './validations';
-// import { getUser, createUser } from './api';
-// import * as all from '../firebase';
+import { getUser, createUser } from './api';
+
+
+
 function Login(props) {
   console.log("props", props);
   // console.log("props--all", all);
-  const { setCurrentStep } = props;
-  const updateUser = props.updateUser;
 
   const [modalVisible, setModalVisible] = useState(false);
   const [state, setState] = useState(false);
 
   const { error_signup} = props.errors
 
-//const { modalVisible } = state;
 
   return (
     <KeyboardAvoidingView style={styles.containerView} behavior="padding">
