@@ -29,5 +29,11 @@ Steps to do a pull request:
 - git push -u origin your_feature_branch_name
 - make a pull request into **staging** branch NOT master NOT master. 
 
+Code consistency:
 
+- Use only function component not class component
+- 2 spaces indent and tab
+- use shift + tab on selected multi-line code to shift them to the LEFT
+- use tab on selected multi-line code to shift them to the RIGHT
+- if a component has no child component: use self closing tag i.e <Component />
 
