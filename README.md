@@ -35,5 +35,5 @@ Code consistency:
 - 2 spaces indent and tab
 - use shift + tab on selected multi-line code to shift them to the LEFT
 - use tab on selected multi-line code to shift them to the RIGHT
-- if a component has no child component: use self closing tag i.e <Component />
+- if a component has no child component: use self closing tag
 
