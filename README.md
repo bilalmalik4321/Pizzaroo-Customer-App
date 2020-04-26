@@ -27,8 +27,7 @@ Steps to do a pull request:
 
 - first complete 'Steps to merge'
 - git push -u origin your_feature_branch_name
-- make a pull request on github
-
+- make a pull request into **staging** branch NOT master NOT master. 
 
 
 
