@@ -19,42 +19,4 @@ const config = {
 
 firebase.initializeApp(config);
 
-// const db = firebase.firestore();
-// const createUser = async payload => {
-//   try {
-    
-//     // sign up user with firebase auth
-//     const signedUpUser = await firebase
-//       .auth()
-//       .createUserWithEmailAndPassword(
-//         payload.email,
-//         payload.password
-//       );
-		
-// 		console.log("user sign up", signedUpUser)
-//     // send verification email TODO
-//     // signedUpUser.user.sendEmailVerification();
-
-//     // delete password to secure
-//     const userInfo = payload;
-//     delete userInfo.password;
-
-//     // user is created in auth but not in the collection
-
-// 		await db
-// 			.collection('customers')
-// 			.doc(signedUpUser.user.uid)
-// 			.set({...userInfo},{merge: true});
-
-// 		// return true after success
-// 		return true;
-    
-//   } catch (error) {
-// 		console.log('create user fails',error);
-// 		return false;
-//   }
-// };
-
-
-
 export default firebase;
