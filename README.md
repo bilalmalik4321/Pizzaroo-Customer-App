@@ -8,7 +8,7 @@ Steps to start:
 
 - git clone https://github.com/bilalmalik4321/HomeMenuScreen.git
 - git checkout staging
-- git checkout -b newBranchNew 
+- git checkout -b newBranchName
 
 
 Steps to merge:
