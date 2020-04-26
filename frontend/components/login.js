@@ -6,7 +6,7 @@ import styles from "./style";
 import * as validations from './validations';
 import { getUser, createUser } from './api';
 import { TextField} from 'react-native-material-textfield';
-
+import firebase from '../firebases';
 
 function Login(props) {
   // console.log("props", props);
@@ -17,21 +17,50 @@ function Login(props) {
   const [returnError, setReturnError ] = useState('');
   const { error_signup } = props.errors;
 
-  const onCreateUser = async () => {
+  const onLogin = async () => {
 
+    const { email, password } = props.user;
+
+    try{
+      const signedInUser = await firebase
+        .auth()
+        .signInWithEmailAndPassword(
+          email,
+          password
+        );
+        console.log("signed", signedInUser);
+      if(signedInUser) {
+        const user = await getUser(signedInUser.user.uid);
+
+        props.updateUser({
+          ...user
+        });
+
+        props.navigation.navigate("Restaurants");
+      }
+    } catch (error) {
+      console.log("errrorr-----sign", error);
+      if(error) {
+        const { message } = error; 
+        console.log("message", message)
+        setReturnError(message);
+      }
+    }
+  };
+
+  const onCreateUser = async () => {
     const { email, password } = props.user;
     const res = await createUser({
       email,
       password
     });
-    // console.log("result-----", res);
     const { result , error } = res;
     if(result) {
       setModalVisible(false);
     } else {
       setReturnError(error);
     }
-  }
+  };
 
 
   return (
@@ -40,20 +69,33 @@ function Login(props) {
         <View style={styles.loginScreenContainer}>
           <View style={styles.loginFormView}>
             <Text style={styles.logoText}>Welcome</Text>
-                <TextInput placeholder="Username" placeholderColor="#c4c3cb" style={styles.loginFormTextInput} />
-                <TextInput 
-                  placeholder="Password" 
-                  placeholderColor="#c4c3cb" 
-                  style={styles.loginFormTextInput} 
-                  secureTextEntry={true}
-                  
-                />
-                <Button
+              <TextInput 
+                placeholder="Email" 
+                placeholderColor="#c4c3cb" 
+                style={styles.loginFormTextInput} 
+                onChangeText={text => props.updateUser({email: text})}
+              />
+              <TextInput 
+                placeholder="Password" 
+                placeholderColor="#c4c3cb" 
+                style={styles.loginFormTextInput} 
+                secureTextEntry={true}
+                onChangeText={ text => props.updateUser({password: text})}
+                
+              />
+              { returnError !== '' && 
+                <Text style={styles.errorInput} >{ returnError}</Text>
+              }
+              <Button
                 buttonStyle={styles.loginButton}
-                onPress={() => {props.navigation.navigate("Restaurants");}}//onLoginPress
+                onPress={()=> {
+                  setReturnError('');
+                  console.log("helllo")
+                  onLogin();
+                }}//onLoginPress
                 title="Login"
-                />
-                  <Divider style={{ backgroundColor: 'orange', padding:1, margin:'10%' }} />
+              />
+                <Divider style={{ backgroundColor: 'orange', padding:1, margin:'10%' }} />
 		            <Text style={{textAlign:'center', fontSize: 20}}>   New here?</Text>
 		            <Modal
                   animationType="fade"

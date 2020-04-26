@@ -107,4 +107,10 @@ export default {
 
     marginTop: 20,
   },
+  errorInput :{
+    textAlign: "center",
+  }
+
+  
+ 
 };
