@@ -3,7 +3,7 @@ import React, { Component, useState } from "react";
 import styles from "./style";
 import {Keyboard, Text, View, TextInput, TouchableWithoutFeedback, TouchablHighlight, Alert, KeyboardAvoidingView, Modal} from 'react-native';
 import { Button, CheckBox, Divider } from 'react-native-elements';
-
+import Icon from "react-native-vector-icons/FontAwesome";
 
 function login(props) {
 
@@ -13,8 +13,6 @@ function login(props) {
 const [modalVisible, setModalVisible] = useState(false);
   const [state, setState] = useState(false);
 
-
-//const { modalVisible } = state;
 
     return (
       <KeyboardAvoidingView style={styles.containerView} behavior="padding">
@@ -41,6 +39,15 @@ const [modalVisible, setModalVisible] = useState(false);
         >
           <View style={[styles.centeredView, modalVisible ? {backgroundColor: 'rgba(0,0,0,0.5)'} : 'white']}>
           <View style={styles.modalView}>
+          <Icon
+            name="close"
+            size={30}
+            color="black"
+            onPress={() => {
+              setModalVisible(false);
+            }}
+            style={styles.modalExit}
+          />
             <Text style={styles.logoText2}>Sign Up</Text>
 		<TextInput placeholder="Email" placeholderColor="#c4c3cb" style={styles.signupFormTextInput} />
             	<TextInput placeholder="Password" placeholderColor="#c4c3cb" style={styles.signupFormTextInput} secureTextEntry={true}/>

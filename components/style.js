@@ -38,14 +38,13 @@ export default {
     fontSize: 40,
     fontWeight: "800",
     marginTop: "50%",
-    marginBottom: 30,
+    marginBottom: "5%",
     textAlign: "center",
   },
   logoText2: {
     fontSize: 40,
     fontWeight: "800",
-    marginTop: "20%",
-    marginBottom: 30,
+    marginBottom: "5%",
     textAlign: "center",
   },
   loginFormView: {
@@ -61,8 +60,8 @@ export default {
     paddingLeft: 10,
     marginLeft: "15%",
     marginRight: "15%",
-    marginTop: 20,
-    marginBottom: 20,
+    marginTop: "2.5%",
+    marginBottom: "2.5%",
   },
   signupFormcheckbox: {
     height: 43,
@@ -87,8 +86,8 @@ export default {
     backgroundColor: "#fafafa",
     paddingLeft: 5,
     width: "100%",
-    marginTop: 5,
-    marginBottom: 5,
+    marginTop: "2.5%",
+    marginBottom: "2.5%",
   },
   loginButton: {
     backgroundColor: "orange",
@@ -97,6 +96,11 @@ export default {
     width: 95,
     marginLeft: "40%",
     marginTop: 20,
+  },
+  modalExit: {
+    left:1,
+    padding:5,
+    position:"absolute",
   },
   signupButton: {
     backgroundColor: "orange",
