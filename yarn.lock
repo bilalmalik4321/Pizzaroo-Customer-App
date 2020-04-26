@@ -4973,6 +4973,13 @@ rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-contextual@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/react-contextual/-/react-contextual-5.0.2.tgz#039c8ac9368af71049bb0433b2bf4cde63393721"
+  integrity sha512-BxlI+lT0BLcNX9mNKaNNrQAWO+MCEbmCrEZxlObBOJdk6PhbY+9ww3AVbO8/K6gDNt1GioNO4I6zKVVKMGePCg==
+  dependencies:
+    tiny-uuid "^1.0.0"
+
 react-devtools-core@^3.6.3:
   version "3.6.3"
   resolved "https://registry.yarnpkg.com/react-devtools-core/-/react-devtools-core-3.6.3.tgz#977d95b684c6ad28205f0c62e1e12c5f16675814"
@@ -5827,6 +5834,11 @@ tiny-queue@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/tiny-queue/-/tiny-queue-0.2.1.tgz#25a67f2c6e253b2ca941977b5ef7442ef97a6046"
   integrity sha1-JaZ/LG4lOyypQZd7XvdELvl6YEY=
+
+tiny-uuid@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/tiny-uuid/-/tiny-uuid-1.0.0.tgz#aea34a2f89c7b71435eb38af3139aa3a025351ca"
+  integrity sha1-rqNKL4nHtxQ16zivMTmqOgJTUco=
 
 tmp@^0.0.33:
   version "0.0.33"
