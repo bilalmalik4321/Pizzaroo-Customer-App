@@ -16,7 +16,6 @@ import {
   Avatar,
 } from "react-native-elements";
 
-
 function restaurantScreen(props) {
   const { setCurrentStep } = props;
   const updateUser = props.updateUser;
@@ -31,7 +30,7 @@ function restaurantScreen(props) {
             }
             activeOpacity={0.75}
           >
-            <Card title="Arcata's Pizza" image={require("../images/pic2.jpg")}>
+            <Card title="Arcata's Pizza" image={require("../images/pic2.jpg")} >
               <Text style={styles.card}>
                 The idea with React Native Elements is more about component
                 structure than actual design.
@@ -84,5 +83,6 @@ export default restaurantScreen;
 const styles = StyleSheet.create({
   card: {
     marginBottom: 10,
+    borderRadius: 250,
   },
 });

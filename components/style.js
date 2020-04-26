@@ -37,7 +37,14 @@ export default {
   logoText: {
     fontSize: 40,
     fontWeight: "800",
-    marginTop: 150,
+    marginTop: "50%",
+    marginBottom: 30,
+    textAlign: "center",
+  },
+  logoText2: {
+    fontSize: 40,
+    fontWeight: "800",
+    marginTop: "20%",
     marginBottom: 30,
     textAlign: "center",
   },

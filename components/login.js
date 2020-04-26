@@ -13,7 +13,7 @@ function login(props) {
 const [modalVisible, setModalVisible] = useState(false);
   const [state, setState] = useState(false);
 
-	
+
 //const { modalVisible } = state;
 
     return (
@@ -37,14 +37,11 @@ const [modalVisible, setModalVisible] = useState(false);
           animationType="fade"
           transparent={true}
           visible={modalVisible}
-          onRequestClose={() => {
-            console.log("Modal has been closed.");
-		setModalVisible(false);
-          }}
+
         >
-          <View style={[styles.centeredView, state.modalVisible ? {backgroundColor: 'rgba(0,0,0,0.5)'} : '']}>
+          <View style={[styles.centeredView, modalVisible ? {backgroundColor: 'rgba(0,0,0,0.5)'} : 'white']}>
           <View style={styles.modalView}>
-            <Text style={styles.logoText}>Sign Up</Text>
+            <Text style={styles.logoText2}>Sign Up</Text>
 		<TextInput placeholder="Email" placeholderColor="#c4c3cb" style={styles.signupFormTextInput} />
             	<TextInput placeholder="Password" placeholderColor="#c4c3cb" style={styles.signupFormTextInput} secureTextEntry={true}/>
 		<TextInput placeholder="Repeat Password" placeholderColor="#c4c3cb" style={styles.signupFormTextInput} secureTextEntry={true}/>
@@ -65,7 +62,7 @@ const [modalVisible, setModalVisible] = useState(false);
                 }}
               title="Register"
             />
-            
+
           </View>
         </View>
       </Modal>
@@ -74,13 +71,14 @@ const [modalVisible, setModalVisible] = useState(false);
               buttonStyle={styles.signupButton}
               onPress={() => {
                   setModalVisible(true);
+
                 }}
               title="Sign up"
             />
-                
-              
-            
-       
+
+
+
+
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -100,8 +98,8 @@ const [modalVisible, setModalVisible] = useState(false);
 onsignupPress = () => {
 	console.log('sign up procedures');
   };
-  
-  
+
+
 }
 
 export default login;
