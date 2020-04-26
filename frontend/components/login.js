@@ -1,16 +1,13 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import {Keyboard, Text, View, TextInput, TouchableWithoutFeedback, TouchablHighlight, Alert, KeyboardAvoidingView, Modal} from 'react-native';
 import { Button, CheckBox, Divider } from 'react-native-elements';
 import { subscribe } from 'react-contextual';
 import styles from "./style";
 import * as validations from './validations';
 import { getUser, createUser } from './api';
-import { TextField} from 'react-native-material-textfield';
 import firebase from '../firebases';
 
 function Login(props) {
-  // console.log("props", props);
-
 
   const [modalVisible, setModalVisible] = useState(false);
   const [state, setState] = useState(false);
@@ -18,9 +15,7 @@ function Login(props) {
   const { error_signup } = props.errors;
 
   const onLogin = async () => {
-
     const { email, password } = props.user;
-
     try{
       const signedInUser = await firebase
         .auth()
@@ -29,13 +24,12 @@ function Login(props) {
           password
         );
         console.log("signed", signedInUser);
+
       if(signedInUser) {
         const user = await getUser(signedInUser.user.uid);
-
         props.updateUser({
           ...user
         });
-
         props.navigation.navigate("Restaurants");
       }
     } catch (error) {
@@ -84,7 +78,7 @@ function Login(props) {
                 
               />
               { returnError !== '' && 
-                <Text style={styles.errorInput} >{ returnError}</Text>
+                <Text style={styles.errorInput} >{returnError}</Text>
               }
               <Button
                 buttonStyle={styles.loginButton}
@@ -95,17 +89,17 @@ function Login(props) {
                 }}//onLoginPress
                 title="Login"
               />
-                <Divider style={{ backgroundColor: 'orange', padding:1, margin:'10%' }} />
-		            <Text style={{textAlign:'center', fontSize: 20}}>   New here?</Text>
-		            <Modal
-                  animationType="fade"
-                  transparent={true}
-                  visible={modalVisible}
-                  onRequestClose={() => {
-                    console.log("Modal has been closed.");
-                    setModalVisible(false);
-                  }}
-                >
+              <Divider style={{ backgroundColor: 'orange', padding:1, margin:'10%' }} />
+              <Text style={{textAlign:'center', fontSize: 20}}>   New here?</Text>
+              <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                  console.log("Modal has been closed.");
+                  setModalVisible(false);
+                }}
+              >
               <View style={[styles.centeredView, state.modalVisible ? {backgroundColor: 'rgba(0,0,0,0.5)'} : '']}>
               <View style={styles.modalView}>
               <Text style={styles.logoText}>Sign Up</Text>
