@@ -55,14 +55,27 @@ function restaurantScreen(props) {
           </TouchableOpacity>
         </View>
         <View>
+		  <TouchableOpacity
+            onPress={() =>
+              props.navigation.navigate("Menu", { title: "Store Name" })
+            }
+            activeOpacity={0.75}
+          >	
           <Card title="HELLO WORLD" image={require("../images/pic2.jpg")}>
             <Text style={styles.card}>
               The idea with React Native Elements is more about component
               structure than actual design.
             </Text>
           </Card>
+		  </TouchableOpacity>
         </View>
         <View>
+		  <TouchableOpacity
+            onPress={() =>
+              props.navigation.navigate("Menu", { title: "Store Name" })
+            }
+            activeOpacity={0.75}
+          >
           <Card
             title="HELLO WORLD"
             image={require("../images/pic2.jpg")}
@@ -73,6 +86,7 @@ function restaurantScreen(props) {
               structure than actual design.
             </Text>
           </Card>
+		  </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -83,6 +97,19 @@ export default restaurantScreen;
 
 const styles = StyleSheet.create({
   card: {
-    marginBottom: 10,
+	//shadow box for IOS
+	shadowColor: "#000",
+	shadowOffset: {
+		width: 0,
+		height: 9,
+	},
+	shadowOpacity: 0.48,
+	shadowRadius: 11.95,
+	//shadow box for Android
+	elevation: 20,
+	
+	
+    
+	marginBottom: 10,
   },
 });

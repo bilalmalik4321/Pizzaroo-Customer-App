@@ -30,6 +30,7 @@ function menuScreen() {
 
   return (
     <SafeAreaView>
+	// this is the popup that prompts the description for orders
       <Modal visible={modalVisible} animationType="slide">
         <View>
           <Icon
@@ -93,6 +94,8 @@ function menuScreen() {
 
         </View>
       </Modal>
+	 
+// here starts the menu and various orders
       <ScrollView>
         <View>
           <Tile
@@ -118,7 +121,7 @@ function menuScreen() {
                 <Text style={styles.foodItemDescription}>
                   Offered from small to XL.
                 </Text>
-                <Text style={styles.foodItemPrice}>12.99</Text>
+                <Text style={styles.foodItemPrice}>$12.99</Text>
               </Card>
             </TouchableOpacity>
             <TouchableOpacity
@@ -132,7 +135,7 @@ function menuScreen() {
                 <Text style={styles.foodItemDescription}>
                   Offered from small to XL.
                 </Text>
-                <Text style={styles.foodItemPrice}>10.99</Text>
+                <Text style={styles.foodItemPrice}>$10.99</Text>
               </Card>
             </TouchableOpacity>
             <TouchableOpacity
@@ -146,7 +149,7 @@ function menuScreen() {
                 <Text style={styles.foodItemDescription}>
                   Offered from small to XL.
                 </Text>
-                <Text style={styles.foodItemPrice}>13.99</Text>
+                <Text style={styles.foodItemPrice}>$13.99</Text>
               </Card>
             </TouchableOpacity>
           </View>
@@ -167,13 +170,13 @@ function menuScreen() {
               <Text style={styles.foodItemDescription}>
                 Offered from small to XL.
               </Text>
-              <Text style={styles.foodItemPrice}>1.99</Text>
+              <Text style={styles.foodItemPrice}>$1.99</Text>
             </Card>
             <Card title="Sprite" image={require("../images/Pepsi.jpg")}>
               <Text style={styles.foodItemDescription}>
                 Offered from small to XL.
               </Text>
-              <Text style={styles.foodItemPrice}>1.99</Text>
+              <Text style={styles.foodItemPrice}>$1.99</Text>
             </Card>
           </View>
           <View>
