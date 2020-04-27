@@ -7,21 +7,21 @@ const slides = [
   {
     key: 1,
     title: 'Title 1',
-    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    text: 'Add Description here.',
    
     backgroundColor: '#000',
   },
   {
     key: 2,
     title: 'Title 2',
-    text: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
+    text: 'Add Description here.',
    
     backgroundColor: '#000',
   },
   {
     key: 3,
     title: 'Title 3',
-    text: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur',
+    text: 'Add Description here.',
     
     backgroundColor: '#000',
   }
@@ -71,7 +71,7 @@ slide: {
     alignItems: 'center',
 	padding:'15%',
     justifyContent: 'center',
-    backgroundColor: 'orange',
+    backgroundColor: 'purple',
 	color: 'red',
   },
   image: {
