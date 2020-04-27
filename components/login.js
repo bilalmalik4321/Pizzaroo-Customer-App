@@ -31,7 +31,7 @@ const [modalVisible, setModalVisible] = useState(false);
               onPress={() => {props.navigation.navigate("Restaurants");}}//onLoginPress
               title="Login"
             />
-            <Divider style={{ backgroundColor: 'orange', padding:1, margin:'10%' }} />
+            <Divider style={{ backgroundColor: 'purple', padding:1, margin:'10%' }} />
 		<Text style={{textAlign:'center', fontSize: 20}}>   New here?</Text>
 		<Modal
           animationType="fade"

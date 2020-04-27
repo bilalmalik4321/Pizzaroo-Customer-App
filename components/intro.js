@@ -6,22 +6,22 @@ import LoginScreen from './login.js'
 const slides = [
   {
     key: 1,
-    title: 'Welcome to Pizzaroo!',
-    text: 'Add description here',
+    title: 'Title 1',
+    text: 'Add Description here.',
    
     backgroundColor: '#000',
   },
   {
     key: 2,
     title: 'Title 2',
-    text: 'Add description here',
+    text: 'Add Description here.',
    
     backgroundColor: '#000',
   },
   {
     key: 3,
     title: 'Title 3',
-    text: 'Add description here',
+    text: 'Add Description here.',
     
     backgroundColor: '#000',
   }
@@ -71,7 +71,7 @@ slide: {
     alignItems: 'center',
 	padding:'15%',
     justifyContent: 'center',
-    backgroundColor: 'orange',
+    backgroundColor: 'purple',
 	color: 'red',
   },
   image: {
