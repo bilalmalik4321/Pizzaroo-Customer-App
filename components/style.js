@@ -40,7 +40,6 @@ export default {
     marginTop: 150,
     marginBottom: 30,
     textAlign: "center",
-	color: 'purple',
   },
   loginFormView: {
     flex: 1,
@@ -85,7 +84,7 @@ export default {
     marginBottom: 5,
   },
   loginButton: {
-    backgroundColor: "purple",
+    backgroundColor: "orange",
     borderRadius: 25,
     height: 45,
     width: 95,
@@ -93,7 +92,7 @@ export default {
     marginTop: 20,
   },
   signupButton: {
-    backgroundColor: "purple",
+    backgroundColor: "orange",
     borderRadius: 25,
     height: 45,
     width: 95,
@@ -101,7 +100,7 @@ export default {
     marginTop: 20,
   },
   registerButton: {
-    backgroundColor: "purple",
+    backgroundColor: "orange",
     borderRadius: 25,
     height: 45,
     width: 95,

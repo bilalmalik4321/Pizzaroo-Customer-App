@@ -23,7 +23,6 @@
     ],
     "ios": {
       "supportsTablet": true
-    },
-    "description": ""
+    }
   }
 }
