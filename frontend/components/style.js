@@ -24,7 +24,7 @@ export default {
   openButton: {
     backgroundColor: "#F194FF",
     borderRadius: 20,
-    padding: 10,
+    padding: "5%",
     elevation: 2,
   },
   containerView: {
@@ -37,15 +37,24 @@ export default {
   logoText: {
     fontSize: 40,
     fontWeight: "800",
-    marginTop: 150,
-    marginBottom: 30,
+    marginTop: "25%",
+    marginBottom: "5%",
+    textAlign: "center",
+  },
+  logoText2: {
+    fontSize: 40,
+    fontWeight: "800",
+    marginBottom: "5%",
     textAlign: "center",
   },
   loginFormView: {
     flex: 1,
+    alignItems:"center",
+    justifyContent: 'center'
   },
   loginFormTextInput: {
-    height: 43,
+    height: 40,
+    width: "70%",
     fontSize: 14,
     borderRadius: 20,
     borderWidth: 1,
@@ -54,8 +63,8 @@ export default {
     paddingLeft: 10,
     marginLeft: "15%",
     marginRight: "15%",
-    marginTop: 20,
-    marginBottom: 20,
+    marginTop: "2.5%",
+    marginBottom: "2.5%",
   },
   signupFormcheckbox: {
     height: 43,
@@ -80,37 +89,35 @@ export default {
     backgroundColor: "#fafafa",
     paddingLeft: 5,
     width: "100%",
-    marginTop: 5,
-    marginBottom: 5,
+    marginTop: "2.5%",
+    marginBottom: "2.5%",
   },
   loginButton: {
-    backgroundColor: "orange",
+    backgroundColor: "purple",
     borderRadius: 25,
     height: 45,
     width: 95,
-    marginLeft: "40%",
     marginTop: 20,
   },
+  modalExit: {
+    left:1,
+    padding:5,
+    position:"absolute",
+  },
   signupButton: {
-    backgroundColor: "orange",
+    backgroundColor: "purple",
     borderRadius: 25,
     height: 45,
     width: 95,
-    marginLeft: "40%",
+
     marginTop: 20,
   },
   registerButton: {
-    backgroundColor: "orange",
+    backgroundColor: "purple",
     borderRadius: 25,
     height: 45,
     width: 95,
 
     marginTop: 20,
   },
-  errorInput :{
-    textAlign: "center",
-  }
-
-  
- 
 };

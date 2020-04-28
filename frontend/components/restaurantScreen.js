@@ -14,6 +14,7 @@ import {
   Icon,
   Rating,
   Avatar,
+  Tile,
 } from "react-native-elements";
 
 
@@ -23,7 +24,8 @@ function restaurantScreen(props) {
 
   return (
     <SafeAreaView>
-      <ScrollView>
+
+      <ScrollView style={{backgroundColor: "white"}}>
         <View>
           <TouchableOpacity
             onPress={() =>
@@ -31,7 +33,10 @@ function restaurantScreen(props) {
             }
             activeOpacity={0.75}
           >
-            <Card title="Arcata's Pizza" image={require("../images/pic2.jpg")}>
+          <Tile
+        imageSrc={require("../images/banner.png")}
+      />
+            <Card title="Arcata's Pizza" image={require("../images/pic2.jpg")} containerStyle={styles.cardborder}>
               <Text style={styles.card}>
                 The idea with React Native Elements is more about component
                 structure than actual design.
@@ -46,7 +51,7 @@ function restaurantScreen(props) {
             }
             activeOpacity={0.75}
           >
-            <Card title="Oven 360" image={require("../images/oven360.png")}>
+            <Card title="Oven 360" image={require("../images/oven360.png")} containerStyle={styles.cardborder}>
               <Text style={styles.card}>
                 The idea with React Native Elements is more about component
                 structure than actual design.
@@ -55,7 +60,7 @@ function restaurantScreen(props) {
           </TouchableOpacity>
         </View>
         <View>
-          <Card title="HELLO WORLD" image={require("../images/pic2.jpg")}>
+          <Card title="HELLO WORLD" image={require("../images/pic2.jpg")} containerStyle={styles.cardborder}>
             <Text style={styles.card}>
               The idea with React Native Elements is more about component
               structure than actual design.
@@ -67,6 +72,7 @@ function restaurantScreen(props) {
             title="HELLO WORLD"
             image={require("../images/pic2.jpg")}
             activeOpacity={0.75}
+            containerStyle={styles.cardborder}
           >
             <Text style={styles.card}>
               The idea with React Native Elements is more about component
@@ -85,4 +91,16 @@ const styles = StyleSheet.create({
   card: {
     marginBottom: 10,
   },
+  cardborder: {
+    shadowColor: "#000",
+shadowOffset: {
+	width: 0,
+	height: 1,
+},
+shadowOpacity: 0.20,
+shadowRadius: 1.41,
+
+elevation: 2,
+borderRadius: 10,
+  }
 });

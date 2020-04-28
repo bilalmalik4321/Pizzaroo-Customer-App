@@ -30,8 +30,9 @@ function menuScreen() {
 
   return (
     <SafeAreaView>
-      <Modal visible={modalVisible} animationType="slide">
-        <View>
+      <Modal visible={modalVisible} animationType="slide" >
+      <View style={[styles.centeredView, modalVisible ? {backgroundColor: 'rgba(0,0,0,0.5)'} : '']}>
+      <View style={styles.modalView}>
           <Icon
             name="close"
             size={30}
@@ -41,30 +42,30 @@ function menuScreen() {
             }}
             style={styles.modalExit}
           />
-          <Text h3 style={styles.modalItemHeader}>
+          <Text style={styles.modalItemHeader}>
             How Many?
           </Text>
           <View style={styles.modalInput}>
-            <Input placeholder="Quantity" keyboardType={"numeric"} defaultValue="1"/>
+            <Input placeholder="Quantity" keyboardType={"numeric"} defaultValue="1" maxLength={1}/>
           </View>
-          <Text h3 style={styles.modalItemHeader}>
+          <Text style={styles.modalItemHeader}>
             Size
           </Text>
           <View style={styles.modalInput}>
-            <ButtonGroup buttons={buttons} containerStyle={{ height: 50 }} selectedIndex={1}/>
+            <ButtonGroup buttons={buttons} containerStyle={{ height: 50 }} selectedIndex={1} selectedButtonStyle={{backgroundColor:"purple"}}/>
           </View>
-          <Text h3 style={styles.modalItemHeader}>
+          <Text style={styles.modalItemHeader}>
             Other Specifics?
           </Text>
-          <View style={styles.modalInput}>
+          <View style={styles.modalInput2}>
             <Input
               placeholder="new cutter, heavy on the topping ..."
               multiline={true}
               numberOfLines={4}
             />
           </View>
-          <Text h3 style={styles.modalPrice}>
-            {price}
+          <Text style={styles.modalPrice}>
+            Price: $ {price}
           </Text>
           {/*<View>
             <Input
@@ -89,8 +90,10 @@ function menuScreen() {
               setModalVisible(false);
             }}
             title="Add to Order"
+            buttonStyle={styles.foodAddOrder}
           />
 
+        </View>
         </View>
       </Modal>
       <ScrollView>
@@ -114,6 +117,7 @@ function menuScreen() {
               <Card
                 title="Pepperoni Pizza"
                 image={require("../images/pep-pizza.jpg")}
+                containerStyle={styles.cardborder}
               >
                 <Text style={styles.foodItemDescription}>
                   Offered from small to XL.
@@ -128,6 +132,7 @@ function menuScreen() {
               <Card
                 title="Cheese Pizza"
                 image={require("../images/pep-pizza.jpg")}
+                containerStyle={styles.cardborder}
               >
                 <Text style={styles.foodItemDescription}>
                   Offered from small to XL.
@@ -142,6 +147,7 @@ function menuScreen() {
               <Card
                 title="Hawaiian Pizza"
                 image={require("../images/pep-pizza.jpg")}
+                containerStyle={styles.cardborder}
               >
                 <Text style={styles.foodItemDescription}>
                   Offered from small to XL.
@@ -154,7 +160,7 @@ function menuScreen() {
             <View style={styles.foodItemHeader}>
               <Text h3>Drinks</Text>
             </View>
-            <Card title="Water" image={require("../images/Pepsi.jpg")}>
+            <Card title="Water" image={require("../images/Pepsi.jpg")} containerStyle={styles.cardborder}>
               <Text style={styles.foodItemDescription}>
                 Offered from small to XL.
               </Text>
@@ -163,13 +169,14 @@ function menuScreen() {
             <Card
               title="Pepsi Softdrink"
               image={require("../images/Pepsi.jpg")}
+              containerStyle={styles.cardborder}
             >
               <Text style={styles.foodItemDescription}>
                 Offered from small to XL.
               </Text>
               <Text style={styles.foodItemPrice}>1.99</Text>
             </Card>
-            <Card title="Sprite" image={require("../images/Pepsi.jpg")}>
+            <Card title="Sprite" image={require("../images/Pepsi.jpg")} containerStyle={styles.cardborder}>
               <Text style={styles.foodItemDescription}>
                 Offered from small to XL.
               </Text>
@@ -185,11 +192,40 @@ function menuScreen() {
       </ScrollView>
     </SafeAreaView>
   );
+  updateIndex = () =>  {
+    this.setState({selectedIndex})
+  }
 }
 
 export default menuScreen;
 
 const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  modalView: {
+
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: "5%",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.6,
+    shadowRadius: 3.84,
+  },
+  foodAddOrder: {
+    backgroundColor: "purple",
+    borderRadius: 25,
+    height: 45,
+    width: 125,
+    marginTop: 20,
+  },
   foodItemHeader: {
     paddingTop: 50,
     marginLeft: 15,
@@ -202,11 +238,19 @@ const styles = StyleSheet.create({
     color: "green",
   },
   modalItemHeader: {
-    marginLeft:20,
+    textAlign:"center",
   },
   modalInput: {
-    marginBottom: 40,
+    marginBottom: 20,
     margin:20,
+    width:"80%",
+    height:40,
+  },
+  modalInput2: {
+    marginBottom: 20,
+    margin:20,
+    width:"100%",
+    height:60,
   },
   modalPrice: {
     textAlign: 'center',
@@ -215,6 +259,20 @@ const styles = StyleSheet.create({
     color: "green",
   },
   modalExit: {
-    margin: 20
-  }
+    left:1,
+    padding:5,
+    position:"absolute",
+  },
+  cardborder: {
+    shadowColor: "#000",
+shadowOffset: {
+	width: 0,
+	height: 1,
+},
+shadowOpacity: 0.20,
+shadowRadius: 1.41,
+
+elevation: 2,
+borderRadius: 10,
+},
 });
