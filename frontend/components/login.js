@@ -104,14 +104,14 @@ function Login(props) {
               <View style={[styles.centeredView, modalVisible ? {backgroundColor: 'rgba(0,0,0,0.5)'} : '']}>
               <View style={styles.modalView}>
               <Icon
-            name="close"
-            size={30}
-            color="black"
-            onPress={() => {
-              setModalVisible(false);
-            }}
-            style={styles.modalExit}
-          />
+                name="close"
+                size={30}
+                color="black"
+                onPress={() => {
+                  setModalVisible(false);
+                }}
+                style={styles.modalExit}
+              />
               <Text style={styles.logoText2}>Sign Up</Text>
               <TextInput
                 placeholder="Email"

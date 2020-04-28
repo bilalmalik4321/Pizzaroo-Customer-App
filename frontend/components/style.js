@@ -97,7 +97,6 @@ export default {
     borderRadius: 25,
     height: 45,
     width: 95,
-    textAlign:"center",
     marginTop: 20,
   },
   modalExit: {
