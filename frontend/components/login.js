@@ -6,6 +6,7 @@ import styles from "./style";
 import * as validations from './validations';
 import { getUser, createUser } from './api';
 import firebase from '../firebases';
+import Icon from "react-native-vector-icons/FontAwesome";
 
 function Login(props) {
 
@@ -35,7 +36,7 @@ function Login(props) {
     } catch (error) {
       console.log("errrorr-----sign", error);
       if(error) {
-        const { message } = error; 
+        const { message } = error;
         console.log("message", message)
         setReturnError(message);
       }
@@ -63,21 +64,21 @@ function Login(props) {
         <View style={styles.loginScreenContainer}>
           <View style={styles.loginFormView}>
             <Text style={styles.logoText}>Welcome</Text>
-              <TextInput 
-                placeholder="Email" 
-                placeholderColor="#c4c3cb" 
-                style={styles.loginFormTextInput} 
+              <TextInput
+                placeholder="Email"
+                placeholderColor="#c4c3cb"
+                style={styles.loginFormTextInput}
                 onChangeText={text => props.updateUser({email: text})}
               />
-              <TextInput 
-                placeholder="Password" 
-                placeholderColor="#c4c3cb" 
-                style={styles.loginFormTextInput} 
+              <TextInput
+                placeholder="Password"
+                placeholderColor="#c4c3cb"
+                style={styles.loginFormTextInput}
                 secureTextEntry={true}
                 onChangeText={ text => props.updateUser({password: text})}
-                
+
               />
-              { returnError !== '' && 
+              { returnError !== '' &&
                 <Text style={styles.errorInput} >{returnError}</Text>
               }
               <Button
@@ -89,7 +90,7 @@ function Login(props) {
                 }}//onLoginPress
                 title="Login"
               />
-              <Divider style={{ backgroundColor: 'orange', padding:1, margin:'10%' }} />
+              <Divider style={{ backgroundColor: 'purple', padding:1, margin:'10%', width:'80%' }} />
               <Text style={{textAlign:'center', fontSize: 20}}>   New here?</Text>
               <Modal
                 animationType="fade"
@@ -100,43 +101,51 @@ function Login(props) {
                   setModalVisible(false);
                 }}
               >
-              <View style={[styles.centeredView, state.modalVisible ? {backgroundColor: 'rgba(0,0,0,0.5)'} : '']}>
+              <View style={[styles.centeredView, modalVisible ? {backgroundColor: 'rgba(0,0,0,0.5)'} : '']}>
               <View style={styles.modalView}>
-              <Text style={styles.logoText}>Sign Up</Text>
-             
-              <TextInput 
-                placeholder="Email" 
-                placeholderColor="#c4c3cb" 
-                style={styles.signupFormTextInput} 
+              <Icon
+            name="close"
+            size={30}
+            color="black"
+            onPress={() => {
+              setModalVisible(false);
+            }}
+            style={styles.modalExit}
+          />
+              <Text style={styles.logoText2}>Sign Up</Text>
+              <TextInput
+                placeholder="Email"
+                placeholderColor="#c4c3cb"
+                style={styles.signupFormTextInput}
                 onChangeText={text => props.updateUser({email: text})}
               />
-              { error_signup && error_signup.email  && 
+              { error_signup && error_signup.email  &&
                 <Text> {error_signup.email }</Text>
               }
               {
-                returnError !== '' && 
+                returnError !== '' &&
                 <Text> {returnError}</Text>
               }
-              <TextInput 
-                placeholder="Password" 
-                placeholderColor="#c4c3cb" 
-                style={styles.signupFormTextInput} 
+              <TextInput
+                placeholder="Password"
+                placeholderColor="#c4c3cb"
+                style={styles.signupFormTextInput}
                 secureTextEntry={true}
                 onChangeText={text => props.updateUser({password: text})}
-                
+
               />
-              { error_signup && error_signup.password && 
+              { error_signup && error_signup.password &&
                 <Text> {error_signup.password }</Text>
               }
-              <TextInput 
-                placeholder="Repeat Password" 
-                placeholderColor="#c4c3cb" 
-                style={styles.signupFormTextInput} 
+              <TextInput
+                placeholder="Repeat Password"
+                placeholderColor="#c4c3cb"
+                style={styles.signupFormTextInput}
                 secureTextEntry={true}
                 onChangeText={text => props.updateUser({repeatPassword: text})}
-                
+
               />
-              { error_signup && error_signup.repeatPassword && 
+              { error_signup && error_signup.repeatPassword &&
                 <Text> {error_signup.repeatPassword }</Text>
               }
               <CheckBox
@@ -171,12 +180,12 @@ function Login(props) {
               setModalVisible(true);
           }}
           title="Sign up"
-        />   
+        />
         </View>
       </View>
     </TouchableWithoutFeedback>
   </KeyboardAvoidingView>
-  );  
+  );
 }
 
 export default subscribe()(Login);
