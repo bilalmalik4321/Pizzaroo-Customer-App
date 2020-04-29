@@ -1,28 +1,28 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, Image } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
 import LoginScreen from './login.js'
 
 const slides = [
   {
     key: 1,
-    title: 'Title 1',
-    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-
+    title: 'Selection',
+    text: 'Pick a restaurant and select your food',
+    image: require('../images/1.png'),
     backgroundColor: '#000',
   },
   {
     key: 2,
-    title: 'Title 2',
-    text: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
-
+    title: 'Payment',
+    text: 'Enter your address and select a payment option',
+    image: require('../images/2.png'),
     backgroundColor: '#000',
   },
   {
     key: 3,
-    title: 'Title 3',
-    text: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur',
-
+    title: 'Delivered',
+    text: 'The restaurant will deliver your food right at your doorstep.',
+    image: require('../images/3.png'),
     backgroundColor: '#000',
   }
 ];
@@ -35,8 +35,8 @@ function intro(props) {
   _renderItem = ({ item }) => {
     return (
       <View style={styles.slide}>
+        <Image source={item.image} style={{width:"60%",height:"40%"}}/>
         <Text style={styles.title}>{item.title}</Text>
-
         <Text style={styles.text}>{item.text}</Text>
       </View>
     );
