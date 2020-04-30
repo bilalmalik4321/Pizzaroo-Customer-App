@@ -18,15 +18,19 @@ import {
   Button,
   Input,
   ButtonGroup,
+  Badge
 } from "react-native-elements";
+
+import StickyHeaderFooterScrollView from 'react-native-sticky-header-footer-scroll-view';
 
 const price = 12.99;
 
 
 function menuScreen() {
   const [modalVisible, setModalVisible] = useState(false);
-  const [state, setState] = useState(1);
+  const [state, setState] = useState(0);
   const buttons = ["S", "M", "L", "XL"];
+  const [footer, setFooter] = useState(false);
 
   return (
     <SafeAreaView>
@@ -67,27 +71,12 @@ function menuScreen() {
           <Text style={styles.modalPrice}>
             Price: $ {price}
           </Text>
-          {/*<View>
-            <Input
-              placeholder="INPUT WITH ICON"
-              leftIcon={{ type: "font-awesome", name: "chevron-left" }}
-            />
-
-            <Input
-              placeholder="INPUT WITH CUSTOM ICON"
-              leftIcon={<Icon name="user" size={24} color="black" />}
-            />
-
-            <Input
-              placeholder="INPUT WITH ERROR MESSAGE"
-              errorStyle={{ color: "red" }}
-              errorMessage="ENTER A VALID ERROR HERE"
-            />
-          </View>*/}
 
           <Button
             onPress={() => {
               setModalVisible(false);
+              setFooter(true);
+              setState(state + 1);
             }}
             title="Add to Order"
             buttonStyle={styles.foodAddOrder}
@@ -96,7 +85,18 @@ function menuScreen() {
         </View>
         </View>
       </Modal>
-      <ScrollView>
+      <View >
+      <StickyHeaderFooterScrollView
+      makeScrollable = {true}
+      renderStickyFooter={() => { return (
+        <View  style={styles.shoppingButton}>
+          {
+            footer &&
+            <Button raised title="Checkout Order" icon={<View style={styles.Icon}><Badge value={state} status="primary" /></View>} />
+          }
+        </View>
+      )}}
+    >
         <View>
           <Tile
             imageSrc={require("../images/pic2.jpg")}
@@ -189,7 +189,8 @@ function menuScreen() {
             </View>
           </View>
         </View>
-      </ScrollView>
+        </StickyHeaderFooterScrollView>
+        </View>
     </SafeAreaView>
   );
   updateIndex = () =>  {
@@ -204,8 +205,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
-  modalView: {
 
+  modalView: {
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
@@ -219,6 +220,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.6,
     shadowRadius: 3.84,
   },
+
   foodAddOrder: {
     backgroundColor: "purple",
     borderRadius: 25,
@@ -226,53 +228,73 @@ const styles = StyleSheet.create({
     width: 125,
     marginTop: 20,
   },
+
   foodItemHeader: {
     paddingTop: 50,
     marginLeft: 15,
   },
+
   foodItemDescription: {
     marginBottom: 10,
   },
+
   foodItemPrice: {
     marginBottom: 10,
     color: "green",
   },
+
   modalItemHeader: {
     textAlign:"center",
   },
+
   modalInput: {
     marginBottom: 20,
     margin:20,
     width:"80%",
     height:40,
   },
+
   modalInput2: {
     marginBottom: 20,
     margin:20,
     width:"100%",
     height:60,
   },
+
   modalPrice: {
     textAlign: 'center',
     marginTop: 20,
     marginBottom: 20,
     color: "green",
   },
+
   modalExit: {
     left:1,
     padding:5,
     position:"absolute",
   },
+
   cardborder: {
     shadowColor: "#000",
-shadowOffset: {
-	width: 0,
-	height: 1,
-},
-shadowOpacity: 0.20,
-shadowRadius: 1.41,
+    shadowOffset: {
+	    width: 0,
+	    height: 1,
+    },
+    shadowOpacity: 0.20,
+    shadowRadius: 1.41,
+    elevation: 2,
+    borderRadius: 10,
+  },
 
-elevation: 2,
-borderRadius: 10,
-},
+  shoppingButton: {
+    paddingLeft: 15,
+    paddingRight:15,
+    marginBottom: 10
+  },
+
+  Icon: {
+    marginTop:2,
+    marginRight: 10
+  }
+
 });
