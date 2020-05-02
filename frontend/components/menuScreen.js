@@ -4,14 +4,11 @@ import {
   StyleSheet,
   View,
   SafeAreaView,
-  ScrollView,
   Modal,
   TouchableOpacity,
-  TextInput,
 } from "react-native";
 
 import {
-  CheckBox,
   Text,
   Tile,
   Card,
@@ -23,14 +20,57 @@ import {
 
 import StickyHeaderFooterScrollView from 'react-native-sticky-header-footer-scroll-view';
 
-const price = 12.99;
+import NumericInput from 'react-native-numeric-input';
 
+import {subscribe} from "react-contextual";
 
-function menuScreen() {
+function menuScreen(props) {
+  const defaultPrice = 1;
+  const { setCurrentStep } = props;
+  const updateUser = props.updateUser;
   const [modalVisible, setModalVisible] = useState(false);
   const [state, setState] = useState(0);
   const buttons = ["S", "M", "L", "XL"];
   const [footer, setFooter] = useState(false);
+  const [index, setIndex] = useState(1);
+  const [quantity, setQuantity] = useState(1);
+  const [price, setPrice] = useState(12.99);
+  
+  const prices = {
+    '0': 10.99,
+    '1': 12.99,
+    '2': 14.99,
+    '3': 17.99,
+    
+  }
+
+  function updateTitle (food) {
+    props.updateItem({
+      name: food,
+    })
+  }
+
+  function updateIndex (index) {
+    props.updateItem({
+      price: prices[index] * quantity,
+      size: index,
+    })
+  }
+
+  function updateQuantity (value) {
+    setQuantity(value);
+    props.updateItem({
+      quantity: value,
+      price: prices[props.item.size] * value
+    })
+  
+  }
+
+  function updateOrderSize (total) {
+    props.updateOrder({
+      size: total,
+    })
+  }
 
   return (
     <SafeAreaView>
@@ -50,26 +90,24 @@ function menuScreen() {
             How Many?
           </Text>
           <View style={styles.modalInput}>
-            <Input placeholder="Quantity" keyboardType={"numeric"} defaultValue="1" maxLength={1}/>
+          <NumericInput type='up-down' minValue={"1"} value={quantity} rounded onChange={updateQuantity} />
           </View>
           <Text style={styles.modalItemHeader}>
             Size
           </Text>
           <View style={styles.modalInput}>
-            <ButtonGroup buttons={buttons} containerStyle={{ height: 50 }} selectedIndex={1} selectedButtonStyle={{backgroundColor:"purple"}}/>
+            <ButtonGroup buttons={buttons} containerStyle={{ height: 50 }} selectedIndex={props.item.size} onPress={updateIndex} selectedButtonStyle={{backgroundColor:"purple"}}/>
           </View>
-          <Text style={styles.modalItemHeader}>
-            Other Specifics?
-          </Text>
           <View style={styles.modalInput2}>
             <Input
-              placeholder="new cutter, heavy on the topping ..."
+              placeholder="new cutter, extra cheese..."
+              label="Other Specifics?"
               multiline={true}
               numberOfLines={4}
             />
           </View>
           <Text style={styles.modalPrice}>
-            Price: $ {price}
+            Price: $ {props.item.price}
           </Text>
 
           <Button
@@ -92,7 +130,15 @@ function menuScreen() {
         <View  style={styles.shoppingButton}>
           {
             footer &&
-            <Button raised title="Checkout Order" icon={<View style={styles.Icon}><Badge value={state} status="primary" /></View>} />
+            <Button 
+            raised 
+            title="View Order"
+            onPress={() =>{
+              props.navigation.navigate("Order");updateOrderSize(state);
+            }} 
+            icon={
+            <View style={styles.Icon}><Badge value={state} status="primary" /></View>
+          } />
           }
         </View>
       )}}
@@ -111,7 +157,7 @@ function menuScreen() {
               <Text h3>Pizzas</Text>
             </View>
             <TouchableOpacity
-              onPress={() => setModalVisible(true)}
+              onPress={() => {updateTitle('Pepperoni Pizza');setModalVisible(true);}}
               activeOpacity={0.75}
             >
               <Card
@@ -126,7 +172,7 @@ function menuScreen() {
               </Card>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => setModalVisible(true)}
+              onPress={() => {updateTitle('Cheese Pizza');setModalVisible(true);}}
               activeOpacity={0.75}
             >
               <Card
@@ -141,7 +187,7 @@ function menuScreen() {
               </Card>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => setModalVisible(true)}
+              onPress={() => {updateTitle('Hawaiian Pizza');setModalVisible(true);}}
               activeOpacity={0.75}
             >
               <Card
@@ -193,12 +239,9 @@ function menuScreen() {
         </View>
     </SafeAreaView>
   );
-  updateIndex = () =>  {
-    this.setState({selectedIndex})
-  }
 }
 
-export default menuScreen;
+export default subscribe()(menuScreen);
 
 const styles = StyleSheet.create({
   centeredView: {

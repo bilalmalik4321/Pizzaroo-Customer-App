@@ -1,14 +1,11 @@
 import React from "react";
 import {
   StyleSheet,
-  Text,
   View,
-  TouchableOpacity,
   SafeAreaView,
   ScrollView,
-  Image,
 } from "react-native";
-import { Card, ListItem, Button, Icon } from "react-native-elements";
+import { Card, ListItem } from "react-native-elements";
 
 function accountScreen(props) {
   const { setCurrentStep } = props;
@@ -50,7 +47,6 @@ function accountScreen(props) {
         title={item.title}
         leftIcon={{ name: item.icon }}
         bottomDivider
-        chevron
       />
               );
             })}

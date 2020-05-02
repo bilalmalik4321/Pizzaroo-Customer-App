@@ -9,11 +9,6 @@ import {
 } from "react-native";
 import {
   Card,
-  ListItem,
-  Button,
-  Icon,
-  Rating,
-  Avatar,
   Tile,
 } from "react-native-elements";
 

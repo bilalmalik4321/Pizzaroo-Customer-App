@@ -2,6 +2,7 @@
 
 import * as actions from '../components/actions';
 export default {
+  
   user : {
     name: '',
     phone: '',
@@ -15,11 +16,22 @@ export default {
   },
 
   order : {
-
+    items: [],
+    userId: '',
+    size: null,
+    description: '',
+    address:'',
+    type:'',
+    paymentMethod: '',
+    bill: '',
   },
 
-  bill: {
-    
+  item: {
+    name: null,
+    quantity: 1,
+    price: 14.99,
+    size: 2,
+    description: null, 
   },
 
   errors: {

@@ -1,11 +1,8 @@
 import React from "react";
 import {
   StyleSheet,
-  Text,
-  View,
   Image,
-  Button,
-  TouchableOpacity,
+  TouchableOpacity
 } from "react-native";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
@@ -14,10 +11,12 @@ import MenuScreen from "./components/menuScreen";
 import accountScreen from "./components/accountScreen";
 import Introduction from "./components/intro";
 import LoginScreen from "./components/login.js";
-import backButton from "./images/left-chevron.png";
+import OrderScreen from "./components/order.js";
+import CheckoutScreen from "./components/checkout.js";
 import { Avatar } from "react-native-elements";
 import store from './shared_/store';
 import { Provider } from "react-contextual";
+
 const AppNavigator = createStackNavigator(
   {
     Introduction: {
@@ -105,14 +104,14 @@ const AppNavigator = createStackNavigator(
       }),
     },
 
-    Account: {
-      screen: accountScreen,
+    Order: {
+      screen: OrderScreen,
+
       navigationOptions: ({ navigation }) => ({
+        title: `Your Order`,
         headerLeft: () => (
           <TouchableOpacity
-            onPress={() =>
-              navigation.navigate("Restaurants")
-            }
+            onPress={() => navigation.navigate("Menu")}
             activeOpacity={0.2}
           >
             <Image
@@ -120,9 +119,46 @@ const AppNavigator = createStackNavigator(
               style={styles.backButton}
             />
           </TouchableOpacity>
-        )
+        ),
+        headerRight: () => (
+
+          <Avatar
+            rounded
+            icon={{ name: "user", type: "font-awesome" }}
+            onPress={() => navigation.navigate("Account")}
+            style={styles.userButton}
+          />
+        ),
       }),
-    }
+    },
+
+    Checkout: {
+      screen: CheckoutScreen,
+
+      navigationOptions: ({ navigation }) => ({
+        title: `Checkout`,
+        headerLeft: () => (
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Order")}
+            activeOpacity={0.2}
+          >
+            <Image
+              source={require("./images/left-chevron.png")}
+              style={styles.backButton}
+            />
+          </TouchableOpacity>
+        ),
+        headerRight: () => (
+
+          <Avatar
+            rounded
+            icon={{ name: "user", type: "font-awesome" }}
+            onPress={() => navigation.navigate("Account")}
+            style={styles.userButton}
+          />
+        ),
+      }),
+    },
 
   },
 

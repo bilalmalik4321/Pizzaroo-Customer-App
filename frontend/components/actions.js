@@ -1,4 +1,4 @@
-/**
+ /**
  * This updates the user state by key value pairs or if
  * an object is passed as the first arg, the values will
  * be appended. Refer to the store for the user's data.
@@ -23,6 +23,27 @@ export const updateUser = (key, value) => state => {
 
   return {
     user
+  };
+};
+
+export const updateItem = (key, value) => state => {
+  let item = {};
+
+  if (typeof key === 'object') {
+    const dataToAppend = key;
+    item = {
+      ...state.item,
+      ...dataToAppend
+    };
+  } else {
+    item = {
+      ...state.item,
+      [key]: value
+    };
+  }
+
+  return {
+    item
   };
 };
 
