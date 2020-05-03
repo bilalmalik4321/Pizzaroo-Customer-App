@@ -7,6 +7,7 @@ import {
 } from "react-native";
 import { Card, ListItem } from "react-native-elements";
 
+
 function accountScreen(props) {
   const { setCurrentStep } = props;
   const updateUser = props.updateUser;
@@ -43,11 +44,11 @@ function accountScreen(props) {
             {list.map((item, i) => {
               return (
                 <ListItem
-        key={i}
-        title={item.title}
-        leftIcon={{ name: item.icon }}
-        bottomDivider
-      />
+                  key={i.toString()}
+                  title={item.title}
+                  leftIcon={{ name: item.icon }}
+                  bottomDivider
+                />
               );
             })}
           </Card>

@@ -72,6 +72,8 @@ function menuScreen(props) {
     })
   }
 
+  const minValue = 0;
+
   return (
     <SafeAreaView>
       <Modal visible={modalVisible} animationType="slide" >
@@ -90,7 +92,14 @@ function menuScreen(props) {
             How Many?
           </Text>
           <View style={styles.modalInput}>
-          <NumericInput type='up-down' minValue={"1"} value={quantity} rounded onChange={updateQuantity} />
+          <NumericInput 
+            type='up-down' 
+            minValue={minValue} 
+            value={quantity} 
+            rounded 
+            onChange={e => updateQuantity(e)} 
+            
+          />
           </View>
           <Text style={styles.modalItemHeader}>
             Size

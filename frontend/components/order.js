@@ -19,7 +19,7 @@ function order(props) {
   for (let i = 0; i < orderSize; i++) 
   {
    buttonsListArr.push(
-    <View style={styles.user} key={i}>
+    <View style={styles.user} keyExtractor={i.toString()}>
     <Text style={styles.name}>{props.item.quantity}  {props.item.name}  ${props.item.price}  {orderSize}</Text>
     <ListItem
   bottomDivider
@@ -47,10 +47,10 @@ function order(props) {
       )}}
     >
         <View>
-          <Card containerStyle={ styles.card } dividerStyle>
+          <Card containerStyle={ styles.card }>
           {
-    buttonsListArr
-  }
+            buttonsListArr.length != 0 && buttonsListArr
+          }
           </Card>
         </View>
       </StickyHeaderFooterScrollView>
