@@ -41,10 +41,10 @@ const GooglePlacesInput = (props) => {
     > 
        <TouchableHighlight
         onPress={() => {
-          props.navigation.navigate("Account");
+          props.navigation.navigate("Restaurants");
         }}
       >
-      <Text style={{color: 'red' }}>Account setting</Text>
+      <Text style={{color: 'red' }}>Menu</Text>
       </TouchableHighlight>
       {errorMsg && <View style={{height: 30}}>
         <Badge

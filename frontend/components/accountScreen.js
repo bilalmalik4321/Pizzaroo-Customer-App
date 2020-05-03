@@ -27,7 +27,9 @@ function AccountScreen(props) {
     {
       title: "Change address",
       icon: 'location-on',
-      onClick: () => {}
+      onClick: () => {
+        props.navigation.navigate("Location");
+      }
     },
     {
       title: "Logout",
