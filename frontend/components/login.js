@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {Keyboard, Text, View, TextInput, TouchableWithoutFeedback, TouchablHighlight, Alert, KeyboardAvoidingView, Modal} from 'react-native';
 import { Button, CheckBox, Divider } from 'react-native-elements';
 import { subscribe } from 'react-contextual';
@@ -10,10 +10,34 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 function Login(props) {
 
+  const { loggedIn , hasAdress} = props.user;
   const [modalVisible, setModalVisible] = useState(false);
   const [state, setState] = useState(false);
   const [returnError, setReturnError ] = useState('');
   const { error_signup } = props.errors;
+
+  useEffect(()=> {
+      try {
+        firebase.auth().onAuthStateChanged(async user => {
+          if (user) {
+            const userInfo = await getUser(user.uid);
+            // console.log('user', user)
+            props.updateUser({
+              ...userInfo,
+              loggedIn: true
+            });
+            // console.log("stayed log in ------", user);
+            if(hasAdress)
+              props.navigation.navigate("Restaurants");
+            else 
+              props.navigation.navigate("Location")
+
+          }
+        });
+      } catch (err) {
+        console.log(err);
+    }
+  },[]);
 
   const onLogin = async () => {
     const { email, password } = props.user;
@@ -24,14 +48,16 @@ function Login(props) {
           email,
           password
         );
-        console.log("signed", signedInUser);
+        // console.log("signed", signedInUser);
 
       if(signedInUser) {
         const user = await getUser(signedInUser.user.uid);
+        // console.log("find ui please", user);
         props.updateUser({
-          ...user
+          ...user,
+          id: signedInUser.user.uid
         });
-        props.navigation.navigate("Restaurants");
+        // props.navigation.navigate("Restaurants");
       }
     } catch (error) {
       console.log("errrorr-----sign", error);
@@ -85,7 +111,7 @@ function Login(props) {
                 buttonStyle={styles.loginButton}
                 onPress={()=> {
                   setReturnError('');
-                  console.log("helllo")
+                  // console.log("helllo")
                   onLogin();
                 }}//onLoginPress
                 title="Login"
@@ -164,7 +190,7 @@ function Login(props) {
                   const errors = validations.signup(props);
                   console.log("errors---", errors);
                   if(Object.keys(errors).length === 0 && props.user.isAccepted) {
-                    console.log('false');
+                    // console.log('false');
                     onCreateUser();
                   }
                 }}

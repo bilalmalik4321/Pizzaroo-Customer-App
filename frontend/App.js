@@ -16,9 +16,17 @@ import CheckoutScreen from "./components/checkout.js";
 import { Avatar } from "react-native-elements";
 import store from './shared_/store';
 import { Provider } from "react-contextual";
-
+import Location from './components/location';
 const AppNavigator = createStackNavigator(
   {
+    Location: {
+      screen: Location,
+
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
+    
     Introduction: {
       screen: Introduction,
 

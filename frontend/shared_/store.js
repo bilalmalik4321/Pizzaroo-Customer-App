@@ -4,15 +4,34 @@ import * as actions from '../components/actions';
 export default {
   
   user : {
+    id: '',
     name: '',
     phone: '',
     email: '',
-    address: '',
+    addresses: [],
     password: '',
     repeatPassword: '',
     isAccepted: false,
     loadingRegister: false,
+    loggedIn: false,
+    hasAddress: false,
+    showList: true,
 
+  },
+  address : {
+    tittle: '',
+    uuid: '',
+    apt: '',
+    street: '',
+    city:'',
+    state: '',
+    postalCode: '',
+    country: '',
+    lng: '',
+    lat: '',
+    instruction: '',
+    modalVisible: false,
+    newlySearch: true,
   },
 
   order : {

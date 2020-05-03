@@ -6,32 +6,45 @@ import {
   ScrollView,
 } from "react-native";
 import { Card, ListItem } from "react-native-elements";
+import firebase from '../firebases';
+import {subscribe} from 'react-contextual';
 
-
-function accountScreen(props) {
+function AccountScreen(props) {
   const { setCurrentStep } = props;
   const updateUser = props.updateUser;
 
   const list = [
     {
       title: "Change email",
-      icon: 'email'
+      icon: 'email',
+      onClick: () => {}
     },
     {
       title: "Change password",
-      icon: 'lock'
+      icon: 'lock',
+      onClick: () => {}
     },
     {
       title: "Change address",
-      icon: 'location-on'
+      icon: 'location-on',
+      onClick: () => {}
     },
     {
       title: "Logout",
-      icon: 'exit-to-app'
+      icon: 'exit-to-app',
+      onClick: async () => {
+        await firebase.auth().signOut(); 
+        props.updateUser({
+          loggedIn: false
+        })
+        props.navigation.navigate("Introduction");
+      }
+
     },
     {
       title: "Need Help?",
-      icon: 'help'
+      icon: 'help',
+      onClick: () => {}
 
     },
   ];
@@ -44,9 +57,10 @@ function accountScreen(props) {
             {list.map((item, i) => {
               return (
                 <ListItem
-                  key={i.toString()}
+                  key={i}
                   title={item.title}
                   leftIcon={{ name: item.icon }}
+                  onPress={item.onClick}
                   bottomDivider
                 />
               );
@@ -58,7 +72,7 @@ function accountScreen(props) {
   );
 }
 
-export default accountScreen;
+export default subscribe()(AccountScreen);
 
 
 const styles = StyleSheet.create({

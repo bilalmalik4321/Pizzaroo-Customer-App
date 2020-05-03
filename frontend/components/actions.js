@@ -25,7 +25,26 @@ export const updateUser = (key, value) => state => {
     user
   };
 };
+export const updateAddress = (key, value) => state => {
+  let address = {};
 
+  if (typeof key === 'object') {
+    const dataToAppend = key;
+    address = {
+      ...state.address,
+      ...dataToAppend
+    };
+  } else {
+    address = {
+      ...state.address,
+      [key]: value
+    };
+  }
+
+  return {
+    address
+  };
+};
 export const updateItem = (key, value) => state => {
   let item = {};
 

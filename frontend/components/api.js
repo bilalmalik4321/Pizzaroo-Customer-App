@@ -37,7 +37,7 @@ export const createUser = async payload => {
         payload.password
       );
 		
-		console.log("user sign up", signedUpUser)
+		// console.log("user sign up", signedUpUser)
     // send verification email TODO
     // signedUpUser.user.sendEmailVerification();
 
@@ -50,7 +50,9 @@ export const createUser = async payload => {
 		await db
 			.collection('customers')
 			.doc(signedUpUser.user.uid)
-			.set({...userInfo},{merge: true});
+			.set({
+				...userInfo
+			},{merge: true});
 
 		// return true after success
 		return {
@@ -67,6 +69,26 @@ export const createUser = async payload => {
   }
 };
 
+export const editAddresses = async (addresses,uid) => {
+	try  {
+		const user = firebase.auth().currentUser;
+		// console.log("fire", user);
+		const res = await  db
+		.collection('customers')
+		.doc(user.uid)
+		.set({
+			addresses
+		}, 
+		{merge: true}
+		);
+
+	} catch (err) {
+		console.log("Error edit addresses", err)
+		return {
+			error: err.message
+		}
+	}
+}
 
 /**
  * getUser - return user info from the database
@@ -76,13 +98,17 @@ export const createUser = async payload => {
 
 export const getUser = async uid => {
 	try {
-
+		let id = uid;
+		const userInfo = firebase.auth().currentUser;
+		if(!id)
+			id = userInfo.uid;
+		// console.log("fire", user);
 		// get user ref
 		const user = await db
 			.collection('customers')
-			.doc(uid)
+			.doc(id)
 			.get();
-
+		// console.log("return from user collecion", user.data());
 		return {
 			...user.data(),
 			id: uid
@@ -93,3 +119,9 @@ export const getUser = async uid => {
 	}
 };
 
+export const uuidv4 = () => {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
