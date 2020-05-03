@@ -6,7 +6,7 @@ import firebase from '../firebases';
 // console.log("aall", all);
 const db = firebase.firestore();
 // timestamp
-// const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+const timestamp = firebase.firestore.FieldValue.serverTimestamp();
 
 /**
  * firebase database is like json file using key-value pair 
@@ -69,7 +69,7 @@ export const createUser = async payload => {
   }
 };
 
-export const editAddresses = async (addresses,uid) => {
+export const editAddresses = async (addresses) => {
 	try  {
 		const user = firebase.auth().currentUser;
 		// console.log("fire", user);

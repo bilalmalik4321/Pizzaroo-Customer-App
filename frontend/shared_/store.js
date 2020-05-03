@@ -32,6 +32,7 @@ export default {
     instruction: '',
     modalVisible: false,
     newlySearch: true,
+    createdAt: ''
   },
 
   order : {
