@@ -19,6 +19,7 @@ import {
 import StickyHeaderFooterScrollView from 'react-native-sticky-header-footer-scroll-view';
 import InputSpinner from "react-native-input-spinner";
 import {subscribe} from "react-contextual";
+
 function MenuScreen(props) {
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -27,7 +28,9 @@ function MenuScreen(props) {
   const [footer, setFooter] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
-  
+  console.log("props--- menu", props.menu);
+  const { pizza, desserts, drinks, sides, dipping } = props.menu;
+  console.log("drink", drinks);
   const prices = {
     '0': 10.99,
     '1': 12.99,
@@ -35,7 +38,6 @@ function MenuScreen(props) {
     '3': 17.99,
     
   }
-
   function updateTitle (food) {
     props.updateItem({
       name: food,
@@ -125,8 +127,8 @@ function MenuScreen(props) {
       </Modal>
       <View >
       <StickyHeaderFooterScrollView
-      makeScrollable = {true}
-      renderStickyFooter={() => { return (
+        makeScrollable = {true}
+        renderStickyFooter={() => { return (
         <View  style={styles.shoppingButton}>
           {
             footer &&
@@ -142,7 +144,7 @@ function MenuScreen(props) {
           }
         </View>
       )}}
-    >
+      >
         <View>
           <Tile
             imageSrc={require("../images/pic2.jpg")}
@@ -156,78 +158,50 @@ function MenuScreen(props) {
             <View style={styles.foodItemHeader}>
               <Text h3>Pizzas</Text>
             </View>
-            <TouchableOpacity
-              onPress={() => {updateTitle('Pepperoni Pizza');setModalVisible(true);}}
-              activeOpacity={0.75}
-            >
-              <Card
-                title="Pepperoni Pizza"
-                image={require("../images/pep-pizza.jpg")}
-                containerStyle={styles.cardborder}
+            { pizza && Object.keys(pizza).length != 0 && pizza.map((item, index)=>(
+              
+              <TouchableOpacity
+                key={index}
+                onPress={() => {
+                  updateTitle(item.name);
+                  setModalVisible(true);
+                }}
+                activeOpacity={0.75}
               >
-                <Text style={styles.foodItemDescription}>
-                  Offered from small to XL.
-                </Text>
-                <Text style={styles.foodItemPrice}>12.99</Text>
-              </Card>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {updateTitle('Cheese Pizza');setModalVisible(true);}}
-              activeOpacity={0.75}
-            >
-              <Card
-                title="Cheese Pizza"
-                image={require("../images/pep-pizza.jpg")}
-                containerStyle={styles.cardborder}
-              >
-                <Text style={styles.foodItemDescription}>
-                  Offered from small to XL.
-                </Text>
-                <Text style={styles.foodItemPrice}>10.99</Text>
-              </Card>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {updateTitle('Hawaiian Pizza');setModalVisible(true);}}
-              activeOpacity={0.75}
-            >
-              <Card
-                title="Hawaiian Pizza"
-                image={require("../images/pep-pizza.jpg")}
-                containerStyle={styles.cardborder}
-              >
-                <Text style={styles.foodItemDescription}>
-                  Offered from small to XL.
-                </Text>
-                <Text style={styles.foodItemPrice}>13.99</Text>
-              </Card>
-            </TouchableOpacity>
+                <Card
+                  key={index}
+                  title={item.name}
+                  titleStyle={{ fontWeight: "bold"}}
+                  image={require("../images/pep-pizza.jpg")}
+                  containerStyle={styles.cardborder}
+                >
+                  <Text style={styles.foodItemDescription}>
+                    {item.description}
+                  </Text>
+                  <Text style={styles.foodItemPrice}>{item.sizes[0].price}</Text>
+                </Card>
+              </TouchableOpacity>
+            ))}
+          
+      
           </View>
           <View>
             <View style={styles.foodItemHeader}>
               <Text h3>Drinks</Text>
             </View>
-            <Card title="Water" image={require("../images/Pepsi.jpg")} containerStyle={styles.cardborder}>
-              <Text style={styles.foodItemDescription}>
-                Offered from small to XL.
-              </Text>
-              <Text style={styles.foodItemPrice}>Free</Text>
+
+            {drinks && Object.keys(drinks).length!=0 && drinks.map((item,index)=>(
+              <Card title="Water" containerStyle={styles.cardborder}>
+                <Text style={styles.foodItemDescription}>
+                  Offered from small to XL.
+                </Text>
+              <Text style={styles.foodItemPrice}>{item.price}</Text>
             </Card>
-            <Card
-              title="Pepsi Softdrink"
-              image={require("../images/Pepsi.jpg")}
-              containerStyle={styles.cardborder}
-            >
-              <Text style={styles.foodItemDescription}>
-                Offered from small to XL.
-              </Text>
-              <Text style={styles.foodItemPrice}>1.99</Text>
-            </Card>
-            <Card title="Sprite" image={require("../images/Pepsi.jpg")} containerStyle={styles.cardborder}>
-              <Text style={styles.foodItemDescription}>
-                Offered from small to XL.
-              </Text>
-              <Text style={styles.foodItemPrice}>1.99</Text>
-            </Card>
+            ))}
+          
+           
+
+
           </View>
           <View>
             <View style={styles.foodItemHeader}>

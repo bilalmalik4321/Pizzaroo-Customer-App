@@ -108,3 +108,17 @@ export const updateError = (key, value) => state => {
   };
 };
 
+
+
+//============ Menu ===============//
+
+// copyMenu into global state menu variable
+
+export const copyMenu = (payload) => state => {
+  let menu = {
+    ...payload
+  };
+  return {
+    menu
+  };
+};

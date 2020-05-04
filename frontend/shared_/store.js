@@ -61,12 +61,15 @@ export default {
   },
   ...actions,
 
+  menu : {
+
+  },
+
 
   schema: [
     {
       name: `Aracta's Pizza`,
-      description: `The idea with React Native Elements is more about component
-      structure than actual design.`,
+      description: `The idea with React Native about hello there component structure than actual design.`,
       menu: {
         pizza: [
           {
@@ -136,7 +139,7 @@ export default {
             ]
           }
         ],
-        desert: [
+        desserts: [
           {
             name: 'Funnel Cake Stick',
             description: 'Sweet strips of delicious funnel cake made by our special in house chef. Fresh out of the kitchen!!',
@@ -158,7 +161,7 @@ export default {
             price: 9.99
           }
         ],
-        drink: [
+        drinks: [
           {
             name: 'coke',
             size: '500ml',
