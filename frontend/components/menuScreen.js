@@ -182,35 +182,98 @@ function MenuScreen(props) {
                 </Card>
               </TouchableOpacity>
             ))}
-          
-      
           </View>
+          
           <View>
             <View style={styles.foodItemHeader}>
-              <Text h3>Drinks</Text>
+              <Text h3>Side dishes</Text>
             </View>
-
-            {drinks && Object.keys(drinks).length!=0 && drinks.map((item,index)=>(
-              <Card title="Water" containerStyle={styles.cardborder}>
+            {sides && Object.keys(sides).length!=0 && sides.map((item,index)=>(
+              
+              <Card 
+                key={index} 
+                containerStyle={styles.drinks}
+              >
+                <Text style={{ fontWeight:"bold" , paddingBottom: 9}}>
+                    {item.name} 
+                  </Text>
                 <Text style={styles.foodItemDescription}>
-                  Offered from small to XL.
+                  {item.description }
                 </Text>
               <Text style={styles.foodItemPrice}>{item.price}</Text>
             </Card>
             ))}
-          
-           
-
-
           </View>
+
+
+          <View>
+            <View style={styles.foodItemHeader}>
+              <Text h3>Drinks</Text>
+            </View>
+            {drinks && Object.keys(drinks).length!=0 && drinks.map((item,index)=>(
+              
+              <Card 
+                key={index} 
+                containerStyle={styles.drinks}
+                // wrapperStyle={}
+              >
+                <Text style={{ fontWeight:"bold" , paddingBottom: 9}}>
+                    {item.name} 
+                  </Text>
+                <Text style={styles.foodItemDescription}>
+                  {item.size + " " + item.type + " " + item.cal + " cal." }
+                </Text>
+              <Text style={styles.foodItemPrice}>{item.price}</Text>
+            </Card>
+            ))}
+          </View>
+
+
+          <View>
           <View>
             <View style={styles.foodItemHeader}>
               <Text h3>Desserts</Text>
             </View>
+            {desserts && Object.keys(desserts).length!=0 && desserts.map((item,index)=>(
+                <Card 
+                  key={index}
+                  containerStyle={styles.drinks}
+                  // wrapperStyle={}
+                >
+                  <Text style={{ fontWeight:"bold" , paddingBottom: 9}}>
+                    {item.name} 
+                  </Text>
+                  <Text style={styles.foodItemDescription}>
+                    {item.description }
+                  </Text>
+                <Text style={styles.foodItemPrice}>{item.price}</Text>
+              </Card>
+              ))}
+            </View>
+         </View>
+         <View>
+            <View style={styles.foodItemHeader}>
+              <Text h3>Dipping Sauces</Text>
+            </View>
+            {dipping && Object.keys(dipping).length!=0 && dipping.map((item,index)=>(
+                <Card 
+                  key={index} 
+                  containerStyle={styles.drinks}
+                  // wrapperStyle={}
+                > 
+                  <Text style={{ fontWeight:"bold" , paddingBottom: 9}}>
+                    {item.name} 
+                  </Text>
+                  <Text style={styles.foodItemDescription}>
+                    {item.cal + " cal." }
+                  </Text>
+                <Text style={styles.foodItemPrice}>{item.price}</Text>
+              </Card>
+              ))}
           </View>
         </View>
-        </StickyHeaderFooterScrollView>
-        </View>
+      </StickyHeaderFooterScrollView>
+      </View>
     </SafeAreaView>
   );
 }
@@ -292,6 +355,19 @@ const styles = StyleSheet.create({
   },
 
   cardborder: {
+    shadowColor: "#000",
+    shadowOffset: {
+	    width: 0,
+	    height: 1,
+    },
+    shadowOpacity: 0.20,
+    shadowRadius: 1.41,
+    elevation: 2,
+    borderRadius: 10,
+  },
+  drinks: {
+    paddingBottom: 0,
+    marginBottom: 0,
     shadowColor: "#000",
     shadowOffset: {
 	    width: 0,

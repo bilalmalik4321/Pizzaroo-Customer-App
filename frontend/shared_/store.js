@@ -166,25 +166,29 @@ export default {
             name: 'coke',
             size: '500ml',
             type: 'Bottle',
-            price: 2.99
+            price: 2.99,
+            cal: 200
           },
           {
             name: 'Diet coke',
             size: '500ml',
             type: 'Bottle',
-            price: 2.99
+            price: 2.99,
+            cal: 0
           },
           {
             name: 'Orange soda coke',
             size: '500ml',
             type: 'Bottle',
-            price: 2.99
+            price: 2.99,
+            cal: 200
           },
           {
             name: 'Sprite coke',
             size: '500ml',
             type: 'Bottle',
-            price: 2.99
+            price: 2.99,
+            cal: 200
           }
         ],
         sides: [
@@ -225,36 +229,42 @@ export default {
         dipping: [
           {
             name: 'Creamy Garlic',
+            cal: 0,
             description: '',
             price: 1.44,
             gluten: false
           },
           {
             name: 'Blue Cheese',
+            cal: 150,
             description: '',
             price: 1.44,
             gluten: false
           },
           {
             name: 'Honey Garlic',
+            cal: 150,
             description: '',
             price: 1.44,
             gluten: false
           },
           {
             name: 'Creamy Dil',
+            cal: 150,
             description: '',
             price: 1.44,
             gluten: false
           },
           {
             name: 'Mild',
+            cal: 150,
             description: '',
             price: 1.44,
             gluten: false
           },
           {
             name: 'Hot',
+            cal: 150,
             description: '',
             price: 1.44,
             gluten: false
