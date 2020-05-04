@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, createRef } from 'react';
 import { subscribe } from 'react-contextual';
 
 import { Image, Text, View, ScrollView,TouchableOpacity ,StyleSheet, Modal, TouchableHighlight, Alert} from 'react-native';
@@ -8,10 +8,10 @@ import { Card, ListItem ,Badge, withTheme} from "react-native-elements";
 import { Input } from 'react-native-elements';
 import apiKey  from '../googleAPI';
 import firebase from '../firebases';
-const timestamp = firebase.firestore.FieldValue.serverTimestamp;
+const timestamp = firebase.firestore.FieldValue.serverTimestamp();
 
 const GooglePlacesInput = (props) => {
-  let GoogleRef = useRef();
+
   const { loggedIn } = props.user;
   const [listOfAddreses, setAddresses] = useState(props.user.addresses);
   const [errorMsg, setErrorMsg] = useState(false);
@@ -32,8 +32,6 @@ const GooglePlacesInput = (props) => {
    
  
   },[]);
-  // console.log("list", props.user)
-  // console.log("address", props.user.addresses)
 
   return (
     <View
@@ -54,7 +52,6 @@ const GooglePlacesInput = (props) => {
       </View> }
       <View style={{height: 60}}>
         <PlacesInput
-          ref={ e=> GoogleRef = e}
           googleApiKey={apiKey}
           placeHolder={"Search address"}
           language={"en-US"}
@@ -111,9 +108,14 @@ const GooglePlacesInput = (props) => {
             );
           })}
       </View>
-      {props.user.showList && props.user.addresses.length <= 2 &&
-      <View style={{backgroundColor: 'white', height: 50 , width:'100%' }}>
+      {props.user.showList && props.user.addresses.length === 0 &&
+      <View style={{padding: 40, paddingTop: 200, justifyContent:'center', backgroundColor: 'white', height: 50 , width:'100%' , alignItems: 'center'}}>
+        <Text style={{color: '#ff6363',fontSize: 20, backgroundColor: 'white', height: 50 , width:'100%' ,justifyContent:'center', textAlign: 'center'}}> 
+        Please enter an address.
+        </Text>
+        <Text style={{color: '#ff6363',fontSize: 15,backgroundColor: 'white', height: 40  , width:'100%',textAlign: 'center' }}> 
       
+        We will locate the neareast stores for you!!!</Text>
       </View>
       }
       {/* <EditAddress/> */}

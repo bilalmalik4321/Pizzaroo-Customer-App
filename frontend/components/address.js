@@ -5,9 +5,10 @@ import { Image, Text, View, ScrollView,TouchableOpacity ,StyleSheet, Modal, Touc
 import { uuidv4 , editAddresses, getUser } from './api';
 import { Card, ListItem ,Badge, withTheme} from "react-native-elements";
 import { Input } from 'react-native-elements';
-import firebase from '../firebases';
-const timestamp = firebase.firestore.FieldValue.serverTimestamp;
-
+import moment from 'moment';
+const timestamp = moment()
+    .utcOffset('+05:30')
+    .format('YYYY-MM-DD hh:mm:ss a');
 
 const EditAddress = subscribe()(props => {
   const {    

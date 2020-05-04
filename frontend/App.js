@@ -18,8 +18,28 @@ import store from './shared_/store';
 import { Provider } from "react-contextual";
 import Location from './components/location';
 import Address from './components/address';
+// import Review from './components/review';
+
 const AppNavigator = createStackNavigator(
   {
+    // Review: {
+    //   screen: Review,
+
+    //   navigationOptions: ({ navigation }) => ({
+    //     title: 'Address',
+    //     headerLeft: () => (
+    //       <TouchableOpacity
+    //         onPress={() => navigation.navigate("Restaurants")}
+    //         activeOpacity={0.2}
+    //       >
+    //         <Image
+    //           source={require("./images/left-chevron.png")}
+    //           style={styles.backButton}
+    //         />
+    //       </TouchableOpacity>
+    //     ),
+    //   }),
+    // },
     Address: {
       screen: Address,
 

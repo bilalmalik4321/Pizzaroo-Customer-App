@@ -21,13 +21,13 @@ function Login(props) {
         firebase.auth().onAuthStateChanged(async user => {
           if (user) {
             const userInfo = await getUser(user.uid);
-            // console.log('user', user)
+            console.log('user', user)
             props.updateUser({
               ...userInfo,
               loggedIn: true
             });
-            // console.log("stayed log in ------", user);
-            if(hasAdress)
+            console.log("stayed log in ------", userInfo);
+            if(userInfo.addresses.length != 0)
               props.navigation.navigate("Restaurants");
             else 
               props.navigation.navigate("Location")
