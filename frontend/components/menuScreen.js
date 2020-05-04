@@ -20,21 +20,17 @@ import {
 
 import StickyHeaderFooterScrollView from 'react-native-sticky-header-footer-scroll-view';
 
-import NumericInput from 'react-native-numeric-input';
+import InputSpinner from "react-native-input-spinner";
 
 import {subscribe} from "react-contextual";
+function MenuScreen(props) {
 
-function menuScreen(props) {
-  const defaultPrice = 1;
-  const { setCurrentStep } = props;
-  const updateUser = props.updateUser;
   const [modalVisible, setModalVisible] = useState(false);
   const [state, setState] = useState(0);
   const buttons = ["S", "M", "L", "XL"];
   const [footer, setFooter] = useState(false);
-  const [index, setIndex] = useState(1);
   const [quantity, setQuantity] = useState(1);
-  const [price, setPrice] = useState(12.99);
+
   
   const prices = {
     '0': 10.99,
@@ -91,12 +87,13 @@ function menuScreen(props) {
           <Text style={styles.modalItemHeader}>
             How Many?
           </Text>
-          <View style={styles.modalInput}>
-          <NumericInput 
-            type='up-down' 
-            minValue={minValue} 
+          <View style={{...styles.modalInput, textAlign: 'center'}}>
+          <InputSpinner
+            max={10}
+            min={1} 
             value={quantity} 
-            rounded 
+            colorMax={"#f04048"}
+            colorMin={"#40c5f4"}
             onChange={e => updateQuantity(e)} 
             
           />
@@ -250,7 +247,7 @@ function menuScreen(props) {
   );
 }
 
-export default subscribe()(menuScreen);
+export default subscribe()(MenuScreen);
 
 const styles = StyleSheet.create({
   centeredView: {

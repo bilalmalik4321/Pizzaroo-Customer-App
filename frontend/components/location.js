@@ -30,7 +30,6 @@ const GooglePlacesInput = (props) => {
       }
     })
    
- 
   },[]);
 
   return (
