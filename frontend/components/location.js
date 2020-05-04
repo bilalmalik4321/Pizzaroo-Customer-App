@@ -91,7 +91,7 @@ const GooglePlacesInput = (props) => {
           />
       </View>    
             
-      <View style={{ width: '100%', paddingTop: 15, paddingRight: 15, paddingLeft: 15 }}>
+      <View style={{ width: '100%', paddingTop: 15, paddingRight: 5, paddingLeft: 5 }}>
           {props.user.showList && props.user.addresses.length !=0 && props.user.addresses.sort((a,b)=> a.uuid < b.uuid).map((item, i) => {
             return (
               <ListItem
