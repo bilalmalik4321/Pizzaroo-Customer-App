@@ -19,7 +19,7 @@ function order(props) {
   for (let i = 0; i < orderSize; i++) 
   {
    buttonsListArr.push(
-    <View style={styles.user} keyExtractor={i.toString()}>
+    <View style={styles.user} key={i}>
     <Text style={styles.name}>{props.item.quantity}  {props.item.name}  ${props.item.price}  {orderSize}</Text>
     <ListItem
   bottomDivider

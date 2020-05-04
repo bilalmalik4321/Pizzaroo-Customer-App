@@ -7,7 +7,6 @@ import {
   Modal,
   TouchableOpacity,
 } from "react-native";
-
 import {
   Text,
   Tile,
@@ -17,11 +16,8 @@ import {
   ButtonGroup,
   Badge
 } from "react-native-elements";
-
 import StickyHeaderFooterScrollView from 'react-native-sticky-header-footer-scroll-view';
-
 import InputSpinner from "react-native-input-spinner";
-
 import {subscribe} from "react-contextual";
 function MenuScreen(props) {
 
@@ -67,8 +63,6 @@ function MenuScreen(props) {
       size: total,
     })
   }
-
-  const minValue = 0;
 
   return (
     <SafeAreaView>

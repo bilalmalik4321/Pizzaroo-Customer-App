@@ -12,7 +12,69 @@ import {
   Tile,
 } from "react-native-elements";
 
-
+const fakeData = [
+  {
+    name: `Aracta's Pizza`,
+    menu: {
+      pizza: [
+        {
+        name: 'Hawaii',
+        description: 'Best pizza small:210 cal, med:300cal, ........',
+        sizes: [
+          {
+            size: 'S',
+            price: 10.99
+          },
+          {
+            size: 'M',
+            price: 12.99
+          },
+          {
+            size: 'L',
+            price: 14.99
+          },
+          {
+            size: 'XL',
+            price: 14.99
+          },
+        ]
+        }
+      ],
+      desert: [
+        {
+          name: 'Funnel Cake Stick',
+          description: 'Sweet strips of delicious funnel cake made by our special in house chef. Fresh out of the kitchen!!',
+          price: 3.33
+        }
+      ],
+      drink: [
+        {
+          name: 'coke',
+          size: '500ml',
+          type: 'Bottle',
+          price: 2.99
+        }
+      ],
+      sides: [
+        {
+          name: '10 Chicken wings',
+          description: 'Sweet, spicy and Cripsy dreep fried chicken wings with our special sauce!!',
+          styleChoice: ['Breaded', 'Classic'],
+          freeDipping: 2,
+          gluten: false
+        }
+      ],
+      dipping: [
+        {
+          name: 'Creamy Garlic',
+          description: '',
+          price: 0,
+          gluten: false
+        }
+      ]
+    }
+  }
+]
 function restaurantScreen(props) {
   const { setCurrentStep } = props;
   const updateUser = props.updateUser;

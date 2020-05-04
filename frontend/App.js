@@ -11,7 +11,7 @@ import MenuScreen from "./components/menuScreen";
 import accountScreen from "./components/accountScreen";
 import Introduction from "./components/intro";
 import LoginScreen from "./components/login.js";
-import OrderScreen from "./components/order.js";
+import ReviewOrderScreen from "./components/order.js";
 import CheckoutScreen from "./components/checkout.js";
 import { Avatar } from "react-native-elements";
 import store from './shared_/store';
@@ -151,11 +151,11 @@ const AppNavigator = createStackNavigator(
       }),
     },
 
-    Order: {
-      screen: OrderScreen,
+    Review: {
+      screen: ReviewOrderScreen,
 
       navigationOptions: ({ navigation }) => ({
-        title: `Your Order`,
+        title: `Review Order`,
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Menu")}
@@ -167,15 +167,15 @@ const AppNavigator = createStackNavigator(
             />
           </TouchableOpacity>
         ),
-        headerRight: () => (
+        // headerRight: () => (
 
-          <Avatar
-            rounded
-            icon={{ name: "user", type: "font-awesome" }}
-            onPress={() => navigation.navigate("Account")}
-            style={styles.userButton}
-          />
-        ),
+        //   <Avatar
+        //     rounded
+        //     icon={{ name: "user", type: "font-awesome" }}
+        //     onPress={() => navigation.navigate("Account")}
+        //     style={styles.userButton}
+        //   />
+        // ),
       }),
     },
 
