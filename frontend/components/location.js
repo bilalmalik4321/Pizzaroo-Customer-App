@@ -4,7 +4,7 @@ import { subscribe } from 'react-contextual';
 import { Image, Text, View, ScrollView,TouchableOpacity ,StyleSheet, Modal, TouchableHighlight, Alert} from 'react-native';
 import PlacesInput from 'react-native-places-input'
 import { uuidv4 , editAddresses, getUser } from './api';
-import { Card, ListItem ,Badge} from "react-native-elements";
+import { Card, ListItem ,Badge, withTheme} from "react-native-elements";
 import { Input } from 'react-native-elements';
 import apiKey  from '../googleAPI';
 import firebase from '../firebases';
@@ -83,15 +83,15 @@ const GooglePlacesInput = (props) => {
                lat,
                uuid: '',
                lng,
-               modalVisible: true,
                newlySearch: true,
-              })
+              });
+              props.navigation.navigate("Address");
             }
           }}
           />
       </View>    
             
-      <View style={{ width: '100%' , paddingTop: 15, paddingRight: 15, paddingLeft: 15}}>
+      <View style={{ width: '100%', paddingTop: 15, paddingRight: 15, paddingLeft: 15 }}>
           {props.user.showList && props.user.addresses.length !=0 && props.user.addresses.sort((a,b)=> a.uuid < b.uuid).map((item, i) => {
             return (
               <ListItem
@@ -102,7 +102,8 @@ const GooglePlacesInput = (props) => {
                 title={item.title}
                 subtitleStyle={{ paddingTop: 10 }}
                 onPress={()=> {
-                  props.updateAddress({ modalVisible: true ,...item});
+                  props.updateAddress({...item});
+                  props.navigation.navigate("Address");
                   // console.log("address", item, "props", props.address);
                 }}
                 bottomDivider
@@ -110,7 +111,12 @@ const GooglePlacesInput = (props) => {
             );
           })}
       </View>
-      <EditAddress/>
+      {props.user.showList && props.user.addresses.length <= 2 &&
+      <View style={{backgroundColor: 'white', height: 50 , width:'100%' }}>
+      
+      </View>
+      }
+      {/* <EditAddress/> */}
     </View>
   );
 }
@@ -145,194 +151,194 @@ const formatAddress = address => {
   } 
 }
 
-const EditAddress = subscribe()(props => {
-  const {    
-    newlySearch, 
-    title,
-    uuid,
-    apt,
-    street,
-    city,
-    state,
-    postalCode,
-    country,
-    lng,
-    lat,
-    instruction,
-    modalVisible } = props.address;
+// const EditAddress = subscribe()(props => {
+//   const {    
+//     newlySearch, 
+//     title,
+//     uuid,
+//     apt,
+//     street,
+//     city,
+//     state,
+//     postalCode,
+//     country,
+//     lng,
+//     lat,
+//     instruction,
+//    } = props.address;
 
-  const onSaveAddress = async () => {
-      const { addresses } = props.user;
-      let payload = addresses;
-      const { newlySearch } = props.address;
-      const temp = {
-        title,
-        apt,
-        street,
-        city,
-        state,
-        postalCode,
-        country,
-        lng,
-        lat,
-        uuid,
-        instruction
-      }
-      if((uuid === undefined || !uuid )&& newlySearch) {
-        temp.createdAt = timestamp;
-        temp.uuid = uuidv4();
-        temp.newlySearch = false;
-        payload.push(temp);
-        console.log("new addres-------")
-      } else {
-        const newArray = addresses.filter( e => e.uuid !== props.address.uuid)
-        temp.newlySearch = false;
-        newArray.push(temp);
-        payload = newArray;
-        console.log("edited address-------", temp);
-      }
+//   const onSaveAddress = async () => {
+//       const { addresses } = props.user;
+//       let payload = addresses;
+//       const { newlySearch } = props.address;
+//       const temp = {
+//         title,
+//         apt,
+//         street,
+//         city,
+//         state,
+//         postalCode,
+//         country,
+//         lng,
+//         lat,
+//         uuid,
+//         instruction
+//       }
+//       if((uuid === undefined || !uuid )&& newlySearch) {
+//         temp.createdAt = timestamp;
+//         temp.uuid = uuidv4();
+//         temp.newlySearch = false;
+//         payload.push(temp);
+//         console.log("new addres-------")
+//       } else {
+//         const newArray = addresses.filter( e => e.uuid !== props.address.uuid)
+//         temp.newlySearch = false;
+//         newArray.push(temp);
+//         payload = newArray;
+//         console.log("edited address-------", temp);
+//       }
 
-      try {
-        const result = await editAddresses(payload);
-        // console.log("this is user info ", props.user)
-        console.log(`new all address`, payload)
-        props.updateUser({
-          showList: true,
-          addresses: payload
-        });
+//       try {
+//         const result = await editAddresses(payload);
+//         // console.log("this is user info ", props.user)
+//         console.log(`new all address`, payload)
+//         props.updateUser({
+//           showList: true,
+//           addresses: payload
+//         });
         
-      } catch (err) {
-        console.log("error", err)
-      }
-      props.updateAddress({
-        title: '',
-        apt: '',
-        instruction: '',
-        uuid: ''
-      });
-  }
-  const onDeleteAddress = async () => {
-    const temp = props.user.addresses.filter(e => e.uuid != props.address.uuid);
-    const result = await editAddresses(temp);
-    props.updateUser({
-      showList: true,
-      addresses: temp
-    });
-    console.log("delete array", temp);
-    props.updateAddress({
-      tittle: '',
-      uuid: '',
-      apt: '',
-      street: '',
-      city:'',
-      state: '',
-      postalCode: '',
-      country: '',
-      lng: '',
-      lat: '',
-      instruction: '',
-      modalVisible: false,
-      newlySearch: true,
-    });
-  }
+//       } catch (err) {
+//         console.log("error", err)
+//       }
+//       props.updateAddress({
+//         title: '',
+//         apt: '',
+//         instruction: '',
+//         uuid: ''
+//       });
+//   }
+//   const onDeleteAddress = async () => {
+//     const temp = props.user.addresses.filter(e => e.uuid != props.address.uuid);
+//     const result = await editAddresses(temp);
+//     props.updateUser({
+//       showList: true,
+//       addresses: temp
+//     });
+//     console.log("delete array", temp);
+//     props.updateAddress({
+//       tittle: '',
+//       uuid: '',
+//       apt: '',
+//       street: '',
+//       city:'',
+//       state: '',
+//       postalCode: '',
+//       country: '',
+//       lng: '',
+//       lat: '',
+//       instruction: '',
+//       newlySearch: true,
+//     });
 
-  return(
-    <View style={styles.centeredView}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          props.updateAddress({modalVisible: false})
-        }}
-      >
+//   }
+
+//   return(
+//     <View style={styles.centeredView}>
+//       <Modal
+//         animationType="slide"
+//         transparent={true}
+//         visible={modalVisible}
+//         onRequestClose={() => {
+//           props.updateAddress({modalVisible: false})
+//         }}
+//       >
       
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <View style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between'
-              }}>
-              <View>
-                  <TouchableHighlight
-                    onPress={() => {
-                      props.updateAddress({modalVisible: false})
-                    }}
-                  >
-                <Text >Back</Text>
-                </TouchableHighlight>
-              </View> 
-              <View >
-                <Text> Edit Address</Text>
-              </View>
+//         <View style={styles.centeredView}>
+//           <View style={styles.modalView}>
+//             <View style={{
+//               flexDirection: 'row',
+//               justifyContent: 'space-between'
+//               }}>
+//               <View>
+//                   <TouchableHighlight
+//                     onPress={() => {
+                 
+//                     }}
+//                   >
+//                 <Text >Back</Text>
+//                 </TouchableHighlight>
+//               </View> 
+//               <View >
+//                 <Text> Edit Address</Text>
+//               </View>
                     
-              <View>
-                  <TouchableHighlight
-                    onPress={() => {
-                      onDeleteAddress();
-                    }}
-                  >
-                <Text style={{color: 'red' }}>Delete</Text>
-                </TouchableHighlight>
-              </View>
-            </View> 
+//               <View>
+//                   <TouchableHighlight
+//                     onPress={() => {
+//                       onDeleteAddress();
+//                     }}
+//                   >
+//                 <Text style={{color: 'red' }}>Delete</Text>
+//                 </TouchableHighlight>
+//               </View>
+//             </View> 
 
-            <View style={{paddingTop: 50, paddingBottom: 20}}> 
-              <ListItem
-                leftIcon={{ name: 'location-on' }}
-                subtitle={city+ " "+ state +" "+ postalCode+ " " + country}
-                title={street}
-                titleStyle={{ fontWeight: "bold"}}
-                subtitleStyle={{ paddingTop: 10 }}
-                onPress={()=> {
+//             <View style={{paddingTop: 50, paddingBottom: 20}}> 
+//               <ListItem
+//                 leftIcon={{ name: 'location-on' }}
+//                 subtitle={city+ " "+ state +" "+ postalCode+ " " + country}
+//                 title={street}
+//                 titleStyle={{ fontWeight: "bold"}}
+//                 subtitleStyle={{ paddingTop: 10 }}
+//                 onPress={()=> {
                
-                }}
-              />
-            </View>
-            <View style={{ paddingBottom: 20}}>
-              <Input
-                label="Title"
-                value={props.address.title}
-                placeholder={'Home'}
-                onChangeText={text => props.updateAddress({title: text})}
-              />
-            </View>
-            <View style={{ paddingBottom: 20}}>
-              <Input
-                label="Apt/Unit"
-                value={props.address.apt}
-                placeholder={'Unit 3'}
-                onChangeText={text => props.updateAddress({apt: text})}
-              />
-            </View>
-            <View style={{ paddingBottom: 20}}>
-             <Input
-                label="Instructions for Deliveryman"
-                placeholder="e.g. Righ the door bell.."
-                value={props.address.instruction}
-                onChangeText={text => props.updateAddress({instruction: text})}
+//                 }}
+//               />
+//             </View>
+//             <View style={{ paddingBottom: 20}}>
+//               <Input
+//                 label="Title"
+//                 value={props.address.title}
+//                 placeholder={'Home'}
+//                 onChangeText={text => props.updateAddress({title: text})}
+//               />
+//             </View>
+//             <View style={{ paddingBottom: 20}}>
+//               <Input
+//                 label="Apt/Unit"
+//                 value={props.address.apt}
+//                 placeholder={'Unit 3'}
+//                 onChangeText={text => props.updateAddress({apt: text})}
+//               />
+//             </View>
+//             <View style={{ paddingBottom: 20}}>
+//              <Input
+//                 label="Instructions for Deliveryman"
+//                 placeholder="e.g. Righ the door bell.."
+//                 value={props.address.instruction}
+//                 onChangeText={text => props.updateAddress({instruction: text})}
   
-              />
+//               />
   
-            </View>
-            <View style={{ paddingTop:40}}>
-              <TouchableHighlight
-                  style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                  onPress={() => {
-                    onSaveAddress();
-                    props.updateAddress({modalVisible: false})
-                  }}
-                >
-                  <Text style={styles.textStyle}>Save Address</Text>
-                </TouchableHighlight>
-            </View>
+//             </View>
+//             <View style={{ paddingTop:40}}>
+//               <TouchableHighlight
+//                   style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+//                   onPress={() => {
+//                     onSaveAddress();
+                
+//                   }}
+//                 >
+//                   <Text style={styles.textStyle}>Save Address</Text>
+//                 </TouchableHighlight>
+//             </View>
            
-          </View>
-          </View>
-      </Modal>
-    </View>
-  )
-});
+//           </View>
+//           </View>
+//       </Modal>
+//     </View>
+//   )
+// });
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',

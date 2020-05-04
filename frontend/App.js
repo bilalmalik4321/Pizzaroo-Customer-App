@@ -17,8 +17,27 @@ import { Avatar } from "react-native-elements";
 import store from './shared_/store';
 import { Provider } from "react-contextual";
 import Location from './components/location';
+import Address from './components/address';
 const AppNavigator = createStackNavigator(
   {
+    Address: {
+      screen: Address,
+
+      navigationOptions: ({ navigation }) => ({
+        title: 'Address',
+        headerLeft: () => (
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Restaurants")}
+            activeOpacity={0.2}
+          >
+            <Image
+              source={require("./images/left-chevron.png")}
+              style={styles.backButton}
+            />
+          </TouchableOpacity>
+        ),
+      })
+    },
     Location: {
       screen: Location,
 
