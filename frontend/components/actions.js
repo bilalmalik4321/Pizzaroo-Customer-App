@@ -167,6 +167,17 @@ export const updateItems = (key, value ) => state => {
     items
   };
 };
+export const clearItems = () => state =>{
+  return {
+    items: {
+      pizzas: [],
+      drinks: [],
+      dipping: [],
+      sides: [],
+      desserts: []
+    }
+  }
+}
 
 export const updateItem = (key, value ) => state => {
   let item= {};

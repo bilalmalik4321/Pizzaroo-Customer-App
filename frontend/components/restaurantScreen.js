@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
   StyleSheet,
   Text,
@@ -33,6 +33,15 @@ function RestaurantScreen(props) {
             <TouchableOpacity
               key={index}
               onPress={() =>{
+
+
+                // clear the order when User goes back to Restuarant screen
+                // prevent user order from two restaurant and add into the same order
+                // TODO: better implement to save the draft for different restaurant for each order
+                props.clearItems();
+
+
+
                 props.copyMenu({...res.menu})
                 props.navigation.navigate("Menu", { title: res.name + " " + index })
               }}

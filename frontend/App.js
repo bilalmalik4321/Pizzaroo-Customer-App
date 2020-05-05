@@ -88,13 +88,12 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         gestureEnabled: false,
-
         headerRight: () => (
 
           <Avatar
             rounded
-            icon={{ name: "chevron-right", type: "font-awesome" }}
-            onPress={() => navigation.navigate("Review")}
+            icon={{ name: "user", type: "font-awesome" }}
+            onPress={() => navigation.navigate("Account")}
             style={styles.userButton}
           />
         ),
