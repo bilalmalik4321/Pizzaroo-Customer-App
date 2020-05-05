@@ -122,3 +122,47 @@ export const copyMenu = (payload) => state => {
     menu
   };
 };
+
+// copyMenu into global state menu variable
+
+export const copyPizzaMenu = (payload) => state => {
+  let pizzaMenu = {
+    ...payload
+  };
+  return {
+    pizzaMenu
+  };
+};
+
+export const clearPizzaOrder = () => state => {
+  return {
+    pizzaOrder: {
+      name: '',
+      size: '',
+      description: '',
+      price: '',
+      quantity: 1,
+      instruction: '',
+    }
+  }
+}
+export const updatePizzaOrder = (key, value) => state => {
+  let pizzaOrder = {};
+
+  if (typeof key === 'object') {
+    const dataToAppend = key;
+    pizzaOrder = {
+      ...state.pizzaOrder,
+      ...dataToAppend
+    };
+  } else {
+    pizzaOrder = {
+      ...state.pizzaOrder,
+      [key]: value
+    };
+  }
+
+  return {
+    pizzaOrder
+  };
+};

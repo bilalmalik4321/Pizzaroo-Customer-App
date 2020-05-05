@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   Modal,
   TouchableOpacity,
+  Image
 } from "react-native";
 import {
   Text,
@@ -14,30 +15,31 @@ import {
   Button,
   Input,
   ButtonGroup,
-  Badge
+  Badge,
+  Divider,
+  ListItem
 } from "react-native-elements";
+import SelectMultiple from 'react-native-select-multiple'
 import StickyHeaderFooterScrollView from 'react-native-sticky-header-footer-scroll-view';
 import InputSpinner from "react-native-input-spinner";
 import {subscribe} from "react-contextual";
+import { ScrollView } from "react-native-gesture-handler";
+import {RadioButton} from 'react-native-paper';
 
 function MenuScreen(props) {
 
+  const [select, setSelect] = useState('first');
   const [modalVisible, setModalVisible] = useState(false);
   const [state, setState] = useState(0);
   const buttons = ["S", "M", "L", "XL"];
   const [footer, setFooter] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
-  console.log("props--- menu", props.menu);
+  const { pizzaMenu } = props;
+
+  console.log("pizzamenu", props.pizzaMenu);
   const { pizza, desserts, drinks, sides, dipping } = props.menu;
-  console.log("drink", drinks);
-  const prices = {
-    '0': 10.99,
-    '1': 12.99,
-    '2': 14.99,
-    '3': 17.99,
-    
-  }
+
   function updateTitle (food) {
     props.updateItem({
       name: food,
@@ -66,66 +68,117 @@ function MenuScreen(props) {
     })
   }
 
+  console.log("pizza selected", props.pizzaMenu);
   return (
     <SafeAreaView>
       <Modal visible={modalVisible} animationType="slide" >
-      <View style={[styles.centeredView, modalVisible ? {backgroundColor: 'rgba(0,0,0,0.5)'} : '']}>
-      <View style={styles.modalView}>
-          <Icon
+      <View   style={{...styles.modalExit, marginLeft: 20, marginTop: 50, zIndex: 1, height: 40, width: 40,backgroundColor: 'grey', borderRadius: '50%',opacity:0.8}}>
+        <Icon
+          borderRadius={2}
+          backgroundColor="#ffffff"
             name="close"
             size={30}
-            color="black"
+            color="#ffffff"
+
             onPress={() => {
               setModalVisible(false);
             }}
-            style={styles.modalExit}
+            style={{...styles.modalExit, zIndex: 1 , paddingTop: 4, paddingLeft: 8}}
           />
-          <Text style={styles.modalItemHeader}>
-            How Many?
-          </Text>
-          <View style={{...styles.modalInput, textAlign: 'center'}}>
-          <InputSpinner
-            max={10}
-            min={1} 
-            value={quantity} 
-            colorMax={"#f04048"}
-            colorMin={"#40c5f4"}
-            onChange={e => updateQuantity(e)} 
+        </View>
+
+        <ScrollView>
+        <Tile
+            imageSrc={require("../images/pep-pizza.jpg")}
+        /> 
+         <View
+            style={styles.displayChoice}
+          >
+            <Text style={{ fontWeight:"bold" , fontSize: 25, paddingBottom: 9}}>
+              {props.pizzaOrder.name}
+            </Text>
+            <Text style={{ color: 'grey', paddingBottom: 20}}>
+            Render list of restaurant dynamically 2 files changed, 276 insertions(+), 297 deletions(-)
+ rewrite frontend/components/restaurantScreen.js (92%).
+            </Text>
             
-          />
-          </View>
-          <Text style={styles.modalItemHeader}>
-            Size
-          </Text>
-          <View style={styles.modalInput}>
-            <ButtonGroup buttons={buttons} containerStyle={{ height: 50 }} selectedIndex={props.item.size} onPress={updateIndex} selectedButtonStyle={{backgroundColor:"purple"}}/>
-          </View>
-          <View style={styles.modalInput2}>
-            <Input
-              placeholder="new cutter, extra cheese..."
-              label="Other Specifics?"
-              multiline={true}
-              numberOfLines={4}
+            <Divider style={{ backgroundColor: 'grey'}} />
+            </View>
+      
+
+            <View 
+              style={styles.displayChoice}
+            >
+         
+           <Text style={{ fontWeight:"bold" , fontSize: 20, paddingBottom: 9}}>
+              Select Size
+            </Text>
+            <RadioButton.Group
+                onValueChange={value => {
+                  const selected = pizzaMenu.sizes.find(e => e.size === value);
+
+                  props.updatePizzaOrder({ size: value , price: selected.price, description: selected.description})
+                }}
+                value={!props.pizzaOrder.size? 'S' : props.pizzaOrder.size }
+              >
+            {pizzaMenu.sizes && pizzaMenu.sizes.length != 0 && pizzaMenu.sizes.map((item, index)=>(
+              <View key={index}>
+                <ListItem
+                  key={index}
+                  leftElement={ <RadioButton style={{ backgroundColor: 'red'}} value={item.size}/>}
+                  title={item.description}
+                  bottomDivider
+                  rightTitle={item.price.toString()}
+                />
+              </View>
+            ))
+            }
+  
+            </RadioButton.Group>          
+            </View>
+
+            <View style={{...styles.displayChoice, paddingLeft:10, paddingRight: 10}}>
+              <Input
+                style={{width: '100%'}}
+                placeholder="e.g. Peanut allegies, do not include .....!!!"
+                label="Extra  Instructions"
+                multiline={true}
+                numberOfLines={4}
+                onChangeText={text => props.updatePizzaOrder({instruction: text})}
+              />
+            </View>
+
+            <View style={{...styles.displayChoice,alignItems: 'center', paddingTop: 20, marginBottom: 100}}>
+              <InputSpinner
+                max={10}
+                min={1} 
+                value={props.pizzaOrder.quantity} 
+                colorMax={"#f04048"}
+                colorMin={"#40c5f4"}
+                onChange={e => props.updatePizzaOrder({quantity: e})} 
+                
+              />
+            </View>
+      </ScrollView>
+      <View >
+        <Button style={{fontWeight: "bold", flex: 1, alignItems: 'center',justifyContent: 'flex-end', marginBottom: 20 }}
+              onPress={() => {
+                props.copyPizzaMenu({});
+                props.clearPizzaOrder();
+                setModalVisible(false);
+                setFooter(true);
+                setState(state + 1);
+              }}
+              title={`Add to Order ${props.pizzaOrder.price && props.pizzaOrder.quantity? "$"+ (props.pizzaOrder.price * props.pizzaOrder.quantity).toFixed(2): '' }`}
+              buttonStyle={{...styles.foodAddOrder}}
             />
-          </View>
-          <Text style={styles.modalPrice}>
-            Price: $ {props.item.price}
-          </Text>
-
-          <Button
-            onPress={() => {
-              setModalVisible(false);
-              setFooter(true);
-              setState(state + 1);
-            }}
-            title="Add to Order"
-            buttonStyle={styles.foodAddOrder}
-          />
-
-        </View>
-        </View>
+      </View>
       </Modal>
       <View >
+
+
+
+
       <StickyHeaderFooterScrollView
         makeScrollable = {true}
         renderStickyFooter={() => { return (
@@ -163,6 +216,8 @@ function MenuScreen(props) {
               <TouchableOpacity
                 key={index}
                 onPress={() => {
+                  props.updatePizzaOrder({ name: item.name})
+                  props.copyPizzaMenu(item);
                   updateTitle(item.name);
                   setModalVisible(true);
                 }}
@@ -255,7 +310,7 @@ function MenuScreen(props) {
             <View style={styles.foodItemHeader}>
               <Text h3>Dipping Sauces</Text>
             </View>
-            {dipping && Object.keys(dipping).length!=0 && dipping.map((item,index)=>(
+              {dipping && Object.keys(dipping).length!=0 && dipping.map((item,index)=>(
                 <Card 
                   key={index} 
                   containerStyle={styles.drinks}
@@ -288,6 +343,7 @@ const styles = StyleSheet.create({
 
   modalView: {
     margin: 20,
+    // height: '100%',
     backgroundColor: "white",
     borderRadius: 20,
     padding: "5%",
@@ -302,10 +358,10 @@ const styles = StyleSheet.create({
   },
 
   foodAddOrder: {
-    backgroundColor: "purple",
+    backgroundColor: "#ff6363",
     borderRadius: 25,
     height: 45,
-    width: 125,
+    width: '80%',
     marginTop: 20,
   },
 
@@ -349,11 +405,18 @@ const styles = StyleSheet.create({
   },
 
   modalExit: {
-    left:1,
-    padding:5,
+    // left:1,
+    // padding:5,
     position:"absolute",
   },
-
+  displayChoice: { 
+    width: '100%', 
+    paddingBottom: 20, 
+    paddingLeft: 20, 
+    paddingRight: 20, 
+    marginTop:0
+  }
+    ,
   cardborder: {
     shadowColor: "#000",
     shadowOffset: {

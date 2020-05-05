@@ -20,7 +20,7 @@ function RestaurantScreen(props) {
   list.push(props.schema[0]);
   list.push(props.schema[0]);  
   list.push(props.schema[0]);
-  console.log("hello props", list);
+  // console.log("hello props", list);
 
   return (
     <SafeAreaView>

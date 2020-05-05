@@ -34,6 +34,17 @@ export default {
     newlySearch: true,
     createdAt: ''
   },
+  pizzaOrder :{
+    name: '',
+    size: '',
+    description: '',
+    price: '',
+    quantity: 1,
+    instruction: '',
+  },
+  pizzaMenu : {
+
+  },
 
   order : {
     items: [],
@@ -78,19 +89,23 @@ export default {
             sizes: [
               {
                 size: 'S',
+                description: 'Small',
                 price: 10.99
               },
               {
                 size: 'M',
+                description: 'Medium',
                 price: 12.99
               },
               {
                 size: 'L',
+                description: 'Large',
                 price: 14.99
               },
               {
                 size: 'XL',
-                price: 14.99
+                description: 'Extra Large',
+                price: 17.99
               },
             ]
           },
@@ -100,20 +115,35 @@ export default {
             sizes: [
               {
                 size: 'S',
-                price: 10.99
+                description: 'Small',
+                price: 7.99
               },
               {
                 size: 'M',
+                description: 'Medium',
                 price: 12.99
               },
               {
                 size: 'L',
-                price: 14.99
+                description: 'Large',
+                price: 78.99
               },
               {
-                size: 'XL',
-                price: 14.99
+                size: 'XLL',
+                description: 'Extra Large Large',
+                price: 117.99
               },
+              {
+                size: 'MXX',
+                description: 'Medium Large',
+                price: 121.99
+              },
+              {
+                size: 'LLL',
+                description: 'Extra Extra Large',
+                price: 142.99
+              },
+  
             ]
           },
           {
@@ -122,20 +152,20 @@ export default {
             sizes: [
               {
                 size: 'S',
-                price: 10.99
+                description: 'Small',
+                price: 120.99
               },
               {
                 size: 'M',
-                price: 12.99
+                description: 'Medium',
+                price: 121.99
               },
               {
                 size: 'L',
-                price: 14.99
+                description: 'Large',
+                price: 142.99
               },
-              {
-                size: 'XL',
-                price: 14.99
-              },
+            
             ]
           }
         ],
