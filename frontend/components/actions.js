@@ -201,10 +201,3 @@ export const clearItem = () => state => {
     }
   };
 };
-
-export const findNumberOfOrder = () => state => {
-  const {pizzas, desserts, drinks, dipping, sides} = state.items;
-  
-
-  return pizzas.length+ desserts.length+ drinks.length+ dipping.length+sides.length
-}

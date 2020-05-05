@@ -306,7 +306,7 @@ function MenuScreen(props) {
               <TouchableOpacity
                 key={index}
                 onPress={() => {
-                  props.updatePizzaOrder({name: item.name, description: item.description, size: 'S'})
+                  props.updatePizzaOrder({name: item.name, description: item.description,price: item.sizes[0].price, size: 'S'})
                   props.copyPizzaMenu(item);
                   updateTitle(item.name);
                   setModalVisible(true);
