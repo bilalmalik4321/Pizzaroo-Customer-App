@@ -35,21 +35,36 @@ export default {
     createdAt: ''
   },
   pizzaOrder :{
+    id: '',
     name: '',
     size: '',
     description: '',
     price: '',
     quantity: 1,
     instruction: '',
+    sizeDescription: ''
   },
   pizzaMenu : {
 
   },
 
+  items: {
+    pizzas: [],
+    drinks: [],
+    dipping: [],
+    sides: [],
+    desserts: []
+  },
+
   order : {
-    items: [],
+    items: {
+      pizzas: [],
+      drinks: [],
+      dipping: [],
+      sides: [],
+      desserts: []
+    },
     userId: '',
-    size: null,
     description: '',
     address:'',
     type:'',
@@ -58,11 +73,16 @@ export default {
   },
 
   item: {
-    name: null,
+    id: '',
+    kind: '',
+    name: '',
     quantity: 1,
-    price: 14.99,
-    size: 2,
-    description: null, 
+    price: '',
+    description: '',
+    cal: 0,
+    type: '',
+    size: ''
+
   },
 
   errors: {
@@ -85,7 +105,7 @@ export default {
         pizza: [
           {
             name: 'Hawaii',
-            description: 'Best pizza small:210 cal, med:300cal, ........',
+            description: 'Best pizza small:210 cal, med:300cal, ........Best pizza small:210 cal, med:300cal, ........Best pizza small:210 cal, med:300cal, ........Best pizza small:210 cal, med:300cal, ........Best pizza small:210 cal, med:300cal, ........Best pizza small:210 cal, med:300cal, ........Best pizza small:210 cal, med:300cal, ........Best pizza small:210 cal, med:300cal, ........Best pizza small:210 cal, med:300cal, ........Best pizza small:210 cal, med:300cal, ........Best pizza small:210 cal, med:300cal, ........vBest pizza small:210 cal, med:300cal, ........Best pizza small:210 cal, med:300cal, ........vBest pizza small:210 cal, med:300cal, ........Best pizza small:210 cal, med:300cal, ........Best pizza small:210 cal, med:300cal, ........Best pizza small:210 cal, med:300cal, ........Best pizza small:210 cal, med:300cal, ........Best pizza small:210 cal, med:300cal, ........Best pizza small:210 cal, med:300cal, ........Best pizza small:210 cal, med:300cal, ........Best pizza small:210 cal, med:300cal, ........Best pizza small:210 cal, med:300cal, ........Best pizza small:210 cal, med:300cal, ........Best pizza small:210 cal, med:300cal, ........',
             sizes: [
               {
                 size: 'S',
@@ -172,7 +192,7 @@ export default {
         desserts: [
           {
             name: 'Funnel Cake Stick',
-            description: 'Sweet strips of delicious funnel cake made by our special in house chef. Fresh out of the kitchen!!',
+            description: 'The idea with React Native about hello there component structure than actual design.Sweet strips of delicious funnel cake made by our special in house chef. Fresh out of the kitchen!!',
             price: 3.33
           },
           {
@@ -224,7 +244,7 @@ export default {
         sides: [
           {
             name: '10 Chicken wings',
-            description: 'Sweet, spicy and Cripsy dreep fried chicken wings with our special sauce!!',
+            description: 'Sweet, spicy andThe idea with React Native about hello there component structure than actual design.\n Cripsy dreep fried chicken wings with our special sauce!!',
             styleChoice: {
               hasOption: true,
               options: ['Breaded', 'Classic']

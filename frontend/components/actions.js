@@ -45,26 +45,7 @@ export const updateAddress = (key, value) => state => {
     address
   };
 };
-export const updateItem = (key, value) => state => {
-  let item = {};
 
-  if (typeof key === 'object') {
-    const dataToAppend = key;
-    item = {
-      ...state.item,
-      ...dataToAppend
-    };
-  } else {
-    item = {
-      ...state.item,
-      [key]: value
-    };
-  }
-
-  return {
-    item
-  };
-};
 
 export const updateOrder = (key, value) => state => {
   let order = {};
@@ -166,3 +147,64 @@ export const updatePizzaOrder = (key, value) => state => {
     pizzaOrder
   };
 };
+export const updateItems = (key, value ) => state => {
+  let items= {};
+
+  if (typeof key === 'object') {
+    const dataToAppend = key;
+    items= {
+      ...state.items,
+      ...dataToAppend
+    };
+  } else {
+    items = {
+      ...state.items,
+      [key]: value
+    };
+  }
+
+  return {
+    items
+  };
+};
+
+export const updateItem = (key, value ) => state => {
+  let item= {};
+
+  if (typeof key === 'object') {
+    const dataToAppend = key;
+    item= {
+      ...state.item,
+      ...dataToAppend
+    };
+  } else {
+    item = {
+      ...state.item,
+      [key]: value
+    };
+  }
+
+  return {
+    item
+  };
+};
+export const clearItem = () => state => {
+  return {    
+    item: {
+      kind: '',
+      name: '',
+      quantity: 1,
+      price: '',
+      description: '',
+      cal: 0,
+      type: '',
+    }
+  };
+};
+
+export const findNumberOfOrder = () => state => {
+  const {pizzas, desserts, drinks, dipping, sides} = state.items;
+  
+
+  return pizzas.length+ desserts.length+ drinks.length+ dipping.length+sides.length
+}

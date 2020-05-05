@@ -47,10 +47,8 @@ function order(props) {
       )}}
     >
         <View>
-          <Card containerStyle={ styles.card }>
-          {
-            buttonsListArr.length != 0 && buttonsListArr
-          }
+          <Card>
+        
           </Card>
         </View>
       </StickyHeaderFooterScrollView>

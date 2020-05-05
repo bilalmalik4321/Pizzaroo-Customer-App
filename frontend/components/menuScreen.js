@@ -19,16 +19,16 @@ import {
   Divider,
   ListItem
 } from "react-native-elements";
-import SelectMultiple from 'react-native-select-multiple'
+
 import StickyHeaderFooterScrollView from 'react-native-sticky-header-footer-scroll-view';
 import InputSpinner from "react-native-input-spinner";
 import {subscribe} from "react-contextual";
 import { ScrollView } from "react-native-gesture-handler";
 import {RadioButton} from 'react-native-paper';
-
+import {uuidv4} from './api';
 function MenuScreen(props) {
 
-  const [select, setSelect] = useState('first');
+  const [modalVisibleOther, setModalVisibleOther] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [state, setState] = useState(0);
   const buttons = ["S", "M", "L", "XL"];
@@ -37,40 +37,28 @@ function MenuScreen(props) {
 
   const { pizzaMenu } = props;
 
-  console.log("pizzamenu", props.pizzaMenu);
+  let counter = findNumberOfOrder(props.items);
+
+  // console.log("pizzamenu", props.pizzaMenu);
   const { pizza, desserts, drinks, sides, dipping } = props.menu;
 
   function updateTitle (food) {
     props.updateItem({
       name: food,
     })
-  }
-
-  function updateIndex (index) {
-    props.updateItem({
-      price: prices[index] * quantity,
-      size: index,
-    })
-  }
-
-  function updateQuantity (value) {
-    setQuantity(value);
-    props.updateItem({
-      quantity: value,
-      price: prices[props.item.size] * value
-    })
+  }  
+  function findNumberOfOrder(items) {
+    const {pizzas, desserts, drinks, dipping, sides} = items;
   
+    return pizzas.length+ desserts.length+ drinks.length+ dipping.length+sides.length
   }
 
-  function updateOrderSize (total) {
-    props.updateOrder({
-      size: total,
-    })
-  }
-
-  console.log("pizza selected", props.pizzaMenu);
+  console.log("-----*****Order*****------", props.pizzaOrder);
+  console.log("-----*****Item*****------", props.items);
   return (
     <SafeAreaView>
+
+      {/* ---------- Modal Pizza selection size ----------- */}
       <Modal visible={modalVisible} animationType="slide" >
       <View   style={{...styles.modalExit, marginLeft: 20, marginTop: 50, zIndex: 1, height: 40, width: 40,backgroundColor: 'grey', borderRadius: '50%',opacity:0.8}}>
         <Icon
@@ -79,8 +67,8 @@ function MenuScreen(props) {
             name="close"
             size={30}
             color="#ffffff"
-
             onPress={() => {
+              props.copyPizzaMenu({});
               setModalVisible(false);
             }}
             style={{...styles.modalExit, zIndex: 1 , paddingTop: 4, paddingLeft: 8}}
@@ -98,14 +86,12 @@ function MenuScreen(props) {
               {props.pizzaOrder.name}
             </Text>
             <Text style={{ color: 'grey', paddingBottom: 20}}>
-            Render list of restaurant dynamically 2 files changed, 276 insertions(+), 297 deletions(-)
- rewrite frontend/components/restaurantScreen.js (92%).
+              {props.pizzaOrder.description}
             </Text>
             
             <Divider style={{ backgroundColor: 'grey'}} />
             </View>
       
-
             <View 
               style={styles.displayChoice}
             >
@@ -116,10 +102,10 @@ function MenuScreen(props) {
             <RadioButton.Group
                 onValueChange={value => {
                   const selected = pizzaMenu.sizes.find(e => e.size === value);
-
-                  props.updatePizzaOrder({ size: value , price: selected.price, description: selected.description})
+                  // console.log("value" , value, 'selected object', selected)
+                  props.updatePizzaOrder({ size: value , price: selected.price, sizeDescription: selected.description})
                 }}
-                value={!props.pizzaOrder.size? 'S' : props.pizzaOrder.size }
+                value={props.pizzaOrder.size}
               >
             {pizzaMenu.sizes && pizzaMenu.sizes.length != 0 && pizzaMenu.sizes.map((item, index)=>(
               <View key={index}>
@@ -162,21 +148,120 @@ function MenuScreen(props) {
       </ScrollView>
       <View >
         <Button style={{fontWeight: "bold", flex: 1, alignItems: 'center',justifyContent: 'flex-end', marginBottom: 20 }}
-              onPress={() => {
-                props.copyPizzaMenu({});
-                props.clearPizzaOrder();
-                setModalVisible(false);
-                setFooter(true);
-                setState(state + 1);
-              }}
-              title={`Add to Order ${props.pizzaOrder.price && props.pizzaOrder.quantity? "$"+ (props.pizzaOrder.price * props.pizzaOrder.quantity).toFixed(2): '' }`}
-              buttonStyle={{...styles.foodAddOrder}}
-            />
+          onPress={() => {
+            const { pizzas } = props.items;
+            const item = props.pizzaOrder;
+            item.id = uuidv4();
+            pizzas.push(item);
+            props.updateItems({pizzas});
+
+            props.copyPizzaMenu({});
+            props.clearPizzaOrder();
+            setModalVisible(false);
+            setFooter(true);
+         
+          }}
+          title={`Add to Order ${props.pizzaOrder.price && props.pizzaOrder.quantity? "$"+ (props.pizzaOrder.price * props.pizzaOrder.quantity).toFixed(2): '' }`}
+          buttonStyle={{...styles.foodAddOrder}}
+        />
       </View>
       </Modal>
+
+
+
+      {/* This is modal for others except Pizza -----------Others----------- */}
+
+
+
+
+      <Modal visible={modalVisibleOther} animationType="slide" >
+      <View   style={{...styles.modalExit, marginLeft: 20, marginTop: 50, zIndex: 1,justifyContent: 'flex-start', height: 40, width: 40,backgroundColor: 'grey', borderRadius: '50%',opacity:0.8}}>
+        <Icon
+          borderRadius={2}
+          backgroundColor="#ffffff"
+            name="close"
+            size={30}
+            color="#ffffff"
+            onPress={() => {
+              props.clearItem()
+              setModalVisibleOther(false);
+
+            }}
+            style={{...styles.modalExit, zIndex: 1 , paddingTop: 4, paddingLeft: 8}}
+          />
+        </View>
+
+        <ScrollView>
+ 
+         <View
+            style={{...styles.displayChoice, paddingTop: '30%'}}
+          >
+            <Text style={{ fontWeight:"bold" , fontSize: 25, paddingBottom: 9}}>
+              {props.item.name}
+            </Text>
+            {props.item.kind === 'drinks' &&
+              <Text style={{ color: 'grey', paddingBottom: 20}}>
+                {props.item.size + " " + props.item.type + " " + props.item.cal + " cal." }
+              </Text>
+            }
+            {props.item.kind === 'dipping' &&
+              <Text style={{ color: 'grey', paddingBottom: 20}}>
+                {props.item.cal + " cal." }
+              </Text>
+            }
+          
+            {(props.item.kind === 'sides' || props.item.kind === 'desserts') &&
+              <Text style={{ color: 'grey', paddingBottom: 20}}>
+                {props.item.description}
+              </Text>
+            }
+        
+            <Divider style={{ backgroundColor: 'grey'}} />
+            </View>
+            <View style={{...styles.displayChoice, paddingLeft:10, paddingRight: 10}}>
+              <Input
+                style={{width: '100%'}}
+                placeholder="e.g. Peanut allegies for pizza...."
+                label="Extra  Instructions"
+                multiline={true}
+                numberOfLines={4}
+                onChangeText={text => props.updateItem({instruction: text})}
+              />
+            </View>
+
+            <View style={{...styles.displayChoice,alignItems: 'center', paddingTop: 20, marginBottom: 100}}>
+              <InputSpinner
+                max={10}
+                min={1} 
+                value={props.item.quantity} 
+                colorMax={"#f04048"}
+                colorMin={"#40c5f4"}
+                onChange={e => props.updateItem({quantity: e})} 
+                
+              />
+            </View>
+      </ScrollView>
       <View >
+        <Button style={{fontWeight: "bold", flex: 1, alignItems: 'center',justifyContent: 'flex-end', marginBottom: 20 }}
+          onPress={() => {
+            let temp = props.items[props.item.kind];
+            const item = props.item;
+            item.id = uuidv4();
+            temp.push(item);
+            props.updateItems(props.item.kind, temp);
 
+            props.clearItem();
+            setModalVisibleOther(false);
+            setFooter(true);
+           // TODO---> add in items
+          }}
+          title={`Add to Order ${ props.item.price && props.item.quantity ? "$"+(props.item.price * props.item.quantity).toFixed(2): ''}`}
+          buttonStyle={{...styles.foodAddOrder}}
+        />
+      </View>
+      </Modal>
 
+      <View >
 
 
       <StickyHeaderFooterScrollView
@@ -189,10 +274,11 @@ function MenuScreen(props) {
             raised 
             title="View Order"
             onPress={() =>{
-              props.navigation.navigate("Order");updateOrderSize(state);
+              props.navigation.navigate("Review");
+              // updateOrderSize(state);
             }} 
             icon={
-            <View style={styles.Icon}><Badge value={state} status="primary" /></View>
+            <View style={styles.Icon}><Badge value={counter} status="primary" /></View>
           } />
           }
         </View>
@@ -208,15 +294,19 @@ function MenuScreen(props) {
         </View>
         <View>
           <View>
+            {pizza && Object.keys(pizza).length != 0 &&
             <View style={styles.foodItemHeader}>
-              <Text h3>Pizzas</Text>
-            </View>
+              <Text h3>
+                Pizzas
+              </Text>
+            </View>   
+            }
             { pizza && Object.keys(pizza).length != 0 && pizza.map((item, index)=>(
               
               <TouchableOpacity
                 key={index}
                 onPress={() => {
-                  props.updatePizzaOrder({ name: item.name})
+                  props.updatePizzaOrder({name: item.name, description: item.description, size: 'S'})
                   props.copyPizzaMenu(item);
                   updateTitle(item.name);
                   setModalVisible(true);
@@ -240,37 +330,54 @@ function MenuScreen(props) {
           </View>
           
           <View>
-            <View style={styles.foodItemHeader}>
-              <Text h3>Side dishes</Text>
-            </View>
+            {sides && Object.keys(sides).length!=0 &&
+              <View style={styles.foodItemHeader}>
+                <Text h3>Side dishes</Text>
+              </View>
+            }
             {sides && Object.keys(sides).length!=0 && sides.map((item,index)=>(
-              
-              <Card 
+              <TouchableOpacity 
                 key={index} 
-                containerStyle={styles.drinks}
+                onPress={()=> {
+                  props.updateItem({kind: 'sides',...item})
+                  // console.log('--------***-------',props.item);
+                  setModalVisibleOther(true);
+                }}
               >
-                <Text style={{ fontWeight:"bold" , paddingBottom: 9}}>
-                    {item.name} 
-                  </Text>
-                <Text style={styles.foodItemDescription}>
-                  {item.description }
-                </Text>
-              <Text style={styles.foodItemPrice}>{item.price}</Text>
-            </Card>
+                  <Card 
+                    key={index} 
+                    containerStyle={styles.drinks}
+                  >
+                    <Text style={{ fontWeight:"bold" , paddingBottom: 9}}>
+                        {item.name} 
+                      </Text>
+                    <Text style={styles.foodItemDescription}>
+                      {item.description }
+                    </Text>
+                  <Text style={styles.foodItemPrice}>{item.price}</Text>
+                </Card>
+              </TouchableOpacity>
             ))}
           </View>
 
 
           <View>
+          {drinks && Object.keys(drinks).length!=0 &&
             <View style={styles.foodItemHeader}>
               <Text h3>Drinks</Text>
             </View>
+          }
             {drinks && Object.keys(drinks).length!=0 && drinks.map((item,index)=>(
-              
+              <TouchableOpacity 
+                key={index} 
+                onPress={()=> {
+                  props.updateItem({kind: 'drinks',...item})
+                  setModalVisibleOther(true);
+                }}
+              >
               <Card 
                 key={index} 
                 containerStyle={styles.drinks}
-                // wrapperStyle={}
               >
                 <Text style={{ fontWeight:"bold" , paddingBottom: 9}}>
                     {item.name} 
@@ -280,20 +387,29 @@ function MenuScreen(props) {
                 </Text>
               <Text style={styles.foodItemPrice}>{item.price}</Text>
             </Card>
+            </TouchableOpacity>
             ))}
           </View>
 
 
+    
           <View>
-          <View>
+          {desserts && Object.keys(desserts).length!=0 &&
             <View style={styles.foodItemHeader}>
               <Text h3>Desserts</Text>
             </View>
+          }
             {desserts && Object.keys(desserts).length!=0 && desserts.map((item,index)=>(
+              <TouchableOpacity 
+                key={index} 
+                onPress={()=> {
+                  props.updateItem({kind: 'desserts',...item})
+                  setModalVisibleOther(true);
+                }}
+              >
                 <Card 
                   key={index}
                   containerStyle={styles.drinks}
-                  // wrapperStyle={}
                 >
                   <Text style={{ fontWeight:"bold" , paddingBottom: 9}}>
                     {item.name} 
@@ -303,18 +419,27 @@ function MenuScreen(props) {
                   </Text>
                 <Text style={styles.foodItemPrice}>{item.price}</Text>
               </Card>
+              </TouchableOpacity>
               ))}
             </View>
-         </View>
+        
          <View>
+         {dipping && Object.keys(dipping).length!=0 &&
             <View style={styles.foodItemHeader}>
               <Text h3>Dipping Sauces</Text>
             </View>
+          }
               {dipping && Object.keys(dipping).length!=0 && dipping.map((item,index)=>(
+                <TouchableOpacity 
+                key={index} 
+                onPress={()=> {
+                  props.updateItem({kind: 'dipping',...item})
+                  setModalVisibleOther(true);
+                }}
+              >
                 <Card 
                   key={index} 
                   containerStyle={styles.drinks}
-                  // wrapperStyle={}
                 > 
                   <Text style={{ fontWeight:"bold" , paddingBottom: 9}}>
                     {item.name} 
@@ -324,6 +449,7 @@ function MenuScreen(props) {
                   </Text>
                 <Text style={styles.foodItemPrice}>{item.price}</Text>
               </Card>
+              </TouchableOpacity>
               ))}
           </View>
         </View>
