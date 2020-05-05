@@ -71,5 +71,5 @@ const styles = StyleSheet.create({
 
     elevation: 2,
     borderRadius: 10,
-      }
+  }
 });

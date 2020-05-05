@@ -90,13 +90,13 @@ const AppNavigator = createStackNavigator(
         gestureEnabled: false,
 
         headerRight: () => (
+
           <Avatar
             rounded
-            icon={{ name: "user", type: "font-awesome" }}
-            onPress={() => navigation.navigate("Account")}
+            icon={{ name: "chevron-right", type: "font-awesome" }}
+            onPress={() => navigation.navigate("Review")}
             style={styles.userButton}
           />
-
         ),
         headerLeft: () => {
           null;
@@ -108,7 +108,7 @@ const AppNavigator = createStackNavigator(
       screen: MenuScreen,
 
       navigationOptions: ({ navigation }) => ({
-        title: `${navigation.state.params.title}`,
+        title: `Menu`,
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Restaurants")}
@@ -167,15 +167,7 @@ const AppNavigator = createStackNavigator(
             />
           </TouchableOpacity>
         ),
-        // headerRight: () => (
-
-        //   <Avatar
-        //     rounded
-        //     icon={{ name: "user", type: "font-awesome" }}
-        //     onPress={() => navigation.navigate("Account")}
-        //     style={styles.userButton}
-        //   />
-        // ),
+  
       }),
     },
 

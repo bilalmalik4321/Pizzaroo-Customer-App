@@ -154,7 +154,7 @@ function MenuScreen(props) {
             item.id = uuidv4();
             pizzas.push(item);
             props.updateItems({pizzas});
-
+            item.kind='pizzas'
             props.copyPizzaMenu({});
             props.clearPizzaOrder();
             setModalVisible(false);
@@ -274,7 +274,8 @@ function MenuScreen(props) {
             raised 
             title="View Order"
             onPress={() =>{
-              props.navigation.navigate("Review");
+              if( counter!==0)
+                props.navigation.navigate("Review");
               // updateOrderSize(state);
             }} 
             icon={
@@ -389,7 +390,7 @@ function MenuScreen(props) {
             </Card>
             </TouchableOpacity>
             ))}
-          </View>
+        </View>
 
 
     
