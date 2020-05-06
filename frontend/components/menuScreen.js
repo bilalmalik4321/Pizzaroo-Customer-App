@@ -161,7 +161,7 @@ function MenuScreen(props) {
             setFooter(true);
          
           }}
-          title={`Add to Order ${props.pizzaOrder.price && props.pizzaOrder.quantity? "$"+ (props.pizzaOrder.price * props.pizzaOrder.quantity).toFixed(2): '' }`}
+          title={`Add to Order\t\t\t${props.pizzaOrder.price && props.pizzaOrder.quantity? "$"+ (props.pizzaOrder.price * props.pizzaOrder.quantity).toFixed(2): '' }`}
           buttonStyle={{borderRadius: 20, paddingRight: 40, paddingLeft: 40, alignItems: 'center', backgroundColor: "#ff6363", justifyContent: 'center'}}
           titleStyle={{ textAlign: 'center'}}
         />
@@ -242,8 +242,8 @@ function MenuScreen(props) {
               />
             </View>
       </ScrollView>
-      <View style={{}}>
-        <Button style={{fontWeight: "bold", flex: 1, alignItems: 'center',justifyContent: 'flex-end', marginBottom: 20 }}
+      <View style={{flexDirection: 'row', paddingBottom: 20, alignItems: 'center', justifyContent: 'center', textAlign: 'center'}}>
+        <Button 
           onPress={() => {
             let temp = props.items[props.item.kind];
             const item = props.item;
@@ -254,10 +254,11 @@ function MenuScreen(props) {
             props.clearItem();
             setModalVisibleOther(false);
             setFooter(true);
-           // TODO---> add in items
+           
           }}
-          title={`Add to Order ${ props.item.price && props.item.quantity ? "$"+(props.item.price * props.item.quantity).toFixed(2): ''}`}
-          buttonStyle={{...styles.foodAddOrder}}
+          title={`Add to Order\t\t\t${ props.item.price && props.item.quantity ? "$"+(props.item.price * props.item.quantity).toFixed(2): ''}`}
+          buttonStyle={{borderRadius: 20, paddingRight: 40, paddingLeft: 40, alignItems: 'center', backgroundColor: "#ff6363", justifyContent: 'center'}}
+          titleStyle={{ textAlign: 'center'}}
         />
       </View>
       </Modal>
