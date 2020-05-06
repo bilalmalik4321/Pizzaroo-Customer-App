@@ -11,8 +11,9 @@ const GooglePlacesInput = (props) => {
 
   const [errorMsg, setErrorMsg] = useState(false);
   return (
-    <ScrollView
-      style={styles.container}
+    // <ScrollView style={{backgroundColor: 'white'}}>
+    <View
+      style={{...styles.container, flex: 1}}
     > 
       {errorMsg && 
       <View style={{height: 30}}>
@@ -22,7 +23,7 @@ const GooglePlacesInput = (props) => {
           />
       </View> 
       }
-      <View style={{height: 60}}>
+      <View style={{height: 90}}>
         <PlacesInput
           googleApiKey={apiKey}
           placeHolder={"Search address"}
@@ -39,6 +40,7 @@ const GooglePlacesInput = (props) => {
             const { state, city , postalCode, street, country} = format;
             if(error !== undefined) {
               setErrorMsg(true);
+              console.log("err", error)
              
             } else {
               console.log("place", place, "format", format)
@@ -94,7 +96,8 @@ const GooglePlacesInput = (props) => {
         </Text>
       </View>
       }
-    </ScrollView>
+    </View>
+    // </ScrollView>
   );
 }
 
