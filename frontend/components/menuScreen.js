@@ -60,7 +60,7 @@ function MenuScreen(props) {
 
       {/* ---------- Modal Pizza selection size ----------- */}
       <Modal visible={modalVisible} animationType="slide" >
-      <View   style={{...styles.modalExit, marginLeft: 20, marginTop: 50, zIndex: 1, height: 40, width: 40,backgroundColor: 'grey', borderRadius: '50%',opacity:0.8}}>
+      <View   style={styles.modalExit2}>
         <Icon
           borderRadius={2}
           backgroundColor="#ffffff"
@@ -175,7 +175,7 @@ function MenuScreen(props) {
 
 
       <Modal visible={modalVisibleOther} animationType="slide" >
-      <View   style={{...styles.modalExit, marginLeft: 20, marginTop: 50, zIndex: 1,justifyContent: 'flex-start', height: 40, width: 40,backgroundColor: 'grey', borderRadius: '50%',opacity:0.8}}>
+      <View   style={styles.modalExit2}>
         <Icon
           borderRadius={2}
           backgroundColor="#ffffff"
@@ -535,6 +535,17 @@ const styles = StyleSheet.create({
     // left:1,
     // padding:5,
     position:"absolute",
+  },
+  modalExit2: {
+    position:"absolute",
+    marginLeft: 20, 
+    marginTop: 50, 
+    zIndex: 1, 
+    height: 40, 
+    width: 40,
+    backgroundColor: 'grey', 
+    borderRadius: 50,
+    opacity:0.8,
   },
   displayChoice: { 
     width: '100%', 
