@@ -34,6 +34,15 @@ function Checkout(props) {
   return (
     <SafeAreaView>
     <StickyHeaderFooterScrollView
+     renderStickyFooter={() => 
+        <View  style={styles.shoppingButton}>
+          <Button 
+            buttonStyle={{backgroundColor: '#ff6363', borderRadius: 20}}
+            raised 
+            title="Confirm"
+            onPress={() => {}}
+          />
+        </View>}
       style={{ backgroundColor: 'white'}}
       makeScrollable = {true}
     >
@@ -217,13 +226,13 @@ function Checkout(props) {
           </View>
       </View>
       <View >
-      <Button style={{ fontWeight: "bold", flex: 1, alignItems: 'center',justifyContent: 'flex-end', marginBottom: 20 }}
+      {/* <Button style={{ fontWeight: "bold", flex: 1, alignItems: 'center',justifyContent: 'flex-end', marginBottom: 20 }}
         onPress={() => {
         //TODO go to pick location
         }}
         title={"Comfirm"}
         buttonStyle={{...styles.foodAddOrder}}
-      />
+      /> */}
     </View>
     </StickyHeaderFooterScrollView>
    
@@ -335,6 +344,7 @@ drinks: {
 },
 
 shoppingButton: {
+ 
   paddingLeft: 15,
   paddingRight:15,
   marginBottom: 10

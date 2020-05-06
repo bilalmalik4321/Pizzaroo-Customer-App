@@ -146,8 +146,8 @@ function MenuScreen(props) {
               />
             </View>
       </ScrollView>
-      <View >
-        <Button style={{fontWeight: "bold", flex: 1, alignItems: 'center',justifyContent: 'flex-end', marginBottom: 20 }}
+      <View style={{flexDirection: 'row', paddingBottom: 20, alignItems: 'center', justifyContent: 'center', textAlign: 'center'}}>
+        <Button
           onPress={() => {
             const { pizzas } = props.items;
             const item = props.pizzaOrder;
@@ -162,7 +162,8 @@ function MenuScreen(props) {
          
           }}
           title={`Add to Order ${props.pizzaOrder.price && props.pizzaOrder.quantity? "$"+ (props.pizzaOrder.price * props.pizzaOrder.quantity).toFixed(2): '' }`}
-          buttonStyle={{...styles.foodAddOrder}}
+          buttonStyle={{borderRadius: 20, paddingRight: 40, paddingLeft: 40, alignItems: 'center', backgroundColor: "#ff6363", justifyContent: 'center'}}
+          titleStyle={{ textAlign: 'center'}}
         />
       </View>
       </Modal>
@@ -241,7 +242,7 @@ function MenuScreen(props) {
               />
             </View>
       </ScrollView>
-      <View >
+      <View style={{}}>
         <Button style={{fontWeight: "bold", flex: 1, alignItems: 'center',justifyContent: 'flex-end', marginBottom: 20 }}
           onPress={() => {
             let temp = props.items[props.item.kind];
@@ -266,24 +267,23 @@ function MenuScreen(props) {
 
       <StickyHeaderFooterScrollView
         makeScrollable = {true}
-        renderStickyFooter={() => { return (
-        <View  style={styles.shoppingButton}>
-          {
-            footer &&
-            <Button 
-            raised 
-            title="View Order"
-            onPress={() =>{
-              if( counter!==0)
-                props.navigation.navigate("Review");
-              // updateOrderSize(state);
-            }} 
-            icon={
-            <View style={styles.Icon}><Badge value={counter} status="primary" /></View>
-          } />
-          }
-        </View>
-      )}}
+        renderStickyFooter={() => 
+          <View  style={styles.shoppingButton}>
+            { footer &&
+              <Button 
+                buttonStyle={{ borderRadius: 20}}
+                raised 
+                title="View Order"
+                onPress={() => {
+                  if( counter!==0)
+                    props.navigation.navigate("Review");
+                }} 
+                icon={<View style={styles.Icon}>
+                        <Badge value={counter} status="primary"/>
+                      </View>}
+                
+              />}
+        </View>}
       >
         <View>
           <Tile

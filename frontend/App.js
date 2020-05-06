@@ -240,17 +240,7 @@ const AppNavigator = createStackNavigator(
               style={styles.backButton}
             />
           </TouchableOpacity>
-        ),
-        headerRight: () => (
-
-          <Avatar
-            rounded
-            icon={{ name: "chevron-left", type: "font-awesome" }}
-            onPress={() => navigation.navigate("SelectLocation")}
-            style={styles.userButton}
-          />
-        ),
-      
+        )   
      })
     }
   },

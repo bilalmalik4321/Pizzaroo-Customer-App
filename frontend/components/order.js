@@ -154,7 +154,18 @@ function MenuScreen(props) {
   return (
     <SafeAreaView>
       <StickyHeaderFooterScrollView
-        style={{ backgroundColor: 'white', zIndex: -1}}
+       makeScrollable = {true}
+       renderStickyFooter={() => 
+        <View  style={styles.shoppingButton}>
+          <Button 
+            buttonStyle={{backgroundColor: '#ff6363', borderRadius: 20}}
+            raised 
+            title="Checkout"
+            onPress={() => props.navigation.navigate('Checkout')}
+          />
+        </View>
+        }
+        style={{ backgroundColor: 'white'}}
         makeScrollable = {true}
       >
 
@@ -267,8 +278,8 @@ function MenuScreen(props) {
         <View style={{padding: 30}}>
         <Button
             title="Add more items"
-            titleStyle={{ color: 'white', alignSelf:'center'}}
-            buttonStyle={{ alignSelf: 'center', padding: 10, borderRadius: 20, backgroundColor: "#ff6363"}}
+            titleStyle={{ color: '#ff6363', alignSelf:'center'}}
+            buttonStyle={{ alignSelf: 'center', padding: 10, borderRadius: 20, backgroundColor: "white" , borderColor:'#ff6363', borderWidth: 1 }}
             onPress={()=> props.navigation.navigate("Menu")}
         />
         </View>
@@ -286,7 +297,7 @@ function MenuScreen(props) {
             </View>
             </View>
         </View>
-        <View style={{ alignSelf: 'center',justifyContent: 'center', alignContent: 'center', textAlign: 'center'}}>
+        {/* <View style={{ alignSelf: 'center',justifyContent: 'center', alignContent: 'center', textAlign: 'center'}}>
           <Button style={{ fontWeight: "bold", flex: 1, alignItems: 'center',justifyContent: 'flex-end', marginBottom: 20 }}
             onPress={() => {
             //TODO go to pick location
@@ -297,7 +308,7 @@ function MenuScreen(props) {
             title={"Checkout"}
             buttonStyle={{...styles.foodAddOrder}}
           />
-      </View>
+      </View> */}
       </StickyHeaderFooterScrollView>
    
     </SafeAreaView>
