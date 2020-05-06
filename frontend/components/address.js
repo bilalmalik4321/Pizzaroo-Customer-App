@@ -142,9 +142,9 @@ const EditAddress = subscribe()(props => {
           />
 
         </View>
-        <View style={{width: '100%', paddingTop:40 ,paddingLeft: 15, paddingRight: 15,flex:2, flexDirection: 'row' }}>
+        <View style={{backgroundColor: 'white', paddingTop: 50 ,paddingLeft: 15, paddingRight: 15, flexDirection: 'row', justifyContent:'space-between'}}>
           <TouchableHighlight
-            style={{ ...styles.openButton, backgroundColor: "#2196F3", marginRight: 10}}
+            style={{ ...styles.openButton,width: '45%', backgroundColor: "#2196F3"}}
             onPress={() => {
               onSaveAddress();
               props.navigation.navigate("Location");
@@ -155,7 +155,7 @@ const EditAddress = subscribe()(props => {
               </Text>
           </TouchableHighlight>
           <TouchableHighlight
-              style={{ ...styles.openButton, backgroundColor: "#ff6363" }}
+              style={{ ...styles.openButton, width: '45%',backgroundColor: "#ff6363" }}
               onPress={() => {
                 onDeleteAddress();
               }}
@@ -204,9 +204,7 @@ alignItems: "center"
     backgroundColor: "#F194FF",
     borderRadius: 20,
     padding: 10,
-    elevation: 2,
-    height: '15%',
-    width: '50%'
+    elevation: 2
   },
   textStyle: {
     color: "white",
