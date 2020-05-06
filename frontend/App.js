@@ -177,7 +177,7 @@ const AppNavigator = createStackNavigator(
         title: `Checkout`,
         headerLeft: () => (
           <TouchableOpacity
-            onPress={() => navigation.navigate("Order")}
+            onPress={() => navigation.navigate("Review")}
             activeOpacity={0.2}
           >
             <Image
@@ -186,15 +186,7 @@ const AppNavigator = createStackNavigator(
             />
           </TouchableOpacity>
         ),
-        headerRight: () => (
-
-          <Avatar
-            rounded
-            icon={{ name: "user", type: "font-awesome" }}
-            onPress={() => navigation.navigate("Account")}
-            style={styles.userButton}
-          />
-        ),
+        headerRight: ()=> {}
       }),
     },
 

@@ -291,6 +291,9 @@ function MenuScreen(props) {
         <Button style={{ fontWeight: "bold", flex: 1, alignItems: 'center',justifyContent: 'flex-end', marginBottom: 20 }}
           onPress={() => {
           //TODO go to pick location
+          if(numberOfOrder!=0){
+            props.navigation.navigate("Checkout");
+          }
           }}
           title={"Checkout"}
           buttonStyle={{...styles.foodAddOrder}}
