@@ -216,17 +216,17 @@ function Checkout(props) {
               </View>
           </View>
       </View>
-    </StickyHeaderFooterScrollView>
-    <View >
+      <View >
       <Button style={{ fontWeight: "bold", flex: 1, alignItems: 'center',justifyContent: 'flex-end', marginBottom: 20 }}
         onPress={() => {
         //TODO go to pick location
-      
         }}
         title={"Comfirm"}
         buttonStyle={{...styles.foodAddOrder}}
       />
     </View>
+    </StickyHeaderFooterScrollView>
+   
   </SafeAreaView>
 );
 }
