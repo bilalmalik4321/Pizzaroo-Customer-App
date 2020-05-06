@@ -2,7 +2,8 @@ import React from "react";
 import {
   StyleSheet,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  Text
 } from "react-native";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
@@ -47,7 +48,7 @@ const AppNavigator = createStackNavigator(
         title: 'Address',
         headerLeft: () => (
           <TouchableOpacity
-            onPress={() => navigation.navigate("Restaurants")}
+            onPress={() => navigation.navigate("Location")}
             activeOpacity={0.2}
           >
             <Image
@@ -58,12 +59,66 @@ const AppNavigator = createStackNavigator(
         ),
       })
     },
+    selectLocationAddress: {
+      screen: Address,
+
+      navigationOptions: ({ navigation }) => ({
+        title: 'Address',
+        headerLeft: () => (
+          <TouchableOpacity
+            onPress={() => navigation.navigate("SelectLocation")}
+            activeOpacity={0.2}
+          >
+            <Image
+              source={require("./images/left-chevron.png")}
+              style={styles.backButton}
+            />
+          </TouchableOpacity>
+        ),
+      })
+    },
+    SelectLocation : {
+      screen: Location,
+
+      navigationOptions: ({ navigation }) => ({
+        headerLeft: 
+         () => (
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Review')}
+            activeOpacity={0.2}
+          >
+           <Text style={{ fontWeight: 'bold', paddingLeft: 10}}>
+              Review
+           </Text>
+          </TouchableOpacity>
+     
+         ),
+        headerRight: () => {
+
+        }
+
+      })
+    },
     Location: {
       screen: Location,
 
-      navigationOptions: {
-        headerShown: false,
-      },
+      navigationOptions: ({ navigation }) => ({
+        headerLeft: 
+         () => (
+          <TouchableOpacity
+            onPress={() => navigation.navigate('Restaurants')}
+            activeOpacity={0.2}
+          >
+           <Text style={{ fontWeight: 'bold', paddingLeft: 10}}>
+            Home
+           </Text>
+          </TouchableOpacity>
+     
+         ),
+        headerRight: () => {
+
+        }
+      })
     },
     
     Introduction: {
@@ -186,10 +241,18 @@ const AppNavigator = createStackNavigator(
             />
           </TouchableOpacity>
         ),
-        headerRight: ()=> {}
-      }),
-    },
+        headerRight: () => (
 
+          <Avatar
+            rounded
+            icon={{ name: "chevron-left", type: "font-awesome" }}
+            onPress={() => navigation.navigate("SelectLocation")}
+            style={styles.userButton}
+          />
+        ),
+      
+     })
+    }
   },
 
   {

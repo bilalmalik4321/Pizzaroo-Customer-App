@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState,  useEffect} from "react";
 import {
   StyleSheet,
   View,
@@ -22,11 +22,13 @@ import {
 import StickyHeaderFooterScrollView from 'react-native-sticky-header-footer-scroll-view';
 import Icon from "react-native-vector-icons/FontAwesome";
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
+import { NavigationActions } from "react-navigation";
 function Checkout(props) {
   var radio_props = [
     {label: 'Cash', value: 0 },
     {label: 'Card', value: 1 }
   ];
+
 
   const [method, setMethod] = useState(0);
   return (

@@ -1,42 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { subscribe } from 'react-contextual';
-import {  Text, View ,StyleSheet, TouchableHighlight} from 'react-native';
+import {  Text, Image,View ,StyleSheet, TouchableHighlight,TouchableOpacity} from 'react-native';
 import PlacesInput from 'react-native-places-input'
 import {  getUser } from './api';
 import { ListItem ,Badge} from "react-native-elements";
 import apiKey  from '../googleAPI';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const GooglePlacesInput = (props) => {
 
   const [errorMsg, setErrorMsg] = useState(false);
-
-  useEffect( ()=> {
-    (async ()=> {
-      try {
-        const user = await getUser();
-        setAddresses(user.addresses);
-        props.updateUser({...user});
-        console.log("user-------important\n",user)
-    
-      } catch( err)
-      {
-        console.log("failed to retrieve user",err)
-      }
-    })
-  },[]);
-
   return (
-    <View
+    <ScrollView
       style={styles.container}
     > 
-      <TouchableHighlight
-        onPress={() => {
-          props.navigation.navigate("Restaurants");
-        }}
-      >
-        <Text style={{color: 'red' }}>Menu</Text>
-      </TouchableHighlight>
-
       {errorMsg && 
       <View style={{height: 30}}>
         <Badge
@@ -117,7 +94,7 @@ const GooglePlacesInput = (props) => {
         </Text>
       </View>
       }
-    </View>
+    </ScrollView>
   );
 }
 
@@ -153,10 +130,7 @@ const formatAddress = address => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
+    backgroundColor: 'white',
       width: '100%',
-      flex: 1,
-      paddingTop: '13%',
-      flexDirection: 'column',
   }
 });
