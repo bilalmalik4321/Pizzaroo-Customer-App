@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { subscribe } from 'react-contextual';
-import {  Text, Image,View ,StyleSheet, Platform, TouchableOpacity,Dimensions} from 'react-native';
-import PlacesInput from 'react-native-places-input'
-import {  getUser } from './api';
-import { ListItem ,Badge,Icon } from "react-native-elements";
+import {  Text,View ,StyleSheet, Platform, TouchableOpacity,Dimensions} from 'react-native';
+import { ListItem ,Icon } from "react-native-elements";
 import apiKey  from '../googleAPI';
-// import { ScrollView } from 'react-native-gesture-handler';
 import GoogleSearch from './searchPlaces';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
+import { Badge } from 'react-native-paper';
 
 const GooglePlacesInput = (props) => {
 
@@ -17,64 +15,13 @@ const GooglePlacesInput = (props) => {
   const screenHeight = Math.round(Dimensions.get('window').height)
 
   const [selected , setSelected] = useState('');
-  console.log("Plaform", screenHeight);
+  console.log("Platform", Platform.OS)
+  console.log("Height" ,screenHeight);
   return (
-    // <ScrollView style={{backgroundColor: 'white'}}>
-    // <View
-    //   style={{...styles.container, flexDirection: 'row'}}
-    // > 
-      /* {errorMsg && 
-      <View style={{height: 30}}>
-        <Badge
-          status="error" 
-          value={'Enter a complete address!'}
-          />
-      </View> 
-      } */
-
-      /* <View style={{width: '100%', height: 50}}>
-        <GoogleSearch
-          googleApiKey={apiKey}
-          queryCountries={['ca']}
-          placeHolder={"Search address"}
-          language={"en-US"}
-          onChangeText={()=> {
-            props.updateUser({
-              showList: false
-            });
-            setErrorMsg(false);
-          }}
-          onSelect={place => {
-            const format = formatAddress(place.result.formatted_address);
-            const { error } = format;
-            const { state, city , postalCode, street, country} = format;
-            if(error !== undefined) {
-              setErrorMsg(true);
-              console.log("err", error)
-             
-            } else {
-              console.log("place", place, "format", format)
-              const { lat , lng } = place.result.geometry.location;
-              props.updateAddress({
-               state,
-               city,
-               country,
-               postalCode,
-               street,
-               lat,
-               uuid: '',
-               lng,
-               newlySearch: true,
-              });
-              props.navigation.navigate("Address");
-            }
-          }}
-          />
-
-      </View> */
-<SafeAreaView style={{ backgroundColor: 'white', height: props.user.showList? '100%': 90 }}>
+   
+<SafeAreaView style={{ backgroundColor: 'white', height: '100%'}}>
  
-      <View style={{height: 90, width: '100%', backgroundColor: 'white'}}>
+      <View style={{ width: '100%', height: props.user.showList? 90 : '100%' , backgroundColor: 'red' }}>
         <GoogleSearch
           googleApiKey={apiKey}
           queryCountries={['ca']}
@@ -112,12 +59,21 @@ const GooglePlacesInput = (props) => {
             }
           }}
           />
-      </View>
-      <View style={{ zIndex: -1, backgroundColor: 'red', height: props.user.showList? 0 : screenHeight - 90}}>
 
-      </View>   
+        { errorMsg && 
+        <View style={{ paddingBottom:10, width: '100%', backgroundColor: 'white', alignItems: 'center'}}>
+          <Text style={{color: '#ff6363'}}>
+            Select a complete address.
+          </Text>
+        </View>
+        }
+          
+      </View>
+      {/* <View style={{ zIndex: -100, backgroundColor: 'white', height: props.user.showList? 0 : 0}}>
+
+      </View>    */}
     
-     <ScrollView>
+     <ScrollView style={{height:'100%'}}>
      <View style={{ backgroundColor: 'white', width: '100%', paddingRight: 5, paddingLeft: 5 }}>
         {props.user.showList && props.user.addresses.length !=0 && props.user.addresses.sort((a,b)=> a.createdAt < b.createdAt).map((item, i) => {
           return (
@@ -159,7 +115,7 @@ const GooglePlacesInput = (props) => {
           );
         })}
         {props.user.showList && props.user.addresses.length !=0 &&
-        <View style={{ paddingTop: 20}}>
+        <View style={{ paddingTop: 20, paddingBottom: 40}}>
             <ListItem
                 leftElement={() => 
                   <Icon 
@@ -177,7 +133,7 @@ const GooglePlacesInput = (props) => {
               />
         </View>
         }
-
+     
       {props.user.showList && props.user.addresses.length === 0 &&
       <View style={{padding: 40, paddingTop: 200, justifyContent:'center', backgroundColor: 'white', height: 50 , width:'100%' , alignItems: 'center'}}>
         <Text 

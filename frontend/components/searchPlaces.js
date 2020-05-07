@@ -296,7 +296,7 @@ const styles = StyleSheet.create({
   container: {
 
     position: 'absolute',
-    top: 10,
+    top: 15,
     left: 10,
     right: 10,
     zIndex: 1000,
