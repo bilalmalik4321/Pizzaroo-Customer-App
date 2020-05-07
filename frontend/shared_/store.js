@@ -98,7 +98,12 @@ export default {
 
   errors: {
     error_signup: {
+    },
+    error_changePassword: {
 
+    },
+    error_changeEmail: {
+      
     }
   },
   ...actions,

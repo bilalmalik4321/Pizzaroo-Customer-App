@@ -198,7 +198,6 @@ class PlacesInput extends Component {
 
   onPlaceSelect = async (id, passedPlace) => {
     this.setState({
-      clearInput: false,
       isLoading: true,
     }, async () => {
       try {
@@ -210,10 +209,11 @@ class PlacesInput extends Component {
           {
             showList: false,
             isLoading: false,
-            query:
-              place &&
-              place.result &&
-              (place.result.formatted_address || place.result.name),
+            query: ''
+            // query:
+            //   place &&
+            //   place.result &&
+            //   (place.result.formatted_address || place.result.name),
           },
           () => {
             return this.props.onSelect && this.props.onSelect(place);

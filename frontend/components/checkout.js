@@ -24,7 +24,7 @@ const  Checkout = props => {
   const [modalVisibleOther, setModalVisibleOther] = useState(false);
   const [method, setMethod] = useState(0);
   const [errMsg , setErrMsg] = useState(null);
-  // console.log("checkout info",props.checkout);
+  console.log("checkout info",props.checkout);
 
   const onConfirm = async()=> {
     if(!props.checkout.selected_address){
@@ -151,7 +151,7 @@ const  Checkout = props => {
                           buttonWrapStyle={{}}
                         />
                         <RadioButtonLabel
-                          labelStyle={{color: 'grey' ,fontWeight: `${method===0? 'bold': 'nomral'}`}}
+                          labelStyle={{color: 'grey' ,fontWeight: `${method===0? 'bold': 'normal'}`}}
                           onPress={()=>{
                             setMethod(0)
                             props.updateCheckout({payment: 'cash'});

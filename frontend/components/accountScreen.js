@@ -10,19 +10,17 @@ import firebase from '../firebases';
 import {subscribe} from 'react-contextual';
 
 function AccountScreen(props) {
-  const { setCurrentStep } = props;
-  const updateUser = props.updateUser;
 
   const list = [
     {
       title: "Change email",
       icon: 'email',
-      onClick: () => {}
+      onClick: () => {props.navigation.navigate("ChangeEmail")}
     },
     {
       title: "Change password",
       icon: 'lock',
-      onClick: () => {}
+      onClick: () => {props.navigation.navigate("ChangePassword")}
     },
     {
       title: "Change address",

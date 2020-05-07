@@ -19,6 +19,8 @@ import store from './shared_/store';
 import { Provider } from "react-contextual";
 import Location from './components/location';
 import Address from './components/address';
+import ChangePassword from './components/changePassword';
+import ChangeEmail from './components/changeEmail';
 // import Review from './components/review';
 
 const AppNavigator = createStackNavigator(
@@ -41,6 +43,43 @@ const AppNavigator = createStackNavigator(
     //     ),
     //   }),
     // },
+    ChangeEmail: {
+      screen: ChangeEmail,
+
+      navigationOptions: ({ navigation }) => ({
+        title: 'Email',
+        headerLeft: () => (
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Account")}
+            activeOpacity={0.2}
+          >
+            <Image
+              source={require("./images/left-chevron.png")}
+              style={styles.backButton}
+            />
+          </TouchableOpacity>
+        ),
+      })
+    },
+
+    ChangePassword: {
+      screen: ChangePassword,
+
+      navigationOptions: ({ navigation }) => ({
+        title: 'Email',
+        headerLeft: () => (
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Account")}
+            activeOpacity={0.2}
+          >
+            <Image
+              source={require("./images/left-chevron.png")}
+              style={styles.backButton}
+            />
+          </TouchableOpacity>
+        ),
+      })
+    },
     Address: {
       screen: Address,
 
