@@ -6,8 +6,6 @@ import apiKey  from '../googleAPI';
 import GoogleSearch from './searchPlaces';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
-import { Badge } from 'react-native-paper';
-
 const GooglePlacesInput = (props) => {
 
  
@@ -15,13 +13,13 @@ const GooglePlacesInput = (props) => {
   const screenHeight = Math.round(Dimensions.get('window').height)
 
   const [selected , setSelected] = useState('');
-  console.log("Platform", Platform.OS)
-  console.log("Height" ,screenHeight);
+  console.log("showList" ,props.user.showList);
+  console.log("showList" ,props.user.addresses);
   return (
    
 <SafeAreaView style={{ backgroundColor: 'white', height: '100%'}}>
  
-      <View style={{ width: '100%', height: props.user.showList? 90 : '100%' , backgroundColor: 'red' }}>
+      <View style={{ width: '100%', height: props.user.showList? 90 : '100%' , backgroundColor: 'white' }}>
         <GoogleSearch
           googleApiKey={apiKey}
           queryCountries={['ca']}
@@ -29,7 +27,8 @@ const GooglePlacesInput = (props) => {
           language={"en-US"}
           onChangeText={()=> {
             props.updateUser({
-              showList: false
+              showList: false,
+              clearSearch: false
             });
             setErrorMsg(false);
           }}
@@ -60,6 +59,7 @@ const GooglePlacesInput = (props) => {
           }}
           />
 
+
         { errorMsg && 
         <View style={{ paddingBottom:10, width: '100%', backgroundColor: 'white', alignItems: 'center'}}>
           <Text style={{color: '#ff6363'}}>
@@ -75,33 +75,27 @@ const GooglePlacesInput = (props) => {
     
      <ScrollView style={{height:'100%'}}>
      <View style={{ backgroundColor: 'white', width: '100%', paddingRight: 5, paddingLeft: 5 }}>
-        {props.user.showList && props.user.addresses.length !=0 && props.user.addresses.sort((a,b)=> a.createdAt < b.createdAt).map((item, i) => {
+        {props.user.showList && props.user.addresses.length !=0 && props.user.addresses.sort((a,b)=> a.createdAt === b.createdAt ? a.street < b.street : a.createdAt < b.createdAt).map((item, i) => {
           return (
           <View key={i} style={{ paddingTop: 5}}>
             <ListItem
+                onPress={()=>setSelected(item.uuid) }
                 bottomDivider
                 leftElement={() => 
-                <TouchableOpacity
-                  onPress={()=> {
-                    setSelected(item.uuid)
-                }}
-                >
                   <Icon 
                     color={selected === item.uuid? '#ff6363': 'black'}
-                    name="location-on"/>
-                </TouchableOpacity> }
+                    name="location-on"
+                    onPress={()=> setSelected(item.uuid)}
+                  />}
                 rightElement={() => 
-                <TouchableOpacity
-                  onPress={()=> {
-                    props.updateAddress({...item});
-                    props.navigation.navigate("Address");
-                  // console.log("address", item, "props", props.address);
-                }}
-                >
                   <Icon 
-                  color={selected === item.uuid? '#ff6363': 'black'}
-                  name="edit"/>
-                </TouchableOpacity> }
+                    color={selected === item.uuid? '#ff6363': 'black'}
+                    name="edit"
+                    onPress={()=> {
+                      props.updateAddress({...item});
+                      props.navigation.navigate("Address");}}
+                    />
+                }
                 subtitle={item.street + ", " + item.city + ", " + item.state + ", " + item.country}
                 key={i}
                 title={item.title}

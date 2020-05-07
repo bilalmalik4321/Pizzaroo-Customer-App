@@ -212,3 +212,26 @@ export const clearItem = () => state => {
     }
   };
 };
+
+
+// ------------ google search places -------------//
+export const updateSearch = (key, value ) => state => {
+  let search= {};
+
+  if (typeof key === 'object') {
+    const dataToAppend = key;
+    search= {
+      ...state.search,
+      ...dataToAppend
+    };
+  } else {
+    search = {
+      ...state.search,
+      [key]: value
+    };
+  }
+
+  return {
+    search
+  };
+};

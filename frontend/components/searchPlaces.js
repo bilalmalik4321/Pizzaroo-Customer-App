@@ -6,24 +6,25 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Platform,
   TextInput
 } from 'react-native';
-// import { TextInput } from 'react-native-paper';
-import {Input, Button} from 'react-native-elements';
+import { Button} from 'react-native-elements';
 class PlacesInput extends Component {
   state = {
-    query: this.props.query || '',
+    query: ''|| this.props.query,
     places: [],
     showList: false,
     isLoading: false,
     isFocused: false,
     showClear: false,
+ 
   };
 
   timeout = null;
 
+
   render() {
+  
     return (
       <View style={[styles.container, this.props.stylesContainer]}>
       <View style={{ 
@@ -50,30 +51,16 @@ class PlacesInput extends Component {
         elevation: 6,
         }}>
         
-        {/* <TextInput
-          placeholder={'Search'}
-          style={{borderRadius: 20 , paddingRight: 20, height: 50, paddingLeft: 15, width: `${this.state.showClear?'80%': '100%'}`, backgroundColor: 'white', borderColor: 'grey', borderWidth: 1, elevation: 1}}
-          onChangeText={query => {
-            this.setState({query}, () => {
-              this.onPlaceSearch();
-              this.props.onChangeText && this.props.onChangeText(query, this);
-            });
-          }}
-          value={this.state.query}
-          onFocus={() => this.setState({showList: true, showClear: true})}
-          onBlur={() => this.setState({showList: false, showClear: false})}
-          {...this.props.textInputProps}
-          clearButtonMode="always"
-        /> */}
         <View style={{ width: '80%'}}>
         <TextInput
           placeholder={this.props.placeHolder}
           style={{paddingRight: 15, backgroundColor: 'white', height: 40}}
           onChangeText={query => {
-            this.setState({query}, () => {
+              this.setState({query}, () => {
               this.onPlaceSearch();
               this.props.onChangeText && this.props.onChangeText(query, this);
-            });
+
+              });
           }}
           value={this.state.query}
           onFocus={() => this.setState({showList: true, showClear: true})}
@@ -137,6 +124,7 @@ class PlacesInput extends Component {
 
   buildCountryQuery = () => {
     const {queryCountries} = this.props;
+    console.log("props", this.props)
 
     if (!queryCountries) {
       return '';
@@ -210,6 +198,7 @@ class PlacesInput extends Component {
 
   onPlaceSelect = async (id, passedPlace) => {
     this.setState({
+      clearInput: false,
       isLoading: true,
     }, async () => {
       try {

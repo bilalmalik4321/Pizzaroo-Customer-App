@@ -62,7 +62,7 @@ const EditAddress = subscribe()(props => {
       console.log(`new all address`, payload)
       props.updateUser({
         showList: true,
-        addresses: payload
+        addresses: payload,
       });
       
     } catch (err) {
@@ -81,11 +81,11 @@ const EditAddress = subscribe()(props => {
     const result = await editAddresses(temp);
     props.updateUser({
       showList: true,
-      addresses: temp
+      addresses: temp,
     });
     console.log("delete array", temp);
     props.updateAddress({
-      tittle: '',
+      title: '',
       uuid: '',
       apt: '',
       street: '',
