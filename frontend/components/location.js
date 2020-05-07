@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import { subscribe } from 'react-contextual';
 import {  Text,View ,StyleSheet, Platform, TouchableOpacity,Dimensions} from 'react-native';
 import { ListItem ,Icon } from "react-native-elements";
@@ -11,15 +11,33 @@ const GooglePlacesInput = (props) => {
  
   const [errorMsg, setErrorMsg] = useState(false);
   const screenHeight = Math.round(Dimensions.get('window').height)
+  const listA = props.user.addresses;
+  useEffect(() => {
+    if( props.user.addresses.length === 0) {
+      props.updateCheckout({
+        selected_address: false,
+        address: {}
+      })}
+  
+    console.log("props checkout---", props.user.checkout)
+  },[listA]);
+
 
   const [selected , setSelected] = useState('');
-  console.log("showList" ,props.user.showList);
-  console.log("showList" ,props.user.addresses);
+  // console.log("showList" ,props.user.showList);
+  // console.log("showList" ,props.user.addresses);
+  const onSelectAddress = (address) => {
+    props.updateCheckout({
+      selected_address: true,
+      address
+    })
+  }
+
+  console.log("checkout does it work after userEffect", props.checkout)
   return (
    
-<SafeAreaView style={{ backgroundColor: 'white', height: '100%'}}>
- 
-      <View style={{ width: '100%', height: props.user.showList? 90 : '100%' , backgroundColor: 'white' }}>
+  <SafeAreaView style={{ backgroundColor: 'white', height: '100%'}}>
+    <View style={{ width: '100%', height: props.user.showList? 90 : '100%' , backgroundColor: 'white' }}>
         <GoogleSearch
           googleApiKey={apiKey}
           queryCountries={['ca']}
@@ -74,22 +92,22 @@ const GooglePlacesInput = (props) => {
       </View>    */}
     
      <ScrollView style={{height:'100%'}}>
-     <View style={{ backgroundColor: 'white', width: '100%', paddingRight: 5, paddingLeft: 5 }}>
+     <View style={{ backgroundColor: 'white', width: '100%', paddingRight: 5, paddingLeft: 5, paddingBottom: 40 }}>
         {props.user.showList && props.user.addresses.length !=0 && props.user.addresses.sort((a,b)=> a.createdAt === b.createdAt ? a.street < b.street : a.createdAt < b.createdAt).map((item, i) => {
           return (
           <View key={i} style={{ paddingTop: 5}}>
             <ListItem
-                onPress={()=>setSelected(item.uuid) }
+                onPress={()=>onSelectAddress(item) }
                 bottomDivider
                 leftElement={() => 
                   <Icon 
-                    color={selected === item.uuid? '#ff6363': 'black'}
+                    color={props.checkout.address.uuid === item.uuid? '#ff6363': 'black'}
                     name="location-on"
-                    onPress={()=> setSelected(item.uuid)}
+                    onPress={()=> onSelectAddress(item)}
                   />}
                 rightElement={() => 
                   <Icon 
-                    color={selected === item.uuid? '#ff6363': 'black'}
+                    color={props.checkout.address.uuid === item.uuid? '#ff6363': 'black'}
                     name="edit"
                     onPress={()=> {
                       props.updateAddress({...item});
@@ -99,23 +117,23 @@ const GooglePlacesInput = (props) => {
                 subtitle={item.street + ", " + item.city + ", " + item.state + ", " + item.country}
                 key={i}
                 title={item.title}
-                titleStyle={{ color: `${selected === item.uuid? '#ff6363': 'black'}`}}
+                titleStyle={{ color: `${props.checkout.address.uuid === item.uuid? '#ff6363': 'black'}`}}
                 subtitleStyle={{ paddingTop: 10 }}
-                subtitleStyle={{ color: `${selected === item.uuid? '#ff6363': 'grey'}`}}
+                subtitleStyle={{ color: `${props.checkout.address.uuid === item.uuid? '#ff6363': 'grey'}`}}
             />
            
           </View>
             
           );
         })}
-        {props.user.showList && props.user.addresses.length !=0 &&
+      {props.user.showList && props.user.addresses.length !=0 &&
         <View style={{ paddingTop: 20, paddingBottom: 40}}>
             <ListItem
                 leftElement={() => 
                   <Icon 
                     color={'#ff6363'}
                     name="location-on"/>}
-                title="Default address"
+                title={ !props.checkout.selected_address? "Please select one address": "Default address selected"}
                 titleStyle={{color:'#ff6363'}}
               />
               <ListItem
@@ -128,17 +146,36 @@ const GooglePlacesInput = (props) => {
         </View>
         }
      
+        {props.user.showList && props.user.addresses.length ===0 &&
+        <View style={{ paddingTop: 20, paddingBottom: 40}}>
+            <ListItem
+                leftElement={() => 
+                  <Icon 
+                    color={'#ff6363'}
+                    name="location-on"/>}
+                title="You have no address ...!!!"
+                titleStyle={{color:'#ff6363'}}
+              />
+              <ListItem
+                leftElement={() => 
+                  <Icon 
+                    color={'black'}
+                    name="search"/>}
+                title="Search your address ..."
+              />
+        </View>
+        }
       {props.user.showList && props.user.addresses.length === 0 &&
-      <View style={{padding: 40, paddingTop: 200, justifyContent:'center', backgroundColor: 'white', height: 50 , width:'100%' , alignItems: 'center'}}>
+      <View style={{ paddingTop: 200, justifyContent:'center', backgroundColor: 'white', height: 200 , width:'100%' , alignItems: 'center'}}>
         <Text 
-          style={{color: '#ff6363',fontSize: 20, backgroundColor: 'white', height: 50 , width:'100%' ,justifyContent:'center', textAlign: 'center'}}
+          style={{color: '#ff6363',fontSize: 20, backgroundColor: 'white', height: 100 , width:'100%' ,justifyContent:'center', textAlign: 'center'}}
         > 
-          Please enter an address.
+          {/* Please enter an address. */}
         </Text>
         <Text 
-          style={{color: '#ff6363',fontSize: 15,backgroundColor: 'white', height: 40  , width:'100%',textAlign: 'center' }}
+          style={{color: '#ff6363', fontSize: 15,backgroundColor: 'white', height: 100  , width:'100%',textAlign: 'center' }}
         > 
-          We will locate the neareast stores for you!!!
+          {/* We will locate the neareast stores for you!!! */}
         </Text>
       </View>
       }

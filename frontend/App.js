@@ -81,14 +81,15 @@ const AppNavigator = createStackNavigator(
       screen: Location,
 
       navigationOptions: ({ navigation }) => ({
+        title: 'Select Address',
         headerLeft: 
          () => (
           <TouchableOpacity
-            onPress={() => navigation.navigate('Review')}
+            onPress={() => navigation.navigate('Checkout')}
             activeOpacity={0.2}
           >
            <Text style={{ fontWeight: 'bold', paddingLeft: 10}}>
-              Review
+              Checkout
            </Text>
           </TouchableOpacity>
      
@@ -103,6 +104,7 @@ const AppNavigator = createStackNavigator(
       screen: Location,
 
       navigationOptions: ({ navigation }) => ({
+        title: 'Search Address',
         headerLeft: 
          () => (
           <TouchableOpacity

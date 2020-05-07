@@ -47,13 +47,13 @@ const EditAddress = subscribe()(props => {
       temp.uuid = uuidv4();
       temp.newlySearch = false;
       payload.push(temp);
-      console.log("new addres-------")
+      // console.log("new addres-------")
     } else {
       const newArray = addresses.filter( e => e.uuid !== props.address.uuid)
       temp.newlySearch = false;
       newArray.push(temp);
       payload = newArray;
-      console.log("edited address-------", temp);
+      // console.log("edited address-------", temp);
     }
 
     try {
@@ -98,9 +98,9 @@ const EditAddress = subscribe()(props => {
       instruction: '',
       newlySearch: true,
     });
-    props.navigation.navigate("Location");
+  
   }
-
+  console.log("screen-----", props.user.previousScreen)
   return(
     <View style={{...styles.centeredView}}>
       <View style={styles.modalView}>
@@ -111,9 +111,9 @@ const EditAddress = subscribe()(props => {
             title={street}
             titleStyle={{ fontWeight: "bold" , fontSize: 20}}
             subtitleStyle={{ paddingTop: 10 }}
-            onPress={()=> {
-              props.navigation.navigate("Location");
-            }}
+            // onPress={()=> {
+            //   props.navigation.navigate("Location");
+            // }}
           />
         </View>
         <View style={{ paddingBottom: 20}}>
@@ -132,8 +132,8 @@ const EditAddress = subscribe()(props => {
             onChangeText={text => props.updateAddress({apt: text})}
           />
         </View>
-        <View style={{ paddingBottom: 20}}>
-          <Input
+       {/* <View style={{ paddingBottom: 20}}>
+           <Input
             label="Instructions for Deliveryman"
             placeholder="e.g. Righ the door bell.."
             value={props.address.instruction}
@@ -141,13 +141,16 @@ const EditAddress = subscribe()(props => {
 
           />
 
-        </View>
+        </View> */}
         <View style={{backgroundColor: 'white', paddingTop: 50 ,paddingLeft: 15, paddingRight: 15, flexDirection: 'row', justifyContent:'space-between'}}>
           <TouchableHighlight
             style={{ ...styles.openButton,width: '45%', backgroundColor: "#2196F3"}}
             onPress={() => {
               onSaveAddress();
-              props.navigation.navigate("Location");
+              if(props.user.previousScreen === 'checkout')
+                props.navigation.navigate("SelectLocation")
+              else
+                props.navigation.navigate("Location");
             }}
             >
               <Text style={styles.textStyle}>
@@ -158,6 +161,11 @@ const EditAddress = subscribe()(props => {
               style={{ ...styles.openButton, width: '45%',backgroundColor: "#ff6363" }}
               onPress={() => {
                 onDeleteAddress();
+                if(props.user.previousScreen === 'checkout')
+                  props.navigation.navigate("SelectLocation")
+                else
+                  props.navigation.navigate("Location");
+               
               }}
             >
               <Text style={styles.textStyle}>

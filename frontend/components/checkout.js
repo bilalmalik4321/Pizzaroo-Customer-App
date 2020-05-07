@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   ScrollView,
   Image,
+  Modal,
 } from "react-native";
 import { subscribe } from 'react-contextual';
 import {
@@ -20,17 +21,19 @@ import {
   ListItem
 } from "react-native-elements";
 import StickyHeaderFooterScrollView from 'react-native-sticky-header-footer-scroll-view';
-import Icon from "react-native-vector-icons/FontAwesome";
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import { NavigationActions } from "react-navigation";
+import Icon from "react-native-vector-icons/FontAwesome";
 function Checkout(props) {
   var radio_props = [
     {label: 'Cash', value: 0 },
     {label: 'Card', value: 1 }
   ];
 
-
+  const [modalVisibleOther, setModalVisibleOther] = useState(false);
   const [method, setMethod] = useState(0);
+
+  console.log("checkout info", props.checkout);
   return (
     <SafeAreaView>
     <StickyHeaderFooterScrollView
@@ -93,7 +96,7 @@ function Checkout(props) {
                   title="Address"
                   rightElement={ 
                   <View>
-                      <Text>400 sunset ave</Text>
+                    <Text>400 sunset ave</Text> 
                   </View>}
                   /> 
                 <View style={{paddingLeft: 15, paddingRight: 15}}>
@@ -114,30 +117,21 @@ function Checkout(props) {
           <View style={{ paddingLeft: 20, paddingRight: 20}}>
            
             <View style={{paddingRight: 20}}>
+              {/* -------- Name -------- */}
               <ListItem 
                   title="Mr."
                   rightElement={ 
                   <View>
                       <Text style={{fontWeight: 'bold', fontSize: 20}}>John Wick</Text>
                   </View>}
-                  /> 
-                <View style={{paddingLeft: 15, paddingRight: 15}}>
-                  <Divider/>
-                </View>
-                <ListItem 
-                  title="Address"
-                  rightElement={ 
-                  <View>
-                      <View>
-                        <Text>400 sunset ave</Text>
-                      </View>
-                    
-                  </View>}
-                  /> 
-                <View style={{paddingLeft: 15, paddingRight: 15}}>
-                  <Divider/>
-                </View>
-                <ListItem 
+              /> 
+              <View style={{paddingLeft: 15, paddingRight: 15}}>
+                <Divider/>
+              </View>
+
+
+             {/* --------Payment -------- */}
+              <ListItem 
                   title="Payment"
                   rightElement={ 
                   <View > 
@@ -147,12 +141,18 @@ function Checkout(props) {
                   >
                   <View>
                   <RadioButton
-                      onPress={()=>{setMethod(0)}}
+                      onPress={()=>{
+                        setMethod(0)
+                        props.updateCheckout({payment: 'cash'});
+                      }}
                     >
                       <RadioButtonInput
                         isSelected={method===0}
                         obj={{label: 'Cash', value: 0}}
-                        onPress={()=>{setMethod(0)}}
+                        onPress={()=>{
+                          setMethod(0)
+                          props.updateCheckout({payment: 'cash'});
+                        }}
                         borderWidth={1}
                         buttonInnerColor={method===0 ? '#c3edea' : '#000'}
                         buttonOuterColor={'#c3edea'}
@@ -163,7 +163,10 @@ function Checkout(props) {
                       />
                       <RadioButtonLabel
                         labelStyle={{fontWeight: `${method===0? 'bold': 'normal'}`}}
-                        onPress={()=>{()=>setMethod(0)}}
+                        onPress={()=>{
+                          setMethod(0)
+                          props.updateCheckout({payment: 'cash'});
+                        }}
                         obj={{label: 'Cash ', value: 0}}
                       />
                     </RadioButton>
@@ -171,12 +174,18 @@ function Checkout(props) {
                     
                     <View>
                     <RadioButton
-                      onPress={()=>{setMethod(1)}}
+                      onPress={()=>{
+                        setMethod(1)
+                        props.updateCheckout({payment: 'card'});
+                      }}
                     >
                       <RadioButtonInput
                       isSelected={method===1}
                         obj={{label: 'Card', value: 1}}
-                        onPress={()=> setMethod(1) }
+                        onPress={()=>{
+                          setMethod(1)
+                          props.updateCheckout({payment: 'card'});
+                        }}
                         borderWidth={1}
                         buttonInnerColor={method===1? '#c3edea' : '#000'}
                         buttonOuterColor={'#c3edea'}
@@ -186,8 +195,11 @@ function Checkout(props) {
                         buttonWrapStyle={{alignItems: 'center', justifyContent:'center'}}
                       />
                         <RadioButtonLabel
-                            labelStyle={{fontWeight: `${method===1? 'bold': 'normal'}`}}
-                          onPress={()=>setMethod(1)}
+                          labelStyle={{fontWeight: `${method===1? 'bold': 'normal'}`}}
+                          onPress={()=>{
+                            setMethod(1)
+                            props.updateCheckout({payment: 'card'});
+                          }}
                           obj={{label: 'Card', value:1}}
                         >
                         </RadioButtonLabel>
@@ -197,44 +209,140 @@ function Checkout(props) {
                     </RadioForm>
                   </View>
                  
-                  }
-                  /> 
-                <View style={{paddingLeft: 15, paddingRight: 15}}>
-                  <Divider/>
-                </View>
-                <ListItem 
-                  title="Instructions"
-                  rightElement={ 
-                  <View>
-                      <Text>e.g..</Text>
-                  </View>}
-                  /> 
-                   <View style={{paddingLeft: 15, paddingRight: 15}}>
-                  <Divider/>
-                  </View>
-                  <ListItem 
-                  title="Phone"
-                  rightElement={ 
+                }/> 
+              <View style={{paddingLeft: 15, paddingRight: 15}}>
+                <Divider/>
+              </View>
+
+              {/* -------- Phone -------- */}
+              <ListItem 
+                title="Phone"
+                rightElement={ 
                   <View>
                       <Text>123-123-123</Text>
                   </View>}
-                  /> 
-                <View style={{paddingLeft: 15, paddingRight: 15}}>
-                  <Divider/>
-                </View>
+              /> 
+              <View style={{paddingLeft: 15, paddingRight: 15}}>
+                <Divider/>
               </View>
+
+
+
+              {/* -------- Address -------- */}
+              <ListItem 
+                title="Address"
+                rightElement={ 
+                  <View style={{flexDirection: 'row'}}>
+                  <TouchableOpacity
+                    onPress={()=> {
+                      props.updateUser({
+                        previousScreen: 'checkout'
+                      });
+                      props.navigation.navigate("SelectLocation");
+                    }}
+                  >
+                      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                        {props.checkout.selected_address &&
+                        <Text style={{paddingRight: 5, color: 'grey'}}>
+                          {props.checkout.address.street.length < 20 ? props.checkout.address.street : props.checkout.address.street.length.subscribe(0,19)}
+                        </Text>
+                        }
+                         <Icon 
+                              color='red'
+                              name="search"
+                          />
+                      </View> 
+                      </TouchableOpacity>
+                  </View>}
+                /> 
+
+              <View style={{paddingLeft: 15, paddingRight: 15}}>
+                <Divider/>
+              </View>
+                        
+              
+              {/* -------- Instructions -------- */}
+              <ListItem 
+                title="Instructions"
+                rightElement={ 
+                <View style={{flexDirection: 'row'}}>
+                  <TouchableOpacity
+                    onPress={()=> setModalVisibleOther(true)}
+                  >
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <Text style={{paddingRight: 5, color: 'grey'}}>
+                      {props.checkout.instruction.length < 20 ? props.checkout.instruction : props.checkout.instruction.substring(0,20) }
+                    </Text>
+                    <Icon 
+                          color='red'
+                          name="chevron-right"
+                    />
+                  </View>
+                  
+                  </TouchableOpacity>
+                </View>}
+              /> 
+              <View style={{paddingLeft: 15, paddingRight: 15}}>
+                <Divider/>
+              </View>
+
+            </View>
           </View>
       </View>
       <View >
-      {/* <Button style={{ fontWeight: "bold", flex: 1, alignItems: 'center',justifyContent: 'flex-end', marginBottom: 20 }}
-        onPress={() => {
-        //TODO go to pick location
-        }}
-        title={"Comfirm"}
-        buttonStyle={{...styles.foodAddOrder}}
-      /> */}
     </View>
     </StickyHeaderFooterScrollView>
+
+    <Modal visible={modalVisibleOther} animationType="slide" >
+      <View   style={styles.modalExit2}>
+        <Icon
+          borderRadius={2}
+          backgroundColor="#ffffff"
+            name="close"
+            size={30}
+            color="#ffffff"
+            onPress={() => {
+              setModalVisibleOther(false);
+            }}
+            style={{...styles.modalExit, zIndex: 1 , paddingTop: 4, paddingLeft: 8}}
+          />
+        </View>
+
+        <ScrollView>
+ 
+         <View
+            style={{...styles.displayChoice, paddingTop: '30%'}}
+          >
+            <Text style={{ fontWeight:"bold" , fontSize: 25, paddingBottom: 9}}>
+              Instructions
+            </Text>
+        
+            <Divider style={{ backgroundColor: 'grey'}} />
+            </View>
+            <View style={{...styles.displayChoice, paddingLeft:10, paddingRight: 10}}>
+              <Input
+                style={{width: '100%'}}
+                placeholder="e.g. Leave at the door. Ring the bell...."
+                label="Instructions"
+                value={props.checkout.instruction}
+                multiline={true}
+                numberOfLines={4}
+                onChangeText={text => props.updateCheckout({ instruction: text})}
+              />
+            </View>
+      </ScrollView>
+
+      <View style={{flexDirection: 'row', paddingBottom: 20, alignItems: 'center', justifyContent: 'center', textAlign: 'center'}}>
+        <Button 
+          onPress={() => {
+            setModalVisibleOther(false);
+          }}
+          title="Save"
+          buttonStyle={{borderRadius: 20, paddingRight: 40, paddingLeft: 40, alignItems: 'center', backgroundColor: "#ff6363", justifyContent: 'center'}}
+          titleStyle={{ textAlign: 'center'}}
+        />
+      </View>
+      </Modal>
    
   </SafeAreaView>
 );
@@ -309,6 +417,17 @@ modalExit: {
   // left:1,
   // padding:5,
   position:"absolute",
+},
+modalExit2: {
+  position:"absolute",
+  marginLeft: 20, 
+  marginTop: 50, 
+  zIndex: 1, 
+  height: 40, 
+  width: 40,
+  backgroundColor: 'grey', 
+  borderRadius: 50,
+  opacity:0.8,
 },
 displayChoice: { 
   width: '100%', 

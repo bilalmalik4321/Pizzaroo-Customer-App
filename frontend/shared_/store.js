@@ -16,10 +16,21 @@ export default {
     loggedIn: false,
     hasAddress: false,
     showList: true,
+    previousScreen: '',
 
   },
+  checkout:{
+    instruction: '',
+    payment: 'cash' || 'card',
+    selected_address: false,
+    address: {
+    },
+    buyFrom: {
+
+    }
+  },
   address : {
-    tittle: '',
+    title: '',
     uuid: '',
     apt: '',
     street: '',
@@ -99,6 +110,20 @@ export default {
 
   schema: [
     {
+      id: '123',
+      address: {
+        steet: '123 avenue',
+        city: 'Windsor',
+        state: 'ON',
+        zip: '2A3 P3A',
+        country: 'Canada'
+      },
+      phone: '123-123-123',
+      email: 'email@store.ca',
+      hour: {
+        open: '10:00 AM',
+        close: '10:00 PM'
+      },
       name: `Aracta's Pizza`,
       description: `The idea with React Native about hello there component structure than actual design.`,
       menu: {

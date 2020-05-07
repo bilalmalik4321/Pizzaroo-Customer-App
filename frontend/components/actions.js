@@ -213,6 +213,29 @@ export const clearItem = () => state => {
   };
 };
 
+// ------------ checkout -------------//
+
+export const updateCheckout = (key, value ) => state => {
+  let checkout= {};
+
+  if (typeof key === 'object') {
+    const dataToAppend = key;
+    checkout= {
+      ...state.checkout,
+      ...dataToAppend
+    };
+  } else {
+    checkout = {
+      ...state.checkout,
+      [key]: value
+    };
+  }
+
+  return {
+    checkout
+  };
+};
+
 
 // ------------ google search places -------------//
 export const updateSearch = (key, value ) => state => {
