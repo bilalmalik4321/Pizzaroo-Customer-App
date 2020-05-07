@@ -1,31 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import { subscribe } from 'react-contextual';
-import {  Text, Image,View ,StyleSheet, TouchableHighlight,TouchableOpacity} from 'react-native';
+import {  Text, Image,View ,StyleSheet, Platform, TouchableOpacity,Dimensions} from 'react-native';
 import PlacesInput from 'react-native-places-input'
 import {  getUser } from './api';
-import { ListItem ,Badge} from "react-native-elements";
+import { ListItem ,Badge,Icon } from "react-native-elements";
 import apiKey  from '../googleAPI';
+// import { ScrollView } from 'react-native-gesture-handler';
+import GoogleSearch from './searchPlaces';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
 
 const GooglePlacesInput = (props) => {
 
+ 
   const [errorMsg, setErrorMsg] = useState(false);
+  const screenHeight = Math.round(Dimensions.get('window').height)
+
+  const [selected , setSelected] = useState('');
+  console.log("Plaform", screenHeight);
   return (
     // <ScrollView style={{backgroundColor: 'white'}}>
-    <View
-      style={{...styles.container, flex: 1}}
-    > 
-      {errorMsg && 
+    // <View
+    //   style={{...styles.container, flexDirection: 'row'}}
+    // > 
+      /* {errorMsg && 
       <View style={{height: 30}}>
         <Badge
           status="error" 
           value={'Enter a complete address!'}
           />
       </View> 
-      }
-      <View style={{height: 90}}>
-        <PlacesInput
+      } */
+
+      /* <View style={{width: '100%', height: 50}}>
+        <GoogleSearch
           googleApiKey={apiKey}
+          queryCountries={['ca']}
           placeHolder={"Search address"}
           language={"en-US"}
           onChangeText={()=> {
@@ -60,28 +70,114 @@ const GooglePlacesInput = (props) => {
             }
           }}
           />
-      </View>    
-            
-      <View style={{ width: '100%', paddingTop: 15, paddingRight: 5, paddingLeft: 5 }}>
-        {props.user.showList && props.user.addresses.length !=0 && props.user.addresses.sort((a,b)=> a.uuid < b.uuid).map((item, i) => {
+
+      </View> */
+<SafeAreaView style={{ backgroundColor: 'white', height: props.user.showList? '100%': 90 }}>
+ 
+      <View style={{height: 90, width: '100%', backgroundColor: 'white'}}>
+        <GoogleSearch
+          googleApiKey={apiKey}
+          queryCountries={['ca']}
+          placeHolder={"Search address"}
+          language={"en-US"}
+          onChangeText={()=> {
+            props.updateUser({
+              showList: false
+            });
+            setErrorMsg(false);
+          }}
+          onSelect={place => {
+            const format = formatAddress(place.result.formatted_address);
+            const { error } = format;
+            const { state, city , postalCode, street, country} = format;
+            if(error !== undefined) {
+              setErrorMsg(true);
+              console.log("err", error)
+             
+            } else {
+              console.log("place", place, "format", format)
+              const { lat , lng } = place.result.geometry.location;
+              props.updateAddress({
+               state,
+               city,
+               country,
+               postalCode,
+               street,
+               lat,
+               uuid: '',
+               lng,
+               newlySearch: true,
+              });
+              props.navigation.navigate("Address");
+            }
+          }}
+          />
+      </View>
+      <View style={{ zIndex: -1, backgroundColor: 'red', height: props.user.showList? 0 : screenHeight - 90}}>
+
+      </View>   
+    
+     <ScrollView>
+     <View style={{ backgroundColor: 'white', width: '100%', paddingRight: 5, paddingLeft: 5 }}>
+        {props.user.showList && props.user.addresses.length !=0 && props.user.addresses.sort((a,b)=> a.createdAt < b.createdAt).map((item, i) => {
           return (
+          <View key={i} style={{ paddingTop: 5}}>
             <ListItem
-              leftIcon={{ name: 'location-on' }}
-              rightIcon={{ name: 'edit'}}
-              subtitle={item.street + ", " + item.city + ", " + item.state + ", " + item.country}
-              key={i}
-              title={item.title}
-              subtitleStyle={{ paddingTop: 10 }}
-              onPress={()=> {
-                props.updateAddress({...item});
-                props.navigation.navigate("Address");
-                // console.log("address", item, "props", props.address);
-              }}
-              bottomDivider
+                bottomDivider
+                leftElement={() => 
+                <TouchableOpacity
+                  onPress={()=> {
+                    setSelected(item.uuid)
+                }}
+                >
+                  <Icon 
+                    color={selected === item.uuid? '#ff6363': 'black'}
+                    name="location-on"/>
+                </TouchableOpacity> }
+                rightElement={() => 
+                <TouchableOpacity
+                  onPress={()=> {
+                    props.updateAddress({...item});
+                    props.navigation.navigate("Address");
+                  // console.log("address", item, "props", props.address);
+                }}
+                >
+                  <Icon 
+                  color={selected === item.uuid? '#ff6363': 'black'}
+                  name="edit"/>
+                </TouchableOpacity> }
+                subtitle={item.street + ", " + item.city + ", " + item.state + ", " + item.country}
+                key={i}
+                title={item.title}
+                titleStyle={{ color: `${selected === item.uuid? '#ff6363': 'black'}`}}
+                subtitleStyle={{ paddingTop: 10 }}
+                subtitleStyle={{ color: `${selected === item.uuid? '#ff6363': 'grey'}`}}
             />
+           
+          </View>
+            
           );
         })}
-      </View>
+        {props.user.showList && props.user.addresses.length !=0 &&
+        <View style={{ paddingTop: 20}}>
+            <ListItem
+                leftElement={() => 
+                  <Icon 
+                    color={'#ff6363'}
+                    name="location-on"/>}
+                title="Default address"
+                titleStyle={{color:'#ff6363'}}
+              />
+              <ListItem
+                leftElement={() => 
+                  <Icon 
+                    color={'black'}
+                    name="edit"/>}
+                title="Edit the address"
+              />
+        </View>
+        }
+
       {props.user.showList && props.user.addresses.length === 0 &&
       <View style={{padding: 40, paddingTop: 200, justifyContent:'center', backgroundColor: 'white', height: 50 , width:'100%' , alignItems: 'center'}}>
         <Text 
@@ -96,9 +192,12 @@ const GooglePlacesInput = (props) => {
         </Text>
       </View>
       }
-    </View>
-    // </ScrollView>
-  );
+      </View>
+     </ScrollView>
+  
+    
+</SafeAreaView>
+ );
 }
 
 export default subscribe()(GooglePlacesInput);
