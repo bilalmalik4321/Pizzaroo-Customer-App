@@ -11,29 +11,31 @@ import {
 import { subscribe } from 'react-contextual';
 import {
   Text,
-  Tile,
-  Card,
   Button,
   Input,
-  ButtonGroup,
   Badge,
   Divider,
-  ListItem
+  ListItem,
 } from "react-native-elements";
 import StickyHeaderFooterScrollView from 'react-native-sticky-header-footer-scroll-view';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
-import { NavigationActions } from "react-navigation";
 import Icon from "react-native-vector-icons/FontAwesome";
 function Checkout(props) {
-  var radio_props = [
-    {label: 'Cash', value: 0 },
-    {label: 'Card', value: 1 }
-  ];
-
+ 
   const [modalVisibleOther, setModalVisibleOther] = useState(false);
   const [method, setMethod] = useState(0);
+  const [errMsg , setErrMsg] = useState(null);
+  console.log("checkout info",props.checkout);
 
-  console.log("checkout info", props.checkout);
+  const onConfirm = async()=> {
+    if(!props.checkout.selected_address){
+      setErrMsg('You must select an address')
+    } else {
+      //TODO ===> send to order status
+    }
+  };
+
+
   return (
     <SafeAreaView>
     <StickyHeaderFooterScrollView
@@ -43,7 +45,7 @@ function Checkout(props) {
             buttonStyle={{backgroundColor: '#ff6363', borderRadius: 20}}
             raised 
             title="Confirm"
-            onPress={() => {}}
+            onPress={() => onConfirm()}
           />
         </View>}
       style={{ backgroundColor: 'white'}}
@@ -162,7 +164,7 @@ function Checkout(props) {
                         buttonWrapStyle={{}}
                       />
                       <RadioButtonLabel
-                        labelStyle={{fontWeight: `${method===0? 'bold': 'normal'}`}}
+                        labelStyle={{color: 'grey' ,fontWeight: `${method===0? 'bold': 'nomral'}`}}
                         onPress={()=>{
                           setMethod(0)
                           props.updateCheckout({payment: 'cash'});
@@ -195,7 +197,7 @@ function Checkout(props) {
                         buttonWrapStyle={{alignItems: 'center', justifyContent:'center'}}
                       />
                         <RadioButtonLabel
-                          labelStyle={{fontWeight: `${method===1? 'bold': 'normal'}`}}
+                          labelStyle={{color: 'grey',fontWeight: `${method===1? 'bold': 'normal'}`}}
                           onPress={()=>{
                             setMethod(1)
                             props.updateCheckout({payment: 'card'});
@@ -219,7 +221,7 @@ function Checkout(props) {
                 title="Phone"
                 rightElement={ 
                   <View>
-                      <Text>123-123-123</Text>
+                      <Text style={{color: 'grey'}} >123-123-123</Text>
                   </View>}
               /> 
               <View style={{paddingLeft: 15, paddingRight: 15}}>
@@ -233,25 +235,35 @@ function Checkout(props) {
                 title="Address"
                 rightElement={ 
                   <View style={{flexDirection: 'row'}}>
-                  <TouchableOpacity
-                    onPress={()=> {
-                      props.updateUser({
-                        previousScreen: 'checkout'
-                      });
-                      props.navigation.navigate("SelectLocation");
-                    }}
-                  >
-                      <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                        {props.checkout.selected_address &&
-                        <Text style={{paddingRight: 5, color: 'grey'}}>
-                          {props.checkout.address.street.length < 20 ? props.checkout.address.street : props.checkout.address.street.length.subscribe(0,19)}
-                        </Text>
-                        }
-                         <Icon 
-                              color='red'
-                              name="search"
-                          />
-                      </View> 
+                      <TouchableOpacity
+                        onPress={()=> {
+                          setErrMsg(null)
+                          props.updateUser({
+                            previousScreen: 'checkout'
+                          });
+                          props.navigation.navigate("SelectLocation");
+                        }}
+                      >
+                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                          { (props.checkout.selected_address)? 
+                            <Text style={{paddingRight: 5, color: 'grey'}}>
+                              {props.checkout.address.street.length < 20 ? props.checkout.address.street : props.checkout.address.street.substring(0,19)}
+                            </Text> 
+                            : errMsg !== null ?
+                            <Badge
+                              badgeStyle={{marginRight: 5}}
+                              status="error"
+                              value={errMsg}
+                            ></Badge>
+                            : 
+                            <Text></Text>
+
+                          }
+                          <Icon 
+                            color='red'
+                            name="search"
+                            />
+                        </View> 
                       </TouchableOpacity>
                   </View>}
                 /> 

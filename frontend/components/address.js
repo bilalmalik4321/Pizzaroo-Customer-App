@@ -83,7 +83,7 @@ const EditAddress = subscribe()(props => {
       showList: true,
       addresses: temp,
     });
-    console.log("delete array", temp);
+    // console.log("delete array", temp);
     props.updateAddress({
       title: '',
       uuid: '',
@@ -98,6 +98,12 @@ const EditAddress = subscribe()(props => {
       instruction: '',
       newlySearch: true,
     });
+
+    if(props.checkout.address.uuid === props.address.uuid)
+      props.updateCheckout({
+        address: {},
+        selected_address: false
+      })
   
   }
   console.log("screen-----", props.user.previousScreen)
