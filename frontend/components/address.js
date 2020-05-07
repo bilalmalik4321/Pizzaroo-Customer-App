@@ -104,9 +104,8 @@ const EditAddress = subscribe()(props => {
         address: {},
         selected_address: false
       })
-  
   }
-  console.log("screen-----", props.user.previousScreen)
+  // console.log("screen-----", props.user.previousScreen)
   return(
     <View style={{...styles.centeredView}}>
       <View style={styles.modalView}>
@@ -158,10 +157,10 @@ const EditAddress = subscribe()(props => {
               else
                 props.navigation.navigate("Location");
             }}
-            >
-              <Text style={styles.textStyle}>
-                Save Address
-              </Text>
+          >
+            <Text style={styles.textStyle}>
+              Save Address
+            </Text>
           </TouchableHighlight>
           <TouchableHighlight
               style={{ ...styles.openButton, width: '45%',backgroundColor: "#ff6363" }}
@@ -174,8 +173,8 @@ const EditAddress = subscribe()(props => {
                
               }}
             >
-              <Text style={styles.textStyle}>
-                Delete
+            <Text style={styles.textStyle}>
+              Delete
             </Text>
           </TouchableHighlight>
         </View>
@@ -192,7 +191,7 @@ const styles = StyleSheet.create({
   centeredView: {
     flex: 1,
     width: '100%',
-alignItems: "center"
+    alignItems: "center"
   },
   modalView: {
     marginRight: 20,
