@@ -27,7 +27,7 @@ function Login(props) {
               loggedIn: true
             });
             console.log("stayed log in ------", userInfo);
-            if(userInfo.addresses.length != 0)
+            if(userInfo.addresses !== undefined)
               props.navigation.navigate("Restaurants");
             else 
               props.navigation.navigate("Location")
