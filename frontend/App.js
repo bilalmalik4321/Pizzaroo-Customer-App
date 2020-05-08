@@ -66,7 +66,7 @@ const AppNavigator = createStackNavigator(
       screen: ChangePassword,
 
       navigationOptions: ({ navigation }) => ({
-        title: 'Email',
+        title: 'Password',
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Account")}

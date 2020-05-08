@@ -1,165 +1,144 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { subscribe } from 'react-contextual';
 import {  Text, View,StyleSheet, TouchableHighlight} from 'react-native';
-import { uuidv4 , editAddresses,} from './api';
+import { uuidv4 , editAddresses, getUser,} from './api';
 import { ListItem} from "react-native-elements";
-import { Input } from 'react-native-elements';
+import { Input, Badge} from 'react-native-elements';
 import moment from 'moment';
+import firebase from '../firebases';
 
 const timestamp = moment()
     .utcOffset('+05:30')
     .format('YYYY-MM-DD hh:mm:ss a');
 
 const ChangeAddress = props => {
-  const {    
-    title,
-    uuid,
-    apt,
-    street,
-    city,
-    state,
-    postalCode,
-    country,
-    lng,
-    lat,
-    instruction,
-  } = props.address;
+  
+  // console.log("user", props.user)
 
-  const onSaveAddress = async () => {
-    const { addresses } = props.user;
-    let payload = addresses;
-    const { newlySearch } = props.address;
-    const temp = {
-      title,
-      apt,
-      street,
-      city,
-      state,
-      postalCode,
-      country,
-      lng,
-      lat,
-      uuid,
-      instruction
+  const [newPassword, setNewPassword] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [_errors , setErrors] = useState({});
+
+  const [success, setSuccess] = useState(false);
+
+  // console.log("errors", _errors);
+  
+  const validation = ( password , newPassword) => {
+    let errors  = {};
+    console.log("password", password, 'new', newPassword);
+    if(!password) errors.password = "Please enter current password";
+    if(!password && password.length < 6) errors.password  = "Please enter a valid password!";
+    if(!newPassword) errors.newPassword = "Please enter a new password!";
+    if(!newPassword && newPassword.length < 6) errors.newPassword = "Please enter a valid password!"
+    if( password !== newPassword ) errors.newPassword = "Passwords DO NOT match";
+    console.log("errors", errors);
+    return errors;
+  }
+  // console.log('errors', errors);
+  // console.log("email---", current, 'new---',newEmail , 'password', password)
+  const onSave = async (password, newPassword) => {
+    const errors_ = validation(password, newPassword);
+    setErrors(errors_);
+    console.log("why not print", Object.keys(errors_).length === 0)
+    if( Object.keys(errors_).length === 0 ) 
+    {
+     try{
+        const userInfo = firebase.auth().currentUser;
+
+        const { email } = userInfo;
+        const signedIn =firebase
+        .auth()
+        .signInWithEmailAndPassword(
+          email,
+          password
+        ).then(async userInfo => {
+
+          userInfo.user.updatePassword(newPassword);    
+          setSuccess(true);
+          setNewPassword('');
+          setPassword('');
+        })
+        .catch(err => {
+          let error = {};
+          error.newPassword = err.message;
+          // console.log("what went wrong?", err)
+          setErrors(error);
+        });
+      } catch (err) {
+      let error = {};
+      error.newPassword = err.message;
+      setErrors(error);
+      // console.log("err from change email", err);
     }
-    if((uuid === undefined || !uuid )&& newlySearch) {
-      temp.createdAt = timestamp;
-      temp.uuid = uuidv4();
-      temp.newlySearch = false;
-      payload.push(temp);
-      // console.log("new addres-------")
-    } else {
-      const newArray = addresses.filter( e => e.uuid !== props.address.uuid)
-      temp.newlySearch = false;
-      newArray.push(temp);
-      payload = newArray;
-      // console.log("edited address-------", temp);
-    }
-
-    try {
-      const result = await editAddresses(payload);
-      // console.log("this is user info ", props.user)
-      console.log(`new all address`, payload)
-      props.updateUser({
-        showList: true,
-        addresses: payload,
-      });
-      
-    } catch (err) {
-      console.log("error", err)
-    }
-    props.updateAddress({
-      title: '',
-      apt: '',
-      instruction: '',
-      uuid: ''
-    });
-  };
-
-  const onDeleteAddress = async () => {
-    const temp = props.user.addresses.filter(e => e.uuid != props.address.uuid);
-    const result = await editAddresses(temp);
-    props.updateUser({
-      showList: true,
-      addresses: temp,
-    });
-    // console.log("delete array", temp);
-    props.updateAddress({
-      title: '',
-      uuid: '',
-      apt: '',
-      street: '',
-      city:'',
-      state: '',
-      postalCode: '',
-      country: '',
-      lng: '',
-      lat: '',
-      instruction: '',
-      newlySearch: true,
-    });
-
-    if(props.checkout.address.uuid === props.address.uuid)
-      props.updateCheckout({
-        address: {},
-        selected_address: false
-      })
+  } else {
+      setErrors(errors_);
+      console.log("checkout nukk", _errors.password)
+    } 
   }
   // console.log("screen-----", props.user.previousScreen)
   return(
     <View style={{...styles.centeredView}}>
       <View style={styles.modalView}>
-        <View style={{paddingBottom: 20, paddingLeft: 25, justifyContent: 'center'}}> 
-          <ListItem
-            leftIcon={{ name: 'location-on' }}
-            subtitle={city+ " "+ state +" "+ postalCode+ " " + country}
-            title={street}
-            titleStyle={{ fontWeight: "bold" , fontSize: 20}}
-            subtitleStyle={{ paddingTop: 10 }}
-            // onPress={()=> {
-            //   props.navigation.navigate("Location");
-            // }}
+        <View style={{paddingBottom: 40, justifyContent: 'center'}}> 
+          { success && <Badge  
+            value="Successfully update your password!!"
+            status="success"
+            /> }
+        </View>
+        <View style={{ paddingBottom: 20}}>
+          <Input
+            secureTextEntry={true}
+            label="Current Passoword"
+            value={password}
+            onChangeText={text => {
+              setErrors({})
+              setSuccess(false);
+              setPassword(text);
+            }}
+            errorStyle={{ color: 'red' }}
+            errorMessage={_errors.password === null? '' :_errors.password}
           />
         </View>
         <View style={{ paddingBottom: 20}}>
           <Input
-            label="Title"
-            value={props.address.title}
-            placeholder={'Home'}
-            onChangeText={text => props.updateAddress({title: text})}
+            secureTextEntry={true}
+            label="New Password"
+            value={newPassword}           
+            onChangeText={text => {
+              setErrors({})
+              setSuccess(false);
+              setNewPassword(text);
+            
+            }}
+            errorMessage={ _errors.newPassword === null ? '': _errors.newPassword}
+            errorStyle={{ color: 'red' }}
           />
         </View>
-        <View style={{ paddingBottom: 20}}>
-          <Input
-            label="Apt/Unit"
-            value={props.address.apt}
-            placeholder={'Unit 3'}
-            onChangeText={text => props.updateAddress({apt: text})}
-          />
-        </View>
-       {/* <View style={{ paddingBottom: 20}}>
-           <Input
-            label="Instructions for Deliveryman"
-            placeholder="e.g. Righ the door bell.."
-            value={props.address.instruction}
-            onChangeText={text => props.updateAddress({instruction: text})}
 
-          />
-
-        </View> */}
+  
         <View style={{backgroundColor: 'white', paddingTop: 50 ,paddingLeft: 15, paddingRight: 15, flexDirection: 'row', justifyContent:'space-between'}}>
           <TouchableHighlight
-            style={{ ...styles.openButton,width: '45%', backgroundColor: "#2196F3"}}
+            style={{ ...styles.openButton,width: '45%', backgroundColor: "#ff6363"}}
             onPress={() => {
-              onSaveAddress();
-              if(props.user.previousScreen === 'checkout')
-                props.navigation.navigate("SelectLocation")
-              else
-                props.navigation.navigate("Location");
+              setSuccess(false);
+              props.navigation.navigate('Account');
             }}
           >
             <Text style={styles.textStyle}>
-              Save Address
+              Cancel
+            </Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={{ ...styles.openButton,width: '45%', backgroundColor: "#2196F3"}}
+            onPress={() => {
+              setSuccess(false);
+              setErrors({});
+              onSave(password, newPassword);
+            }}
+          >
+            <Text style={styles.textStyle}>
+              Save
             </Text>
           </TouchableHighlight>
         </View>

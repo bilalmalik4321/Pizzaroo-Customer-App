@@ -15,9 +15,9 @@ const ChangeAddress = props => {
   
   console.log("user", props.user)
 
-  const [current, setCurrent] = useState(null);
-  const [newEmail, setNewEmail] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [current, setCurrent] = useState('');
+  const [newEmail, setNewEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const [errors , setErrors] = useState({});
 
@@ -32,18 +32,19 @@ const ChangeAddress = props => {
     if(!current && current.length < 6) errors.current  = "Please enter current email!";
     if(!newEmail) errors.newEmail = "Please enter a new email!";
     if(!password) errors.password = "Please enter a password!";
-    if( email !== current) errors.current = "This is not your current email!"
+    if( !current && email !== current) errors.current = "This is not your current email!"
 
     return errors;
   }
   console.log('errors', errors);
   console.log("email---", current, 'new---',newEmail , 'password', password)
   const onSave = async (email, newEmail, password) => {
-
-    try{
-      const errors = validation(email, newEmail, password);
-      console.log("email inside---", email, 'new---',newEmail , 'password', password)
-      if( Object.keys(errors).length === 0 || errors !== undefined) {
+    const errors = validation(email, newEmail, password);
+    setErrors(errors);
+    console.log("email inside---", email, 'new---',newEmail , 'password', password,'should be false',Object.keys(errors).length === 0)
+    
+    if( Object.keys(errors).length === 0) {
+      try{
         const signedIn =firebase
         .auth()
         .signInWithEmailAndPassword(
@@ -78,15 +79,14 @@ const ChangeAddress = props => {
           // console.log("what went wrong?", err)
           setErrors(error);
         });
-      }
-
-    } catch (err) {
+      } catch (err) {
       let error = {};
       error.newEmail = err.message;
       setErrors(error);
       // console.log("err from change email", err);
     }
   }
+}
   // console.log("screen-----", props.user.previousScreen)
   return(
     <View style={{...styles.centeredView}}>
@@ -118,7 +118,7 @@ const ChangeAddress = props => {
               setNewEmail(text);
             
             }}
-            errorMessage={errors.newEmail? errors.newEmail : ''}
+            errorMessage={errors.newEmail!=null ? errors.newEmail : ''}
             errorStyle={{ color: 'red' }}
           />
         </View>
@@ -131,7 +131,7 @@ const ChangeAddress = props => {
               setSuccess(false);
               setPassword(text);
             }}
-            errorMessage={errors.password? errors.password : ''}
+            errorMessage={errors.password !=null ? errors.password : ''}
             errorStyle={{ color: 'red' }}
           />
         </View>
@@ -157,7 +157,7 @@ const ChangeAddress = props => {
             }}
           >
             <Text style={styles.textStyle}>
-              Save Address
+              Save
             </Text>
           </TouchableHighlight>
         </View>
