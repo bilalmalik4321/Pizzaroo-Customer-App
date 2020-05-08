@@ -100,21 +100,31 @@ function MenuScreen(props) {
               Select Size
             </Text>
             <RadioButton.Group
-                onValueChange={value => {
-                  const selected = pizzaMenu.sizes.find(e => e.size === value);
-                  // console.log("value" , value, 'selected object', selected)
-                  props.updatePizzaOrder({ size: value , price: selected.price, sizeDescription: selected.description})
-                }}
+                // onValueChange={value => {
+                //   const selected = pizzaMenu.sizes.find(e => e.size === value);
+                //   // console.log("value" , value, 'selected object', selected)
+                //   props.updatePizzaOrder({ size: value , price: selected.price, sizeDescription: selected.description})
+                // }}
                 value={props.pizzaOrder.size}
               >
             {pizzaMenu.sizes && pizzaMenu.sizes.length != 0 && pizzaMenu.sizes.map((item, index)=>(
               <View key={index}>
                 <ListItem
                   key={index}
-                  leftElement={ <RadioButton style={{ backgroundColor: 'red'}} value={item.size}/>}
+                  leftElement={ 
+                  <RadioButton 
+                    style={{ backgroundColor: 'red'}} 
+                    value={item.size}
+                    onPress={() => {
+                    props.updatePizzaOrder({ size: item.size , price: item.price, sizeDescription: item.description})
+                  }}
+                  />}
                   title={item.description}
                   bottomDivider
                   rightTitle={item.price.toString()}
+                  onPress={() => {
+                    props.updatePizzaOrder({ size: item.size , price: item.price, sizeDescription: item.description})
+                  }}
                 />
               </View>
             ))

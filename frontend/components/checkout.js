@@ -108,7 +108,7 @@ const  Checkout = props => {
             <View style={{paddingRight: 20}}>
               {/* -------- Name -------- */}
               <ListItem 
-                title="Mr."
+                title="Name"
                 rightElement={ 
                   <View>
                       <Text style={{fontWeight: 'bold', fontSize: 20}}>John Wick</Text>
