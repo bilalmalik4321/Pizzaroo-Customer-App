@@ -234,16 +234,17 @@ const AppNavigator = createStackNavigator(
             />
           </TouchableOpacity>
         ),
-        headerRight: () => (
+      //   headerRight: () => (
 
-          <Avatar
-            rounded
-            icon={{ name: "user", type: "font-awesome" }}
-            onPress={() => navigation.navigate("Account")}
-            style={styles.userButton}
-          />
-        ),
+      //     <Avatar
+      //       rounded
+      //       icon={{ name: "user", type: "font-awesome" }}
+      //       onPress={() => navigation.navigate("Account")}
+      //       style={styles.userButton}
+      //     />
+      //   ),
       }),
+
     },
 
     Account: {
