@@ -24,6 +24,8 @@ import ChangeEmail from './components/changeEmail';
 import ChangeProfile from './components/changeProfile'
 // import Review from './components/review';
 
+
+
 const AppNavigator = createStackNavigator(
   {
     // Review: {
@@ -49,6 +51,7 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: 'Profile',
+		headerTitleAlign: 'center',
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Account")}
@@ -67,6 +70,7 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: 'Email',
+		headerTitleAlign: 'center',
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Account")}
@@ -86,6 +90,7 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: 'Password',
+		headerTitleAlign: 'center',
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Account")}
@@ -104,6 +109,7 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: 'Address',
+		headerTitleAlign: 'center',
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Location")}
@@ -122,6 +128,7 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: 'Address',
+		headerTitleAlign: 'center',
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("SelectLocation")}
@@ -140,6 +147,7 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: 'Select Address',
+		headerTitleAlign: 'center',
         headerLeft: 
          () => (
           <TouchableOpacity
@@ -163,6 +171,7 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: 'Search Address',
+		headerTitleAlign: 'center',
         headerLeft: 
          () => (
           <TouchableOpacity
@@ -200,9 +209,12 @@ const AppNavigator = createStackNavigator(
     Restaurants: {
       screen: Restaurants,
 
+	  
 
       navigationOptions: ({ navigation }) => ({
+		
         gestureEnabled: false,
+		headerTitleAlign: 'center',
         headerRight: () => (
 
           <Avatar
@@ -213,7 +225,7 @@ const AppNavigator = createStackNavigator(
           />
         ),
         headerLeft: () => {
-          null;
+			
         },
       }),
     },
@@ -223,6 +235,7 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: `Menu`,
+		headerTitleAlign: 'center',
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Restaurants")}
@@ -250,6 +263,7 @@ const AppNavigator = createStackNavigator(
       screen: accountScreen,
 
       navigationOptions: ({ navigation }) => ({
+		headerTitleAlign: 'center',
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Restaurants")}
@@ -270,6 +284,7 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: `Review Order`,
+		headerTitleAlign: 'center',
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Menu")}
@@ -290,6 +305,7 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: `Checkout`,
+		headerTitleAlign: 'center',
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Review")}
@@ -325,6 +341,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+
   },
   backButton: {
     width: 22,

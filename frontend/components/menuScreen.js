@@ -113,7 +113,7 @@ function MenuScreen(props) {
                   key={index}
                   leftElement={ 
                   <RadioButton 
-                    style={{ backgroundColor: 'red'}} 
+                    style={{ backgroundColor: 'purple'}} 
                     value={item.size}
                     onPress={() => {
                     props.updatePizzaOrder({ size: item.size , price: item.price, sizeDescription: item.description})
@@ -149,8 +149,9 @@ function MenuScreen(props) {
                 max={10}
                 min={1} 
                 value={props.pizzaOrder.quantity} 
-                colorMax={"#f04048"}
-                colorMin={"#40c5f4"}
+                colorMax={"red"}
+				color={"purple"}
+                
                 onChange={e => props.updatePizzaOrder({quantity: e})} 
                 
               />
@@ -245,8 +246,8 @@ function MenuScreen(props) {
                 max={10}
                 min={1} 
                 value={props.item.quantity} 
-                colorMax={"#f04048"}
-                colorMin={"#40c5f4"}
+                colorMax={"red"}
+				color={"purple"}
                 onChange={e => props.updateItem({quantity: e})} 
                 
               />
