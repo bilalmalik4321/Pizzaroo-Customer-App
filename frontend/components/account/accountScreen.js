@@ -6,7 +6,7 @@ import {
   ScrollView,
 } from "react-native";
 import { Card, ListItem } from "react-native-elements";
-import firebase from '../firebases';
+import firebase from '../../firebases';
 import {subscribe} from 'react-contextual';
 
 function AccountScreen(props) {

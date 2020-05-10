@@ -1,7 +1,7 @@
 import React from 'react';
 import { subscribe } from 'react-contextual';
 import {  Text, View,StyleSheet, TouchableHighlight} from 'react-native';
-import { uuidv4 , editAddresses,} from './api';
+import { uuidv4 , editAddresses,} from '../api/api';
 import { ListItem} from "react-native-elements";
 import { Input } from 'react-native-elements';
 import moment from 'moment';

@@ -1,8 +1,11 @@
+import * as accountActions from '../account/actions';
+import * as locationActions from '../location/actions';
+import * as orderActions from '../order/actions';
+import * as restaurantActions from '../restaurant/actions';
 
-
-import * as actions from '../components/actions';
 export default {
-  
+
+  // ------------ user --------------- // 
   user : {
     id: '',
     name: '',
@@ -19,6 +22,8 @@ export default {
     previousScreen: '',
 
   },
+
+  // ------------ order --------------- // 
   checkout:{
     instruction: '',
     payment: 'cash' || 'card',
@@ -29,6 +34,28 @@ export default {
 
     }
   },
+
+  items: {
+    pizzas: [],
+    drinks: [],
+    dipping: [],
+    sides: [],
+    desserts: []
+  },
+
+  item: {
+    id: '',
+    kind: '',
+    name: '',
+    quantity: 1,
+    price: '',
+    description: '',
+    cal: 0,
+    type: '',
+    size: ''
+  },
+
+  // ------------ location --------------- // 
   address : {
     title: '',
     uuid: '',
@@ -45,6 +72,9 @@ export default {
     newlySearch: true,
     createdAt: ''
   },
+
+  // ------------ menu --------------- // 
+
   pizzaOrder :{
     kind: 'pizzas',
     id: '',
@@ -56,46 +86,18 @@ export default {
     instruction: '',
     sizeDescription: ''
   },
+
   pizzaMenu : {
 
   },
 
-  items: {
-    pizzas: [],
-    drinks: [],
-    dipping: [],
-    sides: [],
-    desserts: []
+
+  menu : {
+
   },
 
-  order : {
-    items: {
-      pizzas: [],
-      drinks: [],
-      dipping: [],
-      sides: [],
-      desserts: []
-    },
-    userId: '',
-    description: '',
-    address:'',
-    type:'',
-    paymentMethod: '',
-    bill: '',
-  },
 
-  item: {
-    id: '',
-    kind: '',
-    name: '',
-    quantity: 1,
-    price: '',
-    description: '',
-    cal: 0,
-    type: '',
-    size: ''
-  },
-
+  // ------------ error --------------- // 
   errors: {
     error_signup: {
     },
@@ -106,12 +108,16 @@ export default {
       
     }
   },
-  ...actions,
 
-  menu : {
+  // ------------ actions --------------- // 
+  ...accountActions,
+  ...locationActions,
+  ...orderActions,
+  ...restaurantActions,
 
-  },
 
+
+  // ------------ fake schema --------------- // 
 
   schema: [
     {

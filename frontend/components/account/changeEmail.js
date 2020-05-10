@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import { subscribe } from 'react-contextual';
 import {  Text, View,StyleSheet, TouchableHighlight} from 'react-native';
-import { uuidv4 , editAddresses, getUser,} from './api';
+import { uuidv4 , editAddresses, getUser,} from '../api/api';
 import { ListItem} from "react-native-elements";
 import { Input, Badge} from 'react-native-elements';
 import moment from 'moment';
-import firebase from '../firebases';
+import firebase from '../../firebases';
 
 const timestamp = moment()
     .utcOffset('+05:30')

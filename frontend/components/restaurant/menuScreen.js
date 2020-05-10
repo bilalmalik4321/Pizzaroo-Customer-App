@@ -25,7 +25,7 @@ import InputSpinner from "react-native-input-spinner";
 import {subscribe} from "react-contextual";
 import { ScrollView } from "react-native-gesture-handler";
 import {RadioButton} from 'react-native-paper';
-import {uuidv4} from './api';
+import {uuidv4} from '../api/api';
 function MenuScreen(props) {
 
   const [modalVisibleOther, setModalVisibleOther] = useState(false);
@@ -77,7 +77,7 @@ function MenuScreen(props) {
 
         <ScrollView>
         <Tile
-            imageSrc={require("../images/pep-pizza.jpg")}
+            imageSrc={require("../../images/pep-pizza.jpg")}
         /> 
          <View
             style={styles.displayChoice}
@@ -299,7 +299,7 @@ function MenuScreen(props) {
       >
         <View>
           <Tile
-            imageSrc={require("../images/pic2.jpg")}
+            imageSrc={require("../../images/pic2.jpg")}
             featured
             overlayContainerStyle
             activeOpacity={0.9}
@@ -330,7 +330,7 @@ function MenuScreen(props) {
                   key={index}
                   title={item.name}
                   titleStyle={{ fontWeight: "bold"}}
-                  image={require("../images/pep-pizza.jpg")}
+                  image={require("../../images/pep-pizza.jpg")}
                   containerStyle={styles.cardborder}
                 >
                   <Text style={styles.foodItemDescription}>

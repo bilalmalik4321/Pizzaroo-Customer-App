@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import {Keyboard, Text, View, TextInput, TouchableWithoutFeedback, TouchablHighlight, Alert, KeyboardAvoidingView, Modal} from 'react-native';
 import { Button, CheckBox, Divider } from 'react-native-elements';
 import { subscribe } from 'react-contextual';
-import styles from "./style";
+import styles from "../style";
 import * as validations from './validations';
-import { getUser, createUser } from './api';
-import firebase from '../firebases';
+import { getUser, createUser } from '../api/api';
+import firebase from '../../firebases';
 import Icon from "react-native-vector-icons/FontAwesome";
 
 function Login(props) {

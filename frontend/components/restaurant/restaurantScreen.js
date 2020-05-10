@@ -26,7 +26,7 @@ function RestaurantScreen(props) {
     <SafeAreaView>
       <ScrollView style={{backgroundColor: "white"}}> 
         <Tile
-          imageSrc={require("../images/banner.png")}
+          imageSrc={require("../../images/banner.png")}
         />  
         {list.length !=0 && list && list.sort((a,b) => (a.name < b.name)).map((res, index)=> (
           <View key={index}>
@@ -47,7 +47,7 @@ function RestaurantScreen(props) {
               }}
               activeOpacity={0.75}
             >
-            <Card key={index} title={res.name + " " + index} image={require("../images/pic2.jpg")} containerStyle={styles.cardborder}>
+            <Card key={index} title={res.name + " " + index} image={require("../../images/pic2.jpg")} containerStyle={styles.cardborder}>
               <Text style={styles.card}>
                 {res.description}
               </Text>

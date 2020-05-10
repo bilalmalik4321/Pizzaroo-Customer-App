@@ -1,4 +1,4 @@
-import firebase from '../firebases';
+import firebase from '../../firebases';
 
 // access the database
 

@@ -7,22 +7,21 @@ import {
 } from "react-native";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
-import Restaurants from "./components/restaurantScreen";
-import MenuScreen from "./components/menuScreen";
-import accountScreen from "./components/accountScreen";
+import Restaurants from "./components/restaurant/restaurantScreen";
+import MenuScreen from "./components/restaurant/menuScreen";
+import accountScreen from "./components/account/accountScreen";
 import Introduction from "./components/intro";
-import LoginScreen from "./components/login.js";
-import ReviewOrderScreen from "./components/order.js";
-import CheckoutScreen from "./components/checkout.js";
+import LoginScreen from "./components/account/login.js";
+import ReviewOrderScreen from "./components/order/order.js";
+import CheckoutScreen from "./components/order/checkout.js";
 import { Avatar } from "react-native-elements";
-import store from './shared_/store';
+import store from './components/shared_/store';
 import { Provider } from "react-contextual";
-import Location from './components/location';
-import Address from './components/address';
-import ChangePassword from './components/changePassword';
-import ChangeEmail from './components/changeEmail';
-import ChangeProfile from './components/changeProfile'
-// import Review from './components/review';
+import Location from './components/location/location';
+import Address from './components/location/address';
+import ChangePassword from './components/account/changePassword';
+import ChangeEmail from './components/account/changeEmail';
+import ChangeProfile from './components/account/changeProfile'
 
 
 

@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import { subscribe } from 'react-contextual';
 import {  Text, View,StyleSheet, TouchableHighlight} from 'react-native';
-import { uuidv4 , editAddresses, getUser,} from './api';
+import { uuidv4 , editAddresses, getUser,} from '../api/api';
 import { ListItem} from "react-native-elements";
 import { Input, Badge} from 'react-native-elements';
 import moment from 'moment';
-import firebase from '../firebases';
+import firebase from '../../firebases';
 
 const timestamp = moment()
     .utcOffset('+05:30')
@@ -13,40 +13,38 @@ const timestamp = moment()
 
 const ChangeAddress = props => {
   
-  // console.log("user", props.user)
+  console.log("user", props.user)
 
-  const [newPassword, setNewPassword] = useState('');
+  const [current, setCurrent] = useState('');
+  const [newEmail, setNewEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const [_errors , setErrors] = useState({});
+  const [errors , setErrors] = useState({});
 
   const [success, setSuccess] = useState(false);
 
-  // console.log("errors", _errors);
-  
-  const validation = ( password , newPassword) => {
+  const validation = ( current, newEmail, password) => {
     let errors  = {};
-    console.log("password", password, 'new', newPassword);
-    if(!password) errors.password = "Please enter current password";
-    if(!password && password.length < 6) errors.password  = "Please enter a valid password!";
-    if(!newPassword) errors.newPassword = "Please enter a new password!";
-    if(!newPassword && newPassword.length < 6) errors.newPassword = "Please enter a valid password!"
-    if( password !== newPassword ) errors.newPassword = "Passwords DO NOT match";
-    console.log("errors", errors);
+    const userInfo = firebase.auth().currentUser;
+
+    const { email } = userInfo;
+    if(!current) errors.current = "Please enter current email!";
+    if(!current && current.length < 6) errors.current  = "Please enter current email!";
+    if(!newEmail) errors.newEmail = "Please enter a new email!";
+    if(!password) errors.password = "Please enter a password!";
+    if( !current && email !== current) errors.current = "This is not your current email!"
+
     return errors;
   }
-  // console.log('errors', errors);
-  // console.log("email---", current, 'new---',newEmail , 'password', password)
-  const onSave = async (password, newPassword) => {
-    const errors_ = validation(password, newPassword);
-    setErrors(errors_);
-    console.log("why not print", Object.keys(errors_).length === 0)
-    if( Object.keys(errors_).length === 0 ) 
-    {
-     try{
-        const userInfo = firebase.auth().currentUser;
-
-        const { email } = userInfo;
+  console.log('errors', errors);
+  console.log("email---", current, 'new---',newEmail , 'password', password)
+  const onSave = async (email, newEmail, password) => {
+    const errors = validation(email, newEmail, password);
+    setErrors(errors);
+    console.log("email inside---", email, 'new---',newEmail , 'password', password,'should be false',Object.keys(errors).length === 0)
+    
+    if( Object.keys(errors).length === 0) {
+      try{
         const signedIn =firebase
         .auth()
         .signInWithEmailAndPassword(
@@ -54,68 +52,101 @@ const ChangeAddress = props => {
           password
         ).then(async userInfo => {
 
-          userInfo.user.updatePassword(newPassword);    
+          userInfo.user.updateEmail(newEmail);
+
+          const result = await firebase.firestore()
+          .doc(`customers/${userInfo.user.uid}`)
+          .set({
+            email: newEmail
+          },
+          { merge: true});
+
+          const updatedUser = await getUser(userInfo.user.uid);
+
+          props.updateUser({
+            ...updatedUser,
+            loggedIn: true
+          });
+          
           setSuccess(true);
-          setNewPassword('');
+          setCurrent('');
+          setNewEmail('');
           setPassword('');
         })
         .catch(err => {
           let error = {};
-          error.newPassword = err.message;
+          error.newEmail = err.message;
           // console.log("what went wrong?", err)
           setErrors(error);
         });
       } catch (err) {
       let error = {};
-      error.newPassword = err.message;
+      error.newEmail = err.message;
       setErrors(error);
       // console.log("err from change email", err);
     }
-  } else {
-      setErrors(errors_);
-      console.log("checkout nukk", _errors.password)
-    } 
   }
+}
   // console.log("screen-----", props.user.previousScreen)
   return(
     <View style={{...styles.centeredView}}>
       <View style={styles.modalView}>
         <View style={{paddingBottom: 40, justifyContent: 'center'}}> 
           { success && <Badge  
-            value="Successfully update your password!!"
+            value="Successfully update your email!"
             status="success"
             /> }
         </View>
         <View style={{ paddingBottom: 20}}>
           <Input
-            secureTextEntry={true}
-            label="Current Passoword"
-            value={password}
+            label="Name"
+            value={current}
             onChangeText={text => {
-              setErrors({})
               setSuccess(false);
-              setPassword(text);
+              setCurrent(text);
             }}
             errorStyle={{ color: 'red' }}
-            errorMessage={_errors.password === null? '' :_errors.password}
+            errorMessage={errors.current ? errors.current: ''}
+          />
+        </View>
+        <View style={{ paddingBottom: 20}}>
+          <Input
+            label="Current Email"
+            value={current}
+            onChangeText={text => {
+              setSuccess(false);
+              setCurrent(text);
+            }}
+            errorStyle={{ color: 'red' }}
+            errorMessage={errors.current ? errors.current: ''}
+          />
+        </View>
+        <View style={{ paddingBottom: 20}}>
+          <Input
+            label="New Email"
+            value={newEmail}           
+            onChangeText={text => {
+              setSuccess(false);
+              setNewEmail(text);
+            
+            }}
+            errorMessage={errors.newEmail!=null ? errors.newEmail : ''}
+            errorStyle={{ color: 'red' }}
           />
         </View>
         <View style={{ paddingBottom: 20}}>
           <Input
             secureTextEntry={true}
-            label="New Password"
-            value={newPassword}           
+            label="Current Password"
+            value={password}
             onChangeText={text => {
-              setErrors({})
               setSuccess(false);
-              setNewPassword(text);
-            
+              setPassword(text);
             }}
-            errorMessage={ _errors.newPassword === null ? '': _errors.newPassword}
+            errorMessage={errors.password !=null ? errors.password : ''}
             errorStyle={{ color: 'red' }}
           />
         </View>
-
   
         <View style={{backgroundColor: 'white', paddingTop: 50 ,paddingLeft: 15, paddingRight: 15, flexDirection: 'row', justifyContent:'space-between'}}>
           <TouchableHighlight
@@ -134,7 +165,7 @@ const ChangeAddress = props => {
             onPress={() => {
               setSuccess(false);
               setErrors({});
-              onSave(password, newPassword);
+              onSave(current, newEmail, password);
             }}
           >
             <Text style={styles.textStyle}>

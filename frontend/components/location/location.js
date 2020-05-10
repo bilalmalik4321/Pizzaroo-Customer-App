@@ -2,7 +2,7 @@ import React, { useState , useEffect} from 'react';
 import { subscribe } from 'react-contextual';
 import {  Text,View ,StyleSheet,Dimensions} from 'react-native';
 import { ListItem ,Icon } from "react-native-elements";
-import apiKey  from '../googleAPI';
+import apiKey  from '../../googleAPI';
 import GoogleSearch from './searchPlaces';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';

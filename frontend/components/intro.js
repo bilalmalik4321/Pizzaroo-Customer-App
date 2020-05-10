@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, Image } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import LoginScreen from './login.js'
+import LoginScreen from './account/login.js'
 
 const slides = [
   {
