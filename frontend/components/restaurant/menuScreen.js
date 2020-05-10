@@ -30,23 +30,18 @@ function MenuScreen(props) {
 
   const [modalVisibleOther, setModalVisibleOther] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [state, setState] = useState(0);
-  const buttons = ["S", "M", "L", "XL"];
   const [footer, setFooter] = useState(false);
-  const [quantity, setQuantity] = useState(1);
 
   const { pizzaMenu } = props;
-
   let counter = findNumberOfOrder(props.items);
-
   // console.log("pizzamenu", props.pizzaMenu);
   const { pizza, desserts, drinks, sides, dipping } = props.menu;
 
-  function updateTitle (food) {
-    props.updateItem({
-      name: food,
-    })
-  }  
+  // function updateTitle (food) {
+  //   props.updateItem({
+  //     name: food,
+  //   })
+  // }  
   function findNumberOfOrder(items) {
     const {pizzas, desserts, drinks, dipping, sides} = items;
   
@@ -173,7 +168,7 @@ function MenuScreen(props) {
          
           }}
           title={`Add to Order\t\t\t${props.pizzaOrder.price && props.pizzaOrder.quantity? "$"+ (props.pizzaOrder.price * props.pizzaOrder.quantity).toFixed(2): '' }`}
-          buttonStyle={{borderRadius: 20, paddingRight: 40, paddingLeft: 40, alignItems: 'center', backgroundColor: "#ff6363", justifyContent: 'center'}}
+          buttonStyle={{borderRadius: 20, paddingRight: 40, paddingLeft: 40, alignItems: 'center', backgroundColor: "#21bf73", justifyContent: 'center'}}
           titleStyle={{ textAlign: 'center'}}
         />
       </View>
@@ -268,7 +263,7 @@ function MenuScreen(props) {
            
           }}
           title={`Add to Order\t\t\t${ props.item.price && props.item.quantity ? "$"+(props.item.price * props.item.quantity).toFixed(2): ''}`}
-          buttonStyle={{borderRadius: 20, paddingRight: 40, paddingLeft: 40, alignItems: 'center', backgroundColor: "#ff6363", justifyContent: 'center'}}
+          buttonStyle={{borderRadius: 20, paddingRight: 40, paddingLeft: 40, alignItems: 'center', backgroundColor: "#5f6caf", justifyContent: 'center'}}
           titleStyle={{ textAlign: 'center'}}
         />
       </View>
@@ -283,7 +278,7 @@ function MenuScreen(props) {
           <View  style={styles.shoppingButton}>
             { footer &&
               <Button 
-                buttonStyle={{ borderRadius: 20}}
+                buttonStyle={{ borderRadius: 20, backgroundColor:'#ff6363'}}
                 raised 
                 title="View Order"
                 onPress={() => {
@@ -291,7 +286,7 @@ function MenuScreen(props) {
                     props.navigation.navigate("Review");
                 }} 
                 icon={<View style={styles.Icon}>
-                        <Badge value={counter} status="primary"/>
+                        <Badge value={counter}  badgeStyle={{backgroundColor: "#ff6363"}}/>
                       </View>}
                 
               />}
@@ -321,7 +316,7 @@ function MenuScreen(props) {
                 onPress={() => {
                   props.updatePizzaOrder({name: item.name, description: item.description,price: item.sizes[0].price, size: 'S'})
                   props.copyPizzaMenu(item);
-                  updateTitle(item.name);
+                  // updateTitle(item.name);
                   setModalVisible(true);
                 }}
                 activeOpacity={0.75}
@@ -497,7 +492,7 @@ const styles = StyleSheet.create({
   },
 
   foodAddOrder: {
-    backgroundColor: "#ff6363",
+    backgroundColor: "#13aa52",
     borderRadius: 25,
     height: 45,
     width: '80%',

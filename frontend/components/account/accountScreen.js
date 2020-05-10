@@ -13,8 +13,8 @@ function AccountScreen(props) {
 
   const list = [
     {
-      title: "Profile",
-      icon: 'person',
+      title: "Your Orders",
+      icon: 'menu',
       onClick: () => {props.navigation.navigate("ChangeProfile")}
     },
     {

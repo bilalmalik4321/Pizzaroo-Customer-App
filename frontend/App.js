@@ -7,50 +7,33 @@ import {
 } from "react-native";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
+import { Provider } from "react-contextual";
+import { Avatar } from "react-native-elements";
+
 import Restaurants from "./components/restaurant/restaurantScreen";
 import MenuScreen from "./components/restaurant/menuScreen";
 import accountScreen from "./components/account/accountScreen";
 import Introduction from "./components/intro";
-import LoginScreen from "./components/account/login.js";
-import ReviewOrderScreen from "./components/order/order.js";
-import CheckoutScreen from "./components/order/checkout.js";
-import { Avatar } from "react-native-elements";
+import LoginScreen from "./components/account/login";
+import ReviewOrderScreen from "./components/order/review";
+import CheckoutScreen from "./components/order/checkout";
 import store from './components/shared_/store';
-import { Provider } from "react-contextual";
 import Location from './components/location/location';
 import Address from './components/location/address';
 import ChangePassword from './components/account/changePassword';
 import ChangeEmail from './components/account/changeEmail';
-import ChangeProfile from './components/account/changeProfile'
+import ChangeProfile from './components/order/ordersList'
 
 
 
 const AppNavigator = createStackNavigator(
   {
-    // Review: {
-    //   screen: Review,
-
-    //   navigationOptions: ({ navigation }) => ({
-    //     title: 'Address',
-    //     headerLeft: () => (
-    //       <TouchableOpacity
-    //         onPress={() => navigation.navigate("Restaurants")}
-    //         activeOpacity={0.2}
-    //       >
-    //         <Image
-    //           source={require("./images/left-chevron.png")}
-    //           style={styles.backButton}
-    //         />
-    //       </TouchableOpacity>
-    //     ),
-    //   }),
-    // },
     ChangeProfile: {
       screen: ChangeProfile,
 
       navigationOptions: ({ navigation }) => ({
-        title: 'Profile',
-		headerTitleAlign: 'center',
+        title: 'Orders',
+	    	headerTitleAlign: 'center',
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Account")}
@@ -69,7 +52,7 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: 'Email',
-		headerTitleAlign: 'center',
+	    	headerTitleAlign: 'center',
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Account")}
@@ -89,7 +72,7 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: 'Password',
-		headerTitleAlign: 'center',
+	    	headerTitleAlign: 'center',
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Account")}
@@ -108,7 +91,7 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: 'Address',
-		headerTitleAlign: 'center',
+		    headerTitleAlign: 'center',
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Location")}
@@ -127,7 +110,7 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: 'Address',
-		headerTitleAlign: 'center',
+		    headerTitleAlign: 'center',
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("SelectLocation")}
@@ -146,7 +129,7 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: 'Select Address',
-		headerTitleAlign: 'center',
+	    	headerTitleAlign: 'center',
         headerLeft: 
          () => (
           <TouchableOpacity
@@ -170,7 +153,7 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: 'Search Address',
-		headerTitleAlign: 'center',
+		    headerTitleAlign: 'center',
         headerLeft: 
          () => (
           <TouchableOpacity
@@ -213,7 +196,7 @@ const AppNavigator = createStackNavigator(
       navigationOptions: ({ navigation }) => ({
 		
         gestureEnabled: false,
-		headerTitleAlign: 'center',
+		    headerTitleAlign: 'center',
         headerRight: () => (
 
           <Avatar
@@ -234,7 +217,7 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: `Menu`,
-		headerTitleAlign: 'center',
+		    headerTitleAlign: 'center',
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Restaurants")}
@@ -246,15 +229,6 @@ const AppNavigator = createStackNavigator(
             />
           </TouchableOpacity>
         ),
-      //   headerRight: () => (
-
-      //     <Avatar
-      //       rounded
-      //       icon={{ name: "user", type: "font-awesome" }}
-      //       onPress={() => navigation.navigate("Account")}
-      //       style={styles.userButton}
-      //     />
-      //   ),
       }),
 
     },
@@ -284,7 +258,7 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: `Review Order`,
-		headerTitleAlign: 'center',
+		    headerTitleAlign: 'center',
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Menu")}
@@ -305,7 +279,7 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: `Checkout`,
-		headerTitleAlign: 'center',
+		    headerTitleAlign: 'center',
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Review")}
