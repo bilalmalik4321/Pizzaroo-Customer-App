@@ -85,7 +85,7 @@ function Login(props) {
 
 
   return (
-    <KeyboardAvoidingView style={styles.containerView} behavior="padding">
+    <KeyboardAvoidingView style={styles.containerView}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.loginScreenContainer}>
           <View style={styles.loginFormView}>
