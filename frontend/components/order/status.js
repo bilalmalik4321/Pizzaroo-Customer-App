@@ -50,21 +50,21 @@ const Status = props => {
       }}>
       <ScrollView style={{padding: 20, backgroundColor: 'white'}}>
         <View style={{ padding: 35, justifyContent: 'center'}}>
-          <Text style={{  fontSize: 15, fontWeight :'bold'}}>
+          <Text style={{  fontSize: 15, fontWeight :'400'}}>
             Order ID: 123-12-123
           </Text>
-          <Text style={{ fontSize: 15, fontWeight :'bold',color: 'grey'}}>
+          <Text style={{ fontSize: 15, fontWeight :'300',color: 'grey'}}>
             Date: May 10 2020
           </Text>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             
-            <Text style={{ fontSize:15, fontWeight: 'bold', color: 'grey'}}>
+            <Text style={{ fontSize:15, fontWeight: '300', color: 'grey'}}>
               Tenko Sushi
             </Text>
             <TouchableOpacity
               onPress={()=> Linking.openURL(`tel:${2262808363}`) }
             >
-              <Text style={{ fontSize: 15 , fontWeight: 'bold', color: 'green' , alignItems: 'center'}}>
+              <Text style={{ fontSize: 15 , fontWeight: '400', color: 'green' , alignItems: 'center'}}>
                 Contact
               </Text>
             </TouchableOpacity>
@@ -91,7 +91,7 @@ const Status = props => {
                   <Divider/>
           </View> */}
           <View style={{ paddingLeft: 35, paddingRight: 35,paddingBottom: 25,paddingTop: 80, justifyContent: 'center'}}>
-            <Text style={{  fontSize: 15, fontWeight :'bold'}}>
+            <Text style={{  fontSize: 15, fontWeight :'500'}}>
               Items
             </Text>
             <Text style={{ fontWeight: '300', color: 'grey'}}>
@@ -111,7 +111,7 @@ const Status = props => {
                   <Divider/>
           </View>
          <View style={{ padding: 35,paddingTop: 20, justifyContent: 'center'}}>
-            <Text style={{  fontSize: 15, fontWeight :'bold'}}>
+            <Text style={{  fontSize: 15, fontWeight :'500'}}>
               Address
             </Text>
             <Text style={{ fontWeight: '300', color: 'grey'}}>

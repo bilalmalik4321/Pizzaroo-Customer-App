@@ -101,10 +101,10 @@ const  Checkout = props => {
           >
             <View style={{paddingLeft: 35, paddingRight: 35, paddingBottom: 10}}>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                  <Text style={{ fontWeight:"bold" ,fontSize: 20}}>
+                  <Text style={{ fontWeight:"400" ,fontSize: 20}}>
                         {item.restaurant}
                   </Text>
-                  <Text style={{ fontWeight:"bold", fontSize: 15, color: 'green'}}>
+                  <Text style={{ fontWeight:"500", fontSize: 15, color: 'green'}}>
                       {item.total}
                   </Text>
                 </View>
@@ -137,10 +137,10 @@ const  Checkout = props => {
           >
             <View style={{paddingLeft: 35, paddingRight: 35, paddingBottom: 10}}>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                  <Text style={{ fontWeight:"bold" ,fontSize: 20}}>
+                  <Text style={{ fontWeight:"400" ,fontSize: 20}}>
                         {item.restaurant}
                   </Text>
-                  <Text style={{ fontWeight:"bold", fontSize: 15, color: 'green'}}>
+                  <Text style={{ fontWeight:"500", fontSize: 15, color: 'green'}}>
                       {item.total}
                   </Text>
                 </View>
