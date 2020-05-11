@@ -106,6 +106,9 @@ export default {
     },
     error_changeEmail: {
       
+    },
+    error_signin: {
+      
     }
   },
 

@@ -1,42 +1,41 @@
-import React, { useState, useEffect } from "react";
-import {Keyboard, Text, View, TextInput, TouchableWithoutFeedback, TouchablHighlight, Alert, KeyboardAvoidingView, Modal} from 'react-native';
-import { Button, CheckBox, Divider } from 'react-native-elements';
+import React, { useState } from "react";
+import {Keyboard, Text, View, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
+import { Button, CheckBox } from 'react-native-elements';
 import { subscribe } from 'react-contextual';
 import styles from "../style";
 import * as validations from './validations';
-import { getUser, createUser } from '../api/api';
-import firebase from '../../firebases';
+import { createUser } from '../api/api';
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Input } from 'react-native-elements';
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 import SvgUri from 'react-native-svg-uri';
 
-// import pinpoint from '../../images/pizza.svg'
 function Login(props) {
 
-  const { loggedIn , hasAdress} = props.user;
-  const [modalVisible, setModalVisible] = useState(false);
-  const [state, setState] = useState(false);
   const [returnError, setReturnError ] = useState('');
-  const { error_signup } = props.errors;
+  // const { error_signup } = props.errors;
   const [clearEmail, setClearEmail] = useState(false);
   const [clearPass, setClearPass] = useState(false);
   const [clearName, setClearName] = useState(false);
   const [clearPhone, setClearPhone] = useState(false);
   const [clearRepeatPass, setClearRepeatPass] = useState(false);
 
-
+  const errors = props.errors.error_signup;
 
   const onCreateUser = async () => {
-    const { email, password } = props.user;
+    console.log("hello")
+    const { email, password , name, phone} = props.user;
     const res = await createUser({
       email,
-      password
+      password,
+      name,
+      phone
     });
     const { result , error } = res;
     if(result) {
-      setModalVisible(false);
+      props.navigation.navigate('LoginScreen')
     } else {
+      console.log("error------", error)
       setReturnError(error);
     }
   };
@@ -63,10 +62,12 @@ function Login(props) {
                           fontWeight: "200",
                           textAlign: "center",
                           paddingBottom: 15}}
-             >Pizzaro</Text>
+             >
+              Pizzaro
+             </Text>
 
             <Input 
-              containerStyle={{paddingBottom: 25}}
+              containerStyle={{paddingBottom: 20}}
               label="Name"
               value={props.user.name}
               leftIcon={{ name: 'person-outline', color: '#dddddd' }}
@@ -84,10 +85,12 @@ function Login(props) {
                 setClearName(true)
                 props.updateUser({name: text})
               }}
+              renderErrorMessage={errors && errors.name}
+              errorMessage={errors.name}
             />
               <Input 
-             dataDetectorTypes="phoneNumber"
-                containerStyle={{paddingBottom: 25}}
+                dataDetectorTypes="phoneNumber"
+                containerStyle={{paddingBottom: 20}}
                 label="Phone"
                 type
                 value={props.user.phone}
@@ -106,10 +109,12 @@ function Login(props) {
                   setClearPhone(true)
                   props.updateUser({phone: text})
                 }}
+                renderErrorMessage={errors && errors.phone}
+                errorMessage={errors.phone}
             />
 
             <Input 
-              containerStyle={{paddingBottom: 25}}
+              containerStyle={{paddingBottom: 20}}
               label="Email"
               value={props.user.email}
               leftIcon={{ name: 'mail-outline', color: '#dddddd' }}
@@ -127,12 +132,14 @@ function Login(props) {
                 setClearEmail(true)
                 props.updateUser({email: text})
               }}
+              renderErrorMessage={(errors && errors.email) || returnError }
+              errorMessage={errors.email || returnError }
             />
 
 
             <Input 
               secureTextEntry={true}
-              containerStyle={{paddingBottom: 25}}
+              containerStyle={{paddingBottom: 20}}
               label="Password"
               value={props.user.password}
               leftIcon={{ name: 'lock-outline', color: '#dddddd' }}
@@ -150,10 +157,12 @@ function Login(props) {
                 setClearPass(true)
                 props.updateUser({password: text})
               }}
+              renderErrorMessage={errors && errors.password}
+              errorMessage={errors.password}
             />
             <Input 
               secureTextEntry={true}
-              containerStyle={{paddingBottom: 25}}
+              containerStyle={{paddingBottom: 20}}
               label="Comfirm Password"
               value={props.user.repeatPassword}
               leftIcon={{ name: 'lock-outline', color: '#dddddd' }}
@@ -171,6 +180,8 @@ function Login(props) {
                 setClearRepeatPass(true)
                 props.updateUser({repeatPassword: text})
               }}
+              renderErrorMessage={errors && errors.repeatPassword}
+              errorMessage={errors.repeatPassword}
             />
   
           
@@ -184,25 +195,26 @@ function Login(props) {
                             }}
                 onPress={()=> {
                   setReturnError('');
-                  // console.log("helllo")
-                  // onLogin();
-                }}//onLoginPress
+                  validations.signup(props);
+                  if(Object.keys(errors).length === 0 )
+                  {
+                    onCreateUser();
+                  }
+                  console.log("error", props.errors)
+                }}
                 title="Register"
               />
            
-
               <View style={{ flexDirection: 'row', justifyContent: 'center', paddingTop: 40}}>
                 <Text style={{textAlign:'center', fontSize: 15, fontWeight: '400', color: 'grey'}}>Already a member?</Text>
                 <TouchableOpacity
-                 onPress={() => {
-                      props.navigation.navigate('LoginScreen')
-                  }}
+                 onPress={() => props.navigation.navigate('LoginScreen')}
                 >
                   <Text style={{textAlign:'center', fontSize: 15, color: 'green', fontWeight: '300'}}>{"  Sing In"}</Text>
                 </TouchableOpacity>
               </View>
-       </View>
-      </View> 
+          </View>
+        </View> 
       </ScrollView>
     </TouchableWithoutFeedback>
   </KeyboardAvoidingView>
