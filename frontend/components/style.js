@@ -40,7 +40,7 @@ export default {
     color: '#ff6363',
     fontSize: 40,
     fontWeight: "200",
-    marginTop: "10%",
+    // marginTop: "10%",
     marginBottom: "5%",
     textAlign: "center",
     paddingBottom: 20

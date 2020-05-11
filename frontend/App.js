@@ -24,11 +24,18 @@ import ChangePassword from './components/account/changePassword';
 import ChangeEmail from './components/account/changeEmail';
 import ChangeProfile from './components/order/ordersList';
 import StatusOrder from './components/order/status';
-
+import Signup from './components/account/signup';
 
 
 const AppNavigator = createStackNavigator(
   {
+    Signup: {
+      screen: Signup,
+
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
     Status: {
       screen: StatusOrder,
 

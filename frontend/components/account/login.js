@@ -11,6 +11,7 @@ import { Input } from 'react-native-elements';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import SvgUri from 'react-native-svg-uri';
 
+// import pinpoint from '../../images/pizza.svg'
 function Login(props) {
 
   const { loggedIn , hasAdress} = props.user;
@@ -20,6 +21,7 @@ function Login(props) {
   const { error_signup } = props.errors;
   const [clearEmail, setClearEmail] = useState(false);
   const [clearPass, setClearPass] = useState(false);
+
 
   useEffect(()=> {
       try {
@@ -110,14 +112,15 @@ function Login(props) {
            </View> */}
 
           <View style={styles.loginFormView}> 
-          <View style={{}}>
-              <SvgUri
-                style={{}}
-                width="100"
-                height="100"
-                source={require('../../images/pizza1.svg')}
-              />
-           </View>
+        
+              <View style={{}}>
+                <SvgUri
+                  style={{}}
+                  width="100"
+                  height="100"
+                  source={require('../../images/pizza1.svg')}
+                />
+            </View>
             <Text style={styles.logoText}>Pizzaro</Text>
             <Input 
               containerStyle={{paddingBottom: 25}}
@@ -180,7 +183,7 @@ function Login(props) {
                 <Text style={{textAlign:'center', fontSize: 15, fontWeight: '400', color: 'grey'}}> Don't have an account?</Text>
                 <TouchableOpacity
                  onPress={() => {
-                      setModalVisible(true);
+                      props.navigation.navigate('Signup')
                   }}
                 >
                   <Text style={{textAlign:'center', fontSize: 15, color: 'green', fontWeight: '300'}}>{"  Register"}</Text>
