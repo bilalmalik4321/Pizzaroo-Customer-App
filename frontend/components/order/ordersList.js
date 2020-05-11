@@ -51,6 +51,7 @@ const  Checkout = props => {
       restaurant: '123 Pizza',
       total: 100.22,
       date: 'Monday, Marc 24th',
+      status: 'closed',
       numberOfitems: 10,
       items: {
         pizzas: [],
@@ -60,6 +61,7 @@ const  Checkout = props => {
     {
       id: '123-123',
       restaurant: '123 Pizza',
+      status: 'closed',
       total: 100.22,
       date: 'Monday, Marc 24th',
       numberOfitems: 10,
