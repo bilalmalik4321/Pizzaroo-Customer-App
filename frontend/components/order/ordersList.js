@@ -21,6 +21,7 @@ import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-
 import Icon from "react-native-vector-icons/FontAwesome";
 import moment from 'moment';
 import firebase from '../../firebases';
+
 const timestamp = new firebase.firestore.Timestamp.now().toString();
 const aa = moment("2020-05-08 08:05:55 am",'YYYY-MM-DD hh:mm:ss a').add(1,'day').format('LL');
 
@@ -31,13 +32,11 @@ const  Checkout = props => {
   console.log("checkout info",props.checkout);
   
   console.log("time-----",aa);
+  const status = ['open', 'confirmed' , 'onroute' , 'closed']
   const orders = [
     {
       id: '123-123',
-      status: {
-        current: 'open',
-        progress: ['waiting', 'confirmed', 'preparing', 'delivered']
-      },
+      status: 'open',
       restaurant: '123 Pizza',
       total: 100.22,
       date: 'Monday, Marc 24th',
@@ -97,7 +96,8 @@ const  Checkout = props => {
 
         {orders && orders.length !== 0 && orders.map((item, index)=> (
           <TouchableOpacity 
-            onPress={() => {}}
+            key={index}
+            onPress={() => props.navigation.navigate('Status')}
           >
             <View style={{paddingLeft: 35, paddingRight: 35, paddingBottom: 10}}>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -132,6 +132,7 @@ const  Checkout = props => {
   
         {orders && orders.length !== 0 && orders.map((item, index)=> (
           <TouchableOpacity 
+              key={index}
             onPress={() => {}}
           >
             <View style={{paddingLeft: 35, paddingRight: 35, paddingBottom: 10}}>

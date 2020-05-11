@@ -22,12 +22,32 @@ import Location from './components/location/location';
 import Address from './components/location/address';
 import ChangePassword from './components/account/changePassword';
 import ChangeEmail from './components/account/changeEmail';
-import ChangeProfile from './components/order/ordersList'
+import ChangeProfile from './components/order/ordersList';
+import StatusOrder from './components/order/status';
 
 
 
 const AppNavigator = createStackNavigator(
   {
+    Status: {
+      screen: StatusOrder,
+
+      navigationOptions: ({ navigation }) => ({
+        title: 'Status',
+	    	headerTitleAlign: 'center',
+        headerLeft: () => (
+          <TouchableOpacity
+            onPress={() => navigation.navigate("ChangeProfile")}
+            activeOpacity={0.2}
+          >
+            <Image
+              source={require("./images/left-chevron.png")}
+              style={styles.backButton}
+            />
+          </TouchableOpacity>
+        ),
+      })
+    },
     ChangeProfile: {
       screen: ChangeProfile,
 
