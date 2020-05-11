@@ -7,6 +7,9 @@ import * as validations from './validations';
 import { getUser, createUser } from '../api/api';
 import firebase from '../../firebases';
 import Icon from "react-native-vector-icons/FontAwesome";
+import { Input } from 'react-native-elements';
+import { TouchableOpacity } from "react-native-gesture-handler";
+import SvgUri from 'react-native-svg-uri';
 
 function Login(props) {
 
@@ -15,6 +18,8 @@ function Login(props) {
   const [state, setState] = useState(false);
   const [returnError, setReturnError ] = useState('');
   const { error_signup } = props.errors;
+  const [clearEmail, setClearEmail] = useState(false);
+  const [clearPass, setClearPass] = useState(false);
 
   useEffect(()=> {
       try {
@@ -87,10 +92,63 @@ function Login(props) {
   return (
     <KeyboardAvoidingView style={styles.containerView} behavior="padding">
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        {/* <View style={{ padding: 35}}>
+          <Text>
+            Hello
+          </Text>
+        </View> */}
+      
+     
         <View style={styles.loginScreenContainer}>
-          <View style={styles.loginFormView}>
-            <Text style={styles.logoText}>Welcome</Text>
-              <TextInput
+          {/* <View style={{ top: '10%', left: '10%'}}>
+              <SvgUri
+                style={{}}
+                width="100"
+                height="100"
+                source={require('../../images/pizza-slice.svg')}
+              />
+           </View> */}
+
+          <View style={styles.loginFormView}> 
+          <View style={{}}>
+              <SvgUri
+                style={{}}
+                width="100"
+                height="100"
+                source={require('../../images/pizza1.svg')}
+              />
+           </View>
+            <Text style={styles.logoText}>Pizzaro</Text>
+            <Input 
+              containerStyle={{paddingBottom: 25}}
+              label="Email"
+              value={props.user.email}
+              leftIcon={{ name: 'mail-outline', color: '#dddddd' }}
+              leftIconContainerStyle={{ alignSelf: 'flex-start', marginLeft: 0}}
+              inputStyle={{paddingLeft: 15, color: '#13aa52', fontWeight: '300'}}
+              rightIcon={clearEmail && <Icon 
+                style={{color: '#dddddd', fontWeight: '200', fontSize: 20}} 
+                name="close"
+                onPress={()=> {
+                  setClearEmail(false);
+                  props.updateUser({email: ""})
+                }}  
+                />}
+              onChangeText={text =>  {
+                setClearEmail(true)
+                props.updateUser({email: text})
+              }}
+            />
+
+
+            <Input 
+              secureTextEntry={true}
+              label="Password"
+              leftIcon={{ name: 'lock-outline', color: '#dddddd' }}
+              leftIconContainerStyle={{ alignSelf: 'flex-start', marginLeft: 0}}
+              inputStyle={{paddingLeft: 15, color: '#13aa52'}}
+            />
+              {/* <TextInput
                 placeholder="Email"
                 placeholderColor="#c4c3cb"
                 style={styles.loginFormTextInput}
@@ -103,7 +161,7 @@ function Login(props) {
                 secureTextEntry={true}
                 onChangeText={ text => props.updateUser({password: text})}
 
-              />
+              /> */}
               { returnError !== '' &&
                 <Text style={styles.errorInput} >{returnError}</Text>
               }
@@ -116,9 +174,22 @@ function Login(props) {
                 }}//onLoginPress
                 title="Login"
               />
-              <Divider style={{ backgroundColor: 'purple', padding:1, margin:'10%', width:'80%' }} />
-              <Text style={{textAlign:'center', fontSize: 20}}>   New here?</Text>
+              {/* <Divider style={{ backgroundColor: 'purple', padding:1, margin:'10%', width:'80%' }} /> */}
+
+              <View style={{ flexDirection: 'row', justifyContent: 'center', paddingTop: 60}}>
+                <Text style={{textAlign:'center', fontSize: 15, fontWeight: '400', color: 'grey'}}> Don't have an account?</Text>
+                <TouchableOpacity
+                 onPress={() => {
+                      setModalVisible(true);
+                  }}
+                >
+                  <Text style={{textAlign:'center', fontSize: 15, color: 'green', fontWeight: '300'}}>{"  Register"}</Text>
+                </TouchableOpacity>
+              </View>
+       
               <Modal
+
+                style={{ }}
                 animationType="fade"
                 transparent={true}
                 visible={modalVisible}
@@ -129,16 +200,29 @@ function Login(props) {
               >
               <View style={[styles.centeredView, modalVisible ? {backgroundColor: 'rgba(0,0,0,0.5)'} : '']}>
               <View style={styles.modalView}>
-              <Icon
+              {/* <Icon
                 name="close"
-                size={30}
                 color="black"
                 onPress={() => {
                   setModalVisible(false);
                 }}
                 style={styles.modalExit}
-              />
+              /> */}
               <Text style={styles.logoText2}>Sign Up</Text>
+    
+              <TextInput
+                placeholder="Name"
+                placeholderColor="#c4c3cb"
+                style={styles.signupFormTextInput}
+                onChangeText={text => props.updateUser({name: text})}
+              />
+             
+              <TextInput
+                placeholder="Phone"
+                placeholderColor="#c4c3cb"
+                style={styles.signupFormTextInput}
+                onChangeText={text => props.updateUser({phone: text})}
+              />
               <TextInput
                 placeholder="Email"
                 placeholderColor="#c4c3cb"
@@ -174,15 +258,21 @@ function Login(props) {
               { error_signup && error_signup.repeatPassword &&
                 <Text> {error_signup.repeatPassword }</Text>
               }
-              <CheckBox
-                center
-                title='I have read and I accept the terms and conditions'
-                style={styles.signupFormcheckbox}
-                checkedIcon='dot-circle-o'
-                uncheckedIcon='circle-o'
-                checked={props.user.isAccepted}
-                onPress={() => props.updateUser({isAccepted: !props.user.isAccepted})}
-              />
+              <View style={{ flexDirection: 'row', justifyContent: 'center', padding: 35}}>
+                <CheckBox
+                  center
+                  style={{}}
+                  checkedIcon='dot-circle-o'
+                  uncheckedIcon='circle-o'
+                  checked={props.user.isAccepted}
+                  onPress={() => props.updateUser({isAccepted: !props.user.isAccepted})}
+                />
+                <Text style={{paddingTop: 10}}>
+                  I have read and I accept the terms and conditions
+                </Text>
+              </View>
+              
+
               <Button
                 buttonStyle={styles.registerButton}
                 onPress={() => {
@@ -196,19 +286,56 @@ function Login(props) {
                 }}
                 title="Register"
               />
+                <View style={{ flexDirection: 'row', justifyContent: 'center', paddingTop: 40}}>
+                <Text style={{textAlign:'center', fontSize: 15, fontWeight: '400', color: 'grey'}}>Already a member?</Text>
+                <TouchableOpacity
+                 onPress={() => {
+                      setModalVisible(false);
+                  }}
+                >
+                  <Text style={{textAlign:'center', fontSize: 15, color: 'green'}}>{"  Sign In"}</Text>
+                </TouchableOpacity>
+              </View>
+       
             </View>
           </View>
-        </Modal>
+        </Modal> 
+     
+       </View>
 
-        <Button
-          buttonStyle={styles.signupButton}
-          onPress={() => {
-              setModalVisible(true);
-          }}
-          title="Sign up"
-        />
-        </View>
-      </View>
+        
+
+        {/* <View style={{padding: 35}}>
+          <Input
+            containerStyle={{ paddingBottom: 20}}
+            label="Full Name"
+      
+            bottomDivider
+
+          />
+          <Input
+              containerStyle={{ paddingBottom: 20}}
+            label="Email"
+          
+            bottomDivider
+          />
+          <Input
+                containerStyle={{ paddingBottom: 20}}
+            label="Phone"
+         
+            bottomDivider
+
+          />
+          <Input
+                containerStyle={{ paddingBottom: 20}}
+            label="Password"
+        
+            bottomDivider
+          />
+        </View> */}
+      
+
+      </View> 
     </TouchableWithoutFeedback>
   </KeyboardAvoidingView>
   );
