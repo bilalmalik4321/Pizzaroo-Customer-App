@@ -125,3 +125,24 @@ export const uuidv4 = () => {
     return v.toString(16);
   });
 }
+
+
+export const createOrder = async (payload) => {
+	try {	
+		const userInfo = firebase.auth().currentUser;
+		const { uid } = userInfo;
+		return await db
+			.collection('orders')
+			.add({
+				customerId: uid,
+				createdAt: timestamp,
+				updatedAt: timestamp,
+				status: 'open',
+				progressStep: 'waiting',
+				...payload
+			});
+
+	} catch (error) {
+		console.log('createOrder failed', error);
+	}
+}

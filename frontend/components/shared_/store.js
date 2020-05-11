@@ -30,7 +30,7 @@ export default {
     selected_address: false,
     address: {
     },
-    buyFrom: {
+    store: {
 
     }
   },

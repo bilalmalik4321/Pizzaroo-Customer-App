@@ -19,18 +19,44 @@ import {
 import StickyHeaderFooterScrollView from 'react-native-sticky-header-footer-scroll-view';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import Icon from "react-native-vector-icons/FontAwesome";
+import { createOrder } from '../api/api';
+
+const findNumberOfOrder = (items) => {
+  const {pizzas, desserts, drinks, dipping, sides} = items;
+
+  return pizzas.length+ desserts.length+ drinks.length+ dipping.length+sides.length
+}
+
 
 const  Checkout = props => {
   const [modalVisibleOther, setModalVisibleOther] = useState(false);
   const [method, setMethod] = useState(0);
   const [errMsg , setErrMsg] = useState(null);
-  console.log("checkout info",props.checkout);
+  console.log("checkout info",props.checkout.address);
+  console.log("items info",props.items);
 
-  const onConfirm = async()=> {
+  const onConfirm = async ()=> {
     if(!props.checkout.selected_address){
       setErrMsg('You must select an address')
     } else {
-      //TODO ===> send to order status
+      
+      const { address, instruction, payment, store } = props.checkout;
+      const { items } = props;
+      const numberOfItems = findNumberOfOrder(items);
+      const payload = {
+        customerName: props.user.name,
+        customerPhone: props.user.phone,
+        customerEmail: props.user.email,
+        items,
+        address,
+        instruction,
+        payment,
+        storeId: store.id,
+        numberOfItems
+      }
+      await createOrder(payload);
+
+      props.navigation.navigate('Orders')
     }
   };
 

@@ -22,7 +22,7 @@ import Location from './components/location/location';
 import Address from './components/location/address';
 import ChangePassword from './components/account/changePassword';
 import ChangeEmail from './components/account/changeEmail';
-import ChangeProfile from './components/order/ordersList';
+import Orders from './components/order/ordersList';
 import StatusOrder from './components/order/status';
 import Signup from './components/account/signup';
 
@@ -44,7 +44,7 @@ const AppNavigator = createStackNavigator(
 	    	headerTitleAlign: 'center',
         headerLeft: () => (
           <TouchableOpacity
-            onPress={() => navigation.navigate("ChangeProfile")}
+            onPress={() => navigation.navigate("Orders")}
             activeOpacity={0.2}
           >
             <Image
@@ -55,8 +55,8 @@ const AppNavigator = createStackNavigator(
         ),
       })
     },
-    ChangeProfile: {
-      screen: ChangeProfile,
+    Orders: {
+      screen: Orders,
 
       navigationOptions: ({ navigation }) => ({
         title: 'Orders',
@@ -360,3 +360,5 @@ const styles = StyleSheet.create({
   },
 
 });
+
+

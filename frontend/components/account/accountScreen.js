@@ -15,7 +15,7 @@ function AccountScreen(props) {
     {
       title: "Your Orders",
       icon: 'menu',
-      onClick: () => {props.navigation.navigate("ChangeProfile")}
+      onClick: () => {props.navigation.navigate("Orders")}
     },
     {
       title: "Change email",

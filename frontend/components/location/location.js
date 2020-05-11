@@ -20,10 +20,34 @@ const GooglePlacesInput = (props) => {
       })}
   },[listA]);
 
+  // props.updateCheckout({
+  //   selected_address: true,
+  //   address :{
+  //     apt,
+  //     city,
+  //     country,
+  //     lng,
+  //     lat,
+  //     postalCode,
+  //     street,
+  //     state
+  //   }
+  // })
   const onSelectAddress = (address) => {
+    const { apt, city, country, lng, lat , state, postalCode, street , uuid} = address;
     props.updateCheckout({
       selected_address: true,
-      address
+      address :{
+        uuid,
+        apt,
+        city,
+        country,
+        lng,
+        lat,
+        postalCode,
+        street,
+        state
+      }
     })
   }
 
