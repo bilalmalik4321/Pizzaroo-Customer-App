@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { subscribe } from 'react-contextual';
 import { Text, Divider ,Input, Icon} from 'react-native-elements';
-import StepIndicator from 'react-native-step-indicator';
+import Steps from 'react-native-steps';
 import { Modal } from 'react-native-paper';
 import _ from 'lodash';
 import moment from 'moment';
@@ -125,20 +125,64 @@ const Status = props => {
  
           </View> 
         </View>
-        
-            <StepIndicator
-              stepCount={4}
-              customStyles={customStyles}
-              currentPosition={steps[props.status.order.progressStep]}
-              labels={labels}
+          
+          <View
+           style={{ paddingRight: 25, paddingLeft: 25, flexDirection: 'row', justifyContent: 'space-between', width: '100%'}}
+          
+          >
+            <Text style={{fontWeight: 'bold', color: `${text === 'waiting'? 'green':'grey'}`}}>
+              Waiting
+            </Text>
+            <Text style={{fontWeight: 'bold', color: `${text === 'confirmed'? 'green':'grey'}`}}>
+              Confirmed
+            </Text>
+            <Text style={{fontWeight: 'bold', color: `${text === 'enroute'? 'green':'grey'}`}}>
+              Out for delivery
+            </Text>
+            <Text style={{fontWeight: 'bold', color: `${text === 'delivered'? 'green':'grey'}`}}>
+              Delivered
+            </Text>
+
+
+          </View>
+          <View style={{ alignContent: 'center', alignSelf: 'center', marginTop: 100}}> 
+            {text === 'waiting' && 
+            <Image 
+              width={100}
+              height={100}
+              source={require('../../images/direct2.png')}
+            />}
+            {
+              text === 'confirmed' && 
+         
+             <Image 
+              width={100}
+              height={100}
+              source={require('../../images/buildings.png')}
+            />   
+            }
+            {
+              text === 'enroute' &&
+                <Image 
+                width={100}
+                height={100}
+                source={require('../../images/fast1.png')}
+              />
+            }
+           { text === 'delivered' &&
+            <Image 
+              width={100}
+              height={100}
+              source={require('../../images/pizza.png')}
             />
-          <View style={{ paddingTop: 100, paddingBotom: 100, justifyContent: 'center'}}>
-              {/* <SvgRenderer
-                style={{alignSelf: 'center'}}
-                width="100"
-                height="100"
-                source={require('../../images/direct.svg')}
-              /> */}
+           }
+          
+
+          </View>
+         
+
+          <View style={{ paddingBotom: 100, justifyContent: 'center'}}>
+   
             </View>  
           <View style={{ paddingLeft: 35, paddingRight: 35,paddingBottom: 25,paddingTop: 80, justifyContent: 'center'}}>
             <Text style={{  fontSize: 15, fontWeight :'500'}}>
