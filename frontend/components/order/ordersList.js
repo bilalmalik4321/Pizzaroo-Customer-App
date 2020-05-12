@@ -1,11 +1,12 @@
-import React, {useState} from "react";
+import React, {useEffect} from "react";
 import {
   StyleSheet,
   View,
   TouchableOpacity,
   SafeAreaView,
   Modal,
-  ScrollView
+  ScrollView,
+  YellowBox 
 } from "react-native";
 import { subscribe } from 'react-contextual';
 import {
@@ -22,68 +23,42 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import moment from 'moment';
 import firebase from '../../firebases';
 
-const timestamp = new firebase.firestore.Timestamp.now().toString();
-const aa = moment("2020-05-08 08:05:55 am",'YYYY-MM-DD hh:mm:ss a').add(1,'day').format('LL');
+// const bb = firebase.firestore.FieldValue.serverTimestamp();
+// const aa = moment(timestamp,'YYYY-MM-DD hh:mm:ss a').add(1,'day').format('LLLL');
 
 const  Checkout = props => {
-  const [modalVisibleOther, setModalVisibleOther] = useState(false);
-  const [method, setMethod] = useState(0);
-  const [errMsg , setErrMsg] = useState(null);
-  console.log("checkout info",props.checkout);
-  
-  console.log("time-----",aa);
-  const status = ['open', 'confirmed' , 'onroute' , 'closed']
-  const orders = [
-    {
-      id: '123-123',
-      status: 'open',
-      restaurant: '123 Pizza',
-      total: 100.22,
-      date: 'Monday, Marc 24th',
-      numberOfitems: 10,
-      items: {
-        pizzas: [],
-        dessert: []
-      }
-    },
-    {
-      id: '123-123',
-      restaurant: '123 Pizza',
-      total: 100.22,
-      date: 'Monday, Marc 24th',
-      status: 'closed',
-      numberOfitems: 10,
-      items: {
-        pizzas: [],
-        dessert: []
-      }
-    },
-    {
-      id: '123-123',
-      restaurant: '123 Pizza',
-      status: 'closed',
-      total: 100.22,
-      date: 'Monday, Marc 24th',
-      numberOfitems: 10,
-      items: {
-        pizzas: [],
-        dessert: []
-      }
-    }
-  ]
+
+  // console.log("props", props)
+  YellowBox.ignoreWarnings(['componentWillReceiveProps']);
+  // console.log("timestamp", timestamp, "aaaaa",aa)
+
+  useEffect(()=> {
+    // console.log("inside***")
+    props.getCustomerOrders();
+  },[props.getCustomerOrders])
+
+  const convertDate = (time) => moment(time,'YYYY-MM-DD hh:mm:ss a').add(1,'day').format('LLLL');
+  const timestamp = moment().format('YYYY-MM-DD hh:mm:ss:SS:SSS a');
+  // console.log("user", props.user);
+  const { active, completed} = props.user;
+  // const one = active[0].createdAt;
+ 
+  // console.log("one--edited", timestamp);
+  // const aa = moment(timestamp,'YYYY-MM-DD hh:mm:ss a').add(1,'day').format('LLLL');
+  // console.log("active", active, 'completed', completed);
 
   return (
     <SafeAreaView>
       <StickyHeaderFooterScrollView
-        // renderStickyFooter={() => 
-        //   <View  style={styles.shoppingButton}>
-        //     <Button 
-        //       buttonStyle={{backgroundColor: '#ff6363', borderRadius: 20}}
-        //       raised 
-        //       title="Confirm"
-        //       onPress={() => onConfirm()}
-        //     />
-        //   </View>}
+        renderStickyFooter={() => 
+          <View  style={styles.shoppingButton}>
+            <Button 
+              buttonStyle={{backgroundColor: '#ff6363', borderRadius: 20}}
+              raised 
+              title="Home"
+              onPress={() => props.navigation.navigate('Restaurants')}
+            />
+          </View>}
         style={{ backgroundColor: 'white'}}
         makeScrollable = {true}
       >
@@ -95,26 +70,37 @@ const  Checkout = props => {
             </Text>
           </View>
         </View>
-
-        {orders && orders.length !== 0 && orders.map((item, index)=> (
+        {active.length ===0 && 
+        <View style={{padding: 35, justifyContent: 'center'}}>
+          <Text style={{alignSelf: 'center'}}>
+            You have no order....!
+          </Text>
+          <Text style={{alignSelf: 'center'}}>
+            Let's order your favorite Pizza!s
+          </Text>
+        </View>}
+        {active && active.length !== 0 && active.map((item, index)=> (
           <TouchableOpacity 
             key={index}
-            onPress={() => props.navigation.navigate('Status')}
+            onPress={() => {
+              props.updateStatus({id: item.id});
+              props.navigation.navigate('Status')
+            }}
           >
             <View style={{paddingLeft: 35, paddingRight: 35, paddingBottom: 10}}>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                   <Text style={{ fontWeight:"400" ,fontSize: 20}}>
-                        {item.restaurant}
+                        {item.store.name}
                   </Text>
                   <Text style={{ fontWeight:"500", fontSize: 15, color: 'green'}}>
-                      {item.total}
+                      {item.total.toFixed(2)}
                   </Text>
                 </View>
                   <Text style={{}}>
-                  {item.date}
+                  {convertDate(item.createdAt)}
                   </Text>
                   <Text style={styles.foodItemPrice}>
-                  {item.numberOfitems} items
+                  {item.numberOfItems} items
                   </Text>
                   <View style={{paddingBottom: 10}}>
                       <Divider/>
@@ -124,6 +110,7 @@ const  Checkout = props => {
           
         ))}
 
+        {completed && completed.length !== 0 && 
         <View  style={{padding: 20, flex: 1, flexDirection: "row", justifyContent: 'space-between'}}>
           <View style={{paddingLeft: 15}}>
             <Text h4 style={{fontWeight: "normal",color: '#ff6363'}} >
@@ -131,26 +118,27 @@ const  Checkout = props => {
             </Text>
           </View>
         </View>
+        }
   
-        {orders && orders.length !== 0 && orders.map((item, index)=> (
+        {completed && completed.length !== 0 && completed.map((item, index)=> (
           <TouchableOpacity 
               key={index}
             onPress={() => {}}
           >
             <View style={{paddingLeft: 35, paddingRight: 35, paddingBottom: 10}}>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                  <Text style={{ fontWeight:"400" ,fontSize: 20}}>
-                        {item.restaurant}
+                  <Text style={{ fontWeight:"400" ,fontSize: 20, color: 'grey'}}>
+                        {item.store.name}
                   </Text>
-                  <Text style={{ fontWeight:"500", fontSize: 15, color: 'green'}}>
-                      {item.total}
+                  <Text style={{ fontWeight:"500", fontSize: 15, fontWeight: '300', color: 'green'}}>
+                      {item.total.toFixed(2)}
                   </Text>
                 </View>
-                  <Text style={{}}>
-                  {item.date}
+                  <Text style={{color: 'grey'}}>
+                  {convertDate(item.createdAt)}
                   </Text>
-                  <Text style={styles.foodItemPrice}>
-                  {item.numberOfitems} items
+                  <Text style={{...styles.foodItemPrice, fontWeight: '300'}}>
+                  {item.numberOfItems} items
                   </Text>
                   <View style={{paddingBottom: 10}}>
                       <Divider/>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {Keyboard, Text, View, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
+import {Keyboard, Text, View, TouchableWithoutFeedback, KeyboardAvoidingView , YellowBox} from 'react-native';
 import { Button } from 'react-native-elements';
 import { subscribe } from 'react-contextual';
 import styles from "../style";
@@ -13,6 +13,7 @@ import SvgUri from 'react-native-svg-uri';
 
 function Login(props) {
 
+  YellowBox.ignoreWarnings(['componentWillReceiveProps']);
   const { loggedIn } = props.user;
   const [returnError, setReturnError ] = useState('');
   const [clearEmail, setClearEmail] = useState(false);
@@ -25,12 +26,13 @@ function Login(props) {
         firebase.auth().onAuthStateChanged(async user => {
           if (user) {
             const userInfo = await getUser(user.uid);
-            console.log('user', user)
+            // console.log('user', user)
             props.updateUser({
               ...userInfo,
               loggedIn: true
             });
-            console.log("stayed log in ------", userInfo);
+            props.getCustomerOrders()
+            // console.log("stayed log in ------", userInfo);
             if(userInfo.addresses !== undefined)
               props.navigation.navigate("Restaurants");
             else 
@@ -41,7 +43,7 @@ function Login(props) {
       } catch (err) {
         console.log(err);
     }
-  },[loggedIn]);
+  },[loggedIn, props.getCustomerOrders]);
 
   const onLogin = async () => {
     const { email, password } = props.user;
@@ -79,14 +81,14 @@ function Login(props) {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.loginScreenContainer}>
           <View style={styles.loginFormView}> 
-          <View style={{}}>
+          {/* <View style={{}}>
             <SvgUri
               style={{}}
               width="100"
               height="100"
               source={require('../../images/pizza1.svg')}
             />
-          </View>
+          </View> */}
           <Text style={styles.logoText}>Pizzaro</Text>
           
           <Input 

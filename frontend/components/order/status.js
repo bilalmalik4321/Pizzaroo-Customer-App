@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   StyleSheet,
@@ -6,14 +6,24 @@ import {
   SafeAreaView,
   ScrollView,
   Image,
-  Linking
+  Linking,
+  YellowBox
 } from 'react-native';
 import { subscribe } from 'react-contextual';
-import { Text, Divider , Button} from 'react-native-elements';
+import { Text, Divider ,Input, Icon} from 'react-native-elements';
 import StepIndicator from 'react-native-step-indicator';
 import { Modal } from 'react-native-paper';
 import SvgUri from 'react-native-svg-uri';
- 
+import _ from 'lodash';
+import moment from 'moment';
+import {updateOrder, onListenOnOrder} from '../api/api';
+import changeEmail from '../account/changeEmail';
+const steps = {
+  waiting: 0,
+  confirmed: 1,
+  enroute: 2,
+  delivered: 3
+}
 const labels = ["Waiting","Confirmed","Out for delivery", "Delivered"];
 const customStyles = {
   stepIndicatorSize: 25,
@@ -40,8 +50,27 @@ const customStyles = {
 }
  
 const Status = props => {
-  
+  YellowBox.ignoreWarnings(['componentWillReceiveProps']);
+  console.log("user", props);
+
+  const [text, setText] = useState('waiting');
+  const { id } = props.status;
+  useEffect(()=> {
+    console.log("props----------------",props)
+    console.log("status Id", props.status.id!== null)
+    if(id!== null) {
+      console.log("true should be")
+      props.getCustomerOrder(id);
+      onListenOnOrder(props.status.order.uuid);
+    }
+
+  },[id,props.getCustomerOrder])
+
+  console.log("latest Use Effect -----", props.status)
   const [step, setStep] =useState(0);
+  const convertDate = (time) => moment(time,'YYYY-MM-DD hh:mm:ss a').add(1,'day').format('LLL');
+
+  // console.log("order***", props.status)
 
   return (
     <SafeAreaView style={{   
@@ -49,20 +78,31 @@ const Status = props => {
       width: '100%'
       }}>
       <ScrollView style={{padding: 20, backgroundColor: 'white'}}>
+
+      {props.status.loading && 
+      
+      <Icon
+        color="grey"
+        size={100}
+        containerStyle={{padding: 50, alignSelf: 'center' , marginTop: '20%'}}
+        name="hourglass-empty"
+      />}
+      {!props.status.loading && 
+      <View>
         <View style={{ padding: 35, justifyContent: 'center'}}>
           <Text style={{  fontSize: 15, fontWeight :'400'}}>
-            Order ID: 123-12-123
+            Order ID: {props.status.id}
           </Text>
           <Text style={{ fontSize: 15, fontWeight :'300',color: 'grey'}}>
-            Date: May 10 2020
+            Date: {convertDate(props.status.order.createdAt)}
           </Text>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             
             <Text style={{ fontSize:15, fontWeight: '300', color: 'grey'}}>
-              Tenko Sushi
+             {props.status.order.store.name}
             </Text>
             <TouchableOpacity
-              onPress={()=> Linking.openURL(`tel:${2262808363}`) }
+              onPress={()=> Linking.openURL(`tel:${props.status.order.store.phone}`) }
             >
               <Text style={{ fontSize: 15 , fontWeight: '400', color: 'green' , alignItems: 'center'}}>
                 Contact
@@ -75,21 +115,17 @@ const Status = props => {
             <StepIndicator
               stepCount={4}
               customStyles={customStyles}
-              currentPosition={step}
+              currentPosition={steps[props.status.order.progressStep]}
               labels={labels}
             />
-          <View style={{ paddingTop: 100, paddingBotom: 100, justifyContent: 'center'}}>
+          {/* <View style={{ paddingTop: 100, paddingBotom: 100, justifyContent: 'center'}}>
               <SvgUri
                 style={{alignSelf: 'center'}}
                 width="100"
                 height="100"
                 source={require('../../images/direct.svg')}
               />
-            </View>  
-
-          {/* <View style={{paddingLeft: 35, paddingRight:25, paddingTop: 80}}>
-                  <Divider/>
-          </View> */}
+            </View>   */}
           <View style={{ paddingLeft: 35, paddingRight: 35,paddingBottom: 25,paddingTop: 80, justifyContent: 'center'}}>
             <Text style={{  fontSize: 15, fontWeight :'500'}}>
               Items
@@ -117,25 +153,21 @@ const Status = props => {
             <Text style={{ fontWeight: '300', color: 'grey'}}>
               2x Pizza Pepporoi
             </Text>
-         </View> 
-         {/* <View style={{ paddingTop: 100, paddingBotom: 100, justifyContent: 'center'}}>
-            <SvgUri
-              style={{alignSelf: 'center'}}
-              width="100"
-              height="100"
-              source={require('../../images/noodles.svg')}
-            />
-          </View>  
-          <View style={{ paddingTop: 100, paddingBotom: 100, justifyContent: 'center'}}>
-            <SvgUri
-              style={{alignSelf: 'center'}}
-              width="100"
-              height="100"
-              source={require('../../images/delivery-truck.svg')}
-            />
-          </View>  */}
+         </View>
+
+        <Input
+         label="Status"
+         onChangeText={e => setText(e.toLowerCase())}
+        >
+           
+        </Input>
+         <TouchableOpacity
+          onPress={()=> updateOrder(props.status.order, props.status.id, text)}
+         >
+           <Text style={{paddingTop: 20, alignSelf:'center', color: 'green', fontWeight: 'bold',fontSize: 30}}>Change order</Text>
+         </TouchableOpacity>
   
-    
+         </View> }
       </ScrollView>
         
 

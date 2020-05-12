@@ -3,7 +3,8 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
-  Text
+  Text,
+  YellowBox
 } from "react-native";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
@@ -63,7 +64,7 @@ const AppNavigator = createStackNavigator(
 	    	headerTitleAlign: 'center',
         headerLeft: () => (
           <TouchableOpacity
-            onPress={() => navigation.navigate("Account")}
+            onPress={() => navigation.navigate("Restaurants")}
             activeOpacity={0.2}
           >
             <Image
@@ -330,6 +331,7 @@ const AppNavigator = createStackNavigator(
 const AppContainer = createAppContainer(AppNavigator);
 
 export default function App() {
+  YellowBox.ignoreWarnings(['componentWillReceiveProps']);
   return (
   <Provider {...store}>
       <AppContainer />

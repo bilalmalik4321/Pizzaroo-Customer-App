@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {Keyboard, Text, View, TouchableWithoutFeedback, KeyboardAvoidingView } from 'react-native';
+import {Keyboard, Text, View, TouchableWithoutFeedback, KeyboardAvoidingView ,YellowBox} from 'react-native';
 import { Button, CheckBox } from 'react-native-elements';
 import { subscribe } from 'react-contextual';
 import styles from "../style";
@@ -21,6 +21,7 @@ function Login(props) {
   const [clearRepeatPass, setClearRepeatPass] = useState(false);
 
   const errors = props.errors.error_signup;
+
 
   const onCreateUser = async () => {
     console.log("hello")
@@ -49,14 +50,14 @@ function Login(props) {
         <View style={styles.loginScreenContainer}>
           <View style={{flex: 1, justifyContent: 'center' , alignItems: 'center', paddingLeft: 35, paddingRight: 35,paddingTop: '60%'}}> 
         
-              <View style={{}}>
+              {/* <View style={{}}>
                 <SvgUri
                   style={{}}
                   width="100"
                   height="100"
                   source={require('../../images/pizza1.svg')}
                 />
-            </View>
+            </View> */}
             <Text style={{ color: '#ff6363',
                           fontSize: 40,
                           fontWeight: "200",

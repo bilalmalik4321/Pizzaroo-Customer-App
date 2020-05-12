@@ -1,12 +1,12 @@
 import firebase from '../../firebases';
-
+import moment from 'moment';
 // access the database
 
 // const { firebase , firestore } = all;
 // console.log("aall", all);
 const db = firebase.firestore();
 // timestamp
-const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+const timestamp = moment().format('YYYY-MM-DD hh:mm:ss:SS:SSS a');
 
 /**
  * firebase database is like json file using key-value pair 
@@ -134,12 +134,107 @@ export const createOrder = async (payload) => {
 		return await db
 			.collection('orders')
 			.add({
+				uuid: uuidv4(),
 				customerId: uid,
 				createdAt: timestamp,
 				updatedAt: timestamp,
 				status: 'open',
 				progressStep: 'waiting',
 				...payload
+			});
+
+	} catch (error) {
+		console.log('createOrder failed', error);
+	}
+}
+
+
+export const getOrder = async (orderId) => {
+	try{
+
+		console.log("getOrderwork?*******", orderId);
+		const order = await db
+			.collection('orders')
+			.doc(orderId)
+			.get();
+		console.log("order by id", order.data())
+		return order.data();
+	} catch (error ){
+		console.log("error getOrder", error);
+	}
+}
+
+export const getOrders = async (callback) => {
+	try {
+
+		const userInfo = firebase.auth().currentUser;
+		const { uid } = userInfo;
+
+		return await db
+			.collection('orders')
+			.where('customerId', '==', uid)
+			.onSnapshot( snapshot => {
+				const active = [];
+				const completed = [];
+
+				snapshot.forEach( doc => (
+					doc.data().status === 'open' && active.push({
+						id: doc.id,
+						...doc.data()
+					})
+				))
+				snapshot.forEach( doc => (
+					doc.data().status === 'closed' && completed.push({
+						id: doc.id,
+						...doc.data()
+					})
+				))
+
+			callback(active, completed);
+
+			})
+
+	} catch (error) {
+		console.log("getOrders error", error);
+	}
+}
+
+export const onListenOnOrder = async (uuid) => {
+	try {
+		console.log("does it run?")
+		
+		let observer = db.collection('orders').where('uuid', '==', uuid)
+		.onSnapshot(querySnapshot => {
+			querySnapshot.docChanges().forEach(change => {
+				if (change.type === 'added') {
+					console.log('added---- ', change.doc.data());
+				}
+				if (change.type === 'modified') {
+					console.log('*** changed---- ', change.doc.data());
+
+				}
+				if (change.type === 'removed') {
+					console.log('Removed----: ', change.doc.data());
+				}
+			});
+		});
+		 
+	} catch (err) {
+		console.log("error onListenOnOrder",err);
+	}
+}
+export const updateOrder = async (payload, orderId, status) => {
+	try {	
+		const userInfo = firebase.auth().currentUser;
+		const { uid } = userInfo;
+		return await db
+			.doc(`orders/${orderId}`)
+			.set({
+				...payload,
+				progressStep: status,
+				updatedAt: timestamp,
+			}, {
+				merge: true
 			});
 
 	} catch (error) {

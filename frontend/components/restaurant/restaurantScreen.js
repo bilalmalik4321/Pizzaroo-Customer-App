@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
+  YellowBox
 } from "react-native";
 import {
   Card,
@@ -21,7 +22,7 @@ function RestaurantScreen(props) {
   list.push(props.schema[0]);  
   list.push(props.schema[0]);
   // console.log("hello props", list);
-
+  YellowBox.ignoreWarnings(['componentWillReceiveProps']);
   return (
     <SafeAreaView>
       <ScrollView style={{backgroundColor: "white"}}> 

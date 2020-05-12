@@ -26,7 +26,30 @@ const findNumberOfOrder = (items) => {
 
   return pizzas.length+ desserts.length+ drinks.length+ dipping.length+sides.length
 }
+const total = (items) => {
+  
+  let count = 0;
+  const { pizzas, dipping, drinks, sides,desserts} = items;      
 
+  pizzas.forEach(element =>{
+    count = count + (element.quantity * element.price);
+  });
+  drinks.forEach(element =>{
+    count = count + (element.quantity * element.price);
+  });
+  sides.forEach(element =>{
+    count = count + (element.quantity * element.price);
+  });
+  dipping.forEach(element =>{
+    count = count + (element.quantity * element.price);
+  });
+  desserts.forEach(element =>{
+    count = count + (element.quantity * element.price);
+  });
+
+  return count;
+
+ }
 
 const  Checkout = props => {
   const [modalVisibleOther, setModalVisibleOther] = useState(false);
@@ -52,7 +75,9 @@ const  Checkout = props => {
         instruction,
         payment,
         storeId: store.id,
-        numberOfItems
+        store,
+        numberOfItems,
+        total: total(items)
       }
       await createOrder(payload);
 

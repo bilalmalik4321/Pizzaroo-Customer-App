@@ -95,7 +95,11 @@ export default {
   menu : {
 
   },
-
+  // ------------ status --------------- // 
+  status: {
+    id: '',
+    loading: true
+  },
 
   // ------------ error --------------- // 
   errors: {

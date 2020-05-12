@@ -1,3 +1,4 @@
+import { getOrders, getOrder } from '../api/api'; 
  /**
  * This updates the pizzOrder state by key value pairs or if
  * an object is passed as the first arg, the values will
@@ -156,3 +157,92 @@ export const updateCheckout = (key, value ) => state => {
     checkout
   };
 };
+
+
+/**
+ * This gets all orders from database
+ * 
+ */
+
+export const getCustomerOrders = () => async (state) => {
+  try {
+  // console.log("cannot find user-----", state.user)
+  state.setState({
+    user: {
+      ...state.user,
+      loading: true
+    }
+  });
+	// console.log("cannot find user", state.user)
+  await getOrders(
+    async (active, completed) => {
+      state.setState({
+        user: {
+          ...state.user,
+          active,
+          completed,
+          loading: false
+        }
+      })
+    }
+  )} catch (err) {
+    console.log("***", err)
+  }
+}
+
+// ------------ status -------------//
+/**
+ * 
+ * @param {String || Object} key - key is the attributes in the checkout 
+ * @param {Any} value - new value is the key for the string 'field'
+ */
+export const updateStatus = (key, value ) => state => {
+  let status= {};
+
+  if (typeof key === 'object') {
+    const dataToAppend = key;
+    status= {
+      ...state.status,
+      ...dataToAppend
+    };
+  } else {
+    status = {
+      ...state.status,
+      [key]: value
+    };
+  }
+
+  return {
+    status
+  };
+};
+
+/**
+ * This functions retrieve order from the firestore 
+ **/
+export const getCustomerOrder = () => async state => {
+  try {
+    console.log("get Customer one order");
+
+    state.setState({
+      status: {
+        ...state.status,
+        loading: true
+      }
+    })
+  
+    const order = await getOrder(state.status.id);
+  
+    state.setState({
+      status: {
+        ...state.status,
+        order,
+        loading: false
+      }
+    })
+
+  } catch (err) {
+    console.log("error", err);
+  }
+
+}
