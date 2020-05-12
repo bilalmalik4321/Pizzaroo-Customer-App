@@ -127,33 +127,33 @@ const Status = props => {
         </View>
           
           <View
-           style={{ paddingRight: 25, paddingLeft: 25, flexDirection: 'row', justifyContent: 'space-between', width: '100%'}}
+           style={{ paddingRight: 35, paddingLeft: 35, flexDirection: 'row', justifyContent: 'space-between', width: '100%'}}
           
           >
-            <Text style={{fontWeight: 'bold', color: `${text === 'waiting'? 'green':'grey'}`}}>
+            <Text style={{fontWeight: `${props.status.order.progressStep === 'waiting'? 'bold':'200'}`, color: `${props.status.order.progressStep === 'waiting'? 'green':'grey'}`}}>
               Waiting
             </Text>
-            <Text style={{fontWeight: 'bold', color: `${text === 'confirmed'? 'green':'grey'}`}}>
+            <Text style={{fontWeight: `${props.status.order.progressStep === 'confirmed'? 'bold':'200'}`, color: `${props.status.order.progressStep === 'confirmed'? 'green':'grey'}`}}>
               Confirmed
             </Text>
-            <Text style={{fontWeight: 'bold', color: `${text === 'enroute'? 'green':'grey'}`}}>
+            <Text style={{fontWeight: `${props.status.order.progressStep === 'enroute'? 'bold':'200'}`, color: `${props.status.order.progressStep === 'enroute'? 'green':'grey'}`}}>
               Out for delivery
             </Text>
-            <Text style={{fontWeight: 'bold', color: `${text === 'delivered'? 'green':'grey'}`}}>
+            <Text style={{fontWeight: `${props.status.order.progressStep === 'delivered'? 'bold':'200'}`, color: `${props.status.order.progressStep === 'delivered'? 'green':'grey'}`}}>
               Delivered
             </Text>
 
 
           </View>
           <View style={{ alignContent: 'center', alignSelf: 'center', marginTop: 100}}> 
-            {text === 'waiting' && 
+            {props.status.order.progressStep=== 'waiting' && 
             <Image 
               width={100}
               height={100}
               source={require('../../images/direct2.png')}
             />}
             {
-              text === 'confirmed' && 
+              props.status.order.progressStep === 'confirmed' && 
          
              <Image 
               width={100}
@@ -162,14 +162,14 @@ const Status = props => {
             />   
             }
             {
-              text === 'enroute' &&
+              props.status.order.progressStep === 'enroute' &&
                 <Image 
                 width={100}
                 height={100}
                 source={require('../../images/fast1.png')}
               />
             }
-           { text === 'delivered' &&
+           { props.status.order.progressStep === 'delivered' &&
             <Image 
               width={100}
               height={100}
@@ -179,27 +179,40 @@ const Status = props => {
           
 
           </View>
-         
-
           <View style={{ paddingBotom: 100, justifyContent: 'center'}}>
    
             </View>  
+         
           <View style={{ paddingLeft: 35, paddingRight: 35,paddingBottom: 25,paddingTop: 80, justifyContent: 'center'}}>
             <Text style={{  fontSize: 15, fontWeight :'500'}}>
               Items
             </Text>
-            <Text style={{ fontWeight: '300', color: 'grey'}}>
-              2x Pizza Pepporoi
-            </Text>
-            <Text style={{ fontWeight: '300', color: 'grey'}}>
-              2x 10 pcs. Chicken Wings
-            </Text>
-            <Text style={{ fontWeight: '300', color: 'grey'}}>
-              2x Diet Coke
-            </Text>
-            <Text style={{ fontWeight: '300', color: 'grey'}}>
-              2x Sweet and chilly chicken 
-            </Text>
+            { props.status.order.numberOfItems !== 0 && props.status.order.items.pizzas.map((item, index) =>(
+              <Text key={index} style={{ fontWeight: '300', color: 'grey'}}>
+              {item.quantity}x {item.name}
+              </Text>
+            ))}
+            { props.status.order.numberOfItems !== 0 && props.status.order.items.sides.map((item, index) =>(
+              <Text  key={index} style={{ fontWeight: '300', color: 'grey'}}>
+              {item.quantity}x {item.name}
+              </Text>
+            ))}
+            { props.status.order.numberOfItems !== 0 && props.status.order.items.drinks.map((item, index) =>(
+              <Text key={index} style={{ fontWeight: '300', color: 'grey'}}>
+              {item.quantity}x {item.name}
+              </Text>
+            ))}
+            { props.status.order.numberOfItems !== 0 && props.status.order.items.desserts.map((item, index) =>(
+              <Text key={index} style={{ fontWeight: '300', color: 'grey'}}>
+              {item.quantity}x {item.name}
+              </Text>
+            ))}
+            { props.status.order.numberOfItems !== 0 && props.status.order.items.dipping.map((item, index) =>(
+              <Text key={index} style={{ fontWeight: '300', color: 'grey'}}>
+              {item.quantity}x {item.name}
+              </Text>
+            ))}
+       
          </View> 
          <View style={{paddingLeft: 35, paddingRight:25}}>
                   <Divider/>
@@ -209,10 +222,10 @@ const Status = props => {
               Address
             </Text>
             <Text style={{ fontWeight: '300', color: 'grey'}}>
-              2x Pizza Pepporoi
+              {props.status.order.address.street}
             </Text>
          </View>
-
+{/* 
         <Input
          label="Status"
          onChangeText={e => setText(e.toLowerCase())}
@@ -224,11 +237,9 @@ const Status = props => {
          >
            <Text style={{paddingTop: 20, alignSelf:'center', color: 'green', fontWeight: 'bold',fontSize: 30}}>Change order</Text>
          </TouchableOpacity>
-  
-         </View> }
+   */}
+        </View> }
       </ScrollView>
-        
-
     </SafeAreaView>
   
   )
