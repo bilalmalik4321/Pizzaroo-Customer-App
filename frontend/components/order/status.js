@@ -57,7 +57,6 @@ const Status = props => {
 
   const [text, setText] = useState('waiting');
   const uuid = props.status.uuid;
-  console.log("props stauts", props.status)
   // const { loading } = props.status;
   useEffect( ()=> {
       console.log("props----------------",props)
