@@ -8,7 +8,7 @@ import { createUser } from '../api/api';
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Input } from 'react-native-elements';
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
-import SvgUri from 'react-native-svg-uri';
+// import SvgUri from 'react-native-svg-uri';
 
 function Login(props) {
 

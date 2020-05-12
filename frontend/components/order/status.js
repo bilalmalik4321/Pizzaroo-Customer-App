@@ -13,13 +13,11 @@ import { subscribe } from 'react-contextual';
 import { Text, Divider ,Input, Icon} from 'react-native-elements';
 import StepIndicator from 'react-native-step-indicator';
 import { Modal } from 'react-native-paper';
-import SvgUri from 'react-native-svg-uri';
 import _ from 'lodash';
 import moment from 'moment';
-import {updateOrder, onListenOnOrder} from '../api/api';
-import changeEmail from '../account/changeEmail';
+import {updateOrder} from '../api/api';
 import firebase from '../../firebases'
-import { fetchUpdateAsync } from 'expo/build/Updates/Updates';
+// import SvgRenderer from 'react-native-svg-renderer';
 const steps = {
   waiting: 0,
   confirmed: 1,
@@ -134,14 +132,14 @@ const Status = props => {
               currentPosition={steps[props.status.order.progressStep]}
               labels={labels}
             />
-          {/* <View style={{ paddingTop: 100, paddingBotom: 100, justifyContent: 'center'}}>
-              <SvgUri
+          <View style={{ paddingTop: 100, paddingBotom: 100, justifyContent: 'center'}}>
+              {/* <SvgRenderer
                 style={{alignSelf: 'center'}}
                 width="100"
                 height="100"
                 source={require('../../images/direct.svg')}
-              />
-            </View>   */}
+              /> */}
+            </View>  
           <View style={{ paddingLeft: 35, paddingRight: 35,paddingBottom: 25,paddingTop: 80, justifyContent: 'center'}}>
             <Text style={{  fontSize: 15, fontWeight :'500'}}>
               Items

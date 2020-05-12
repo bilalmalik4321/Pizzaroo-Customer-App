@@ -9,7 +9,7 @@ import firebase from '../../firebases';
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Input } from 'react-native-elements';
 import { TouchableOpacity } from "react-native-gesture-handler";
-import SvgUri from 'react-native-svg-uri';
+// import SvgUri from 'react-native-svg-uri';
 
 function Login(props) {
 
