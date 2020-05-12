@@ -152,12 +152,12 @@ export const createOrder = async (payload) => {
 export const getOrder = async (orderId) => {
 	try{
 
-		console.log("getOrderwork?*******", orderId);
+		// console.log("getOrderwork?*******", orderId);
 		const order = await db
 			.collection('orders')
 			.doc(orderId)
 			.get();
-		console.log("order by id", order.data())
+		// console.log("order by id", order.data())
 		return order.data();
 	} catch (error ){
 		console.log("error getOrder", error);
@@ -203,18 +203,13 @@ export const onListenOnOrder = async (uuid) => {
 	try {
 		console.log("does it run?")
 		
-		let observer = db.collection('orders').where('uuid', '==', uuid)
+		let observer = await db.collection('orders').where('uuid', '==', uuid)
 		.onSnapshot(querySnapshot => {
 			querySnapshot.docChanges().forEach(change => {
-				if (change.type === 'added') {
-					console.log('added---- ', change.doc.data());
-				}
+			
 				if (change.type === 'modified') {
 					console.log('*** changed---- ', change.doc.data());
-
-				}
-				if (change.type === 'removed') {
-					console.log('Removed----: ', change.doc.data());
+					return true;
 				}
 			});
 		});

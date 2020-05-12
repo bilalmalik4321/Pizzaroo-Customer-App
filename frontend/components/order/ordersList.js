@@ -83,7 +83,7 @@ const  Checkout = props => {
           <TouchableOpacity 
             key={index}
             onPress={() => {
-              props.updateStatus({id: item.id});
+              props.updateStatus({order: item, id: item.id, loading: false, uuid: item.uuid});
               props.navigation.navigate('Status')
             }}
           >

@@ -18,6 +18,8 @@ import _ from 'lodash';
 import moment from 'moment';
 import {updateOrder, onListenOnOrder} from '../api/api';
 import changeEmail from '../account/changeEmail';
+import firebase from '../../firebases'
+import { fetchUpdateAsync } from 'expo/build/Updates/Updates';
 const steps = {
   waiting: 0,
   confirmed: 1,
@@ -54,17 +56,32 @@ const Status = props => {
   console.log("user", props);
 
   const [text, setText] = useState('waiting');
-  const { id } = props.status;
-  useEffect(()=> {
-    console.log("props----------------",props)
-    console.log("status Id", props.status.id!== null)
-    if(id!== null) {
-      console.log("true should be")
-      props.getCustomerOrder(id);
-      onListenOnOrder(props.status.order.uuid);
+  const uuid = props.status.uuid;
+  console.log("props stauts", props.status)
+  // const { loading } = props.status;
+  useEffect( ()=> {
+      console.log("props----------------",props)
+      console.log("status Id", props.status.id!== null)
+      const fetchData =  async ()=>{
+        try {
+          await firebase.firestore()
+            .collection('orders')
+            .where('uuid', '==', uuid)
+            .onSnapshot(querySnapshot => {
+              querySnapshot.docChanges().forEach(change => {
+              if (change.type === 'modified') {
+                console.log("changed----", change.doc.data());
+                props.updateStatus({ order: change.doc.data(), loading: false})
+              }
+            })
+          })
+      } catch (err) {
+        console.log("error", err);
+      }
     }
-
-  },[id,props.getCustomerOrder])
+    fetchData();
+    // return () => {};
+  },[]);
 
   console.log("latest Use Effect -----", props.status)
   const [step, setStep] =useState(0);
