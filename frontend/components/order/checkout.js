@@ -20,7 +20,7 @@ import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-
 import Icon from "react-native-vector-icons/FontAwesome";
 import { subscribe } from 'react-contextual';
 
-import { createOrder } from '../api/api';
+import { createOrder } from '../api';
 import { findNumberOfOrder , total } from '../_shared/utility';
 
 /**

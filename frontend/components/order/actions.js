@@ -1,4 +1,4 @@
-import { getOrders, getOrder } from '../api/api'; 
+import { getOrders, getOrder } from '../api'; 
  /**
  * This updates the pizzOrder state by key value pairs or if
  * an object is passed as the first arg, the values will

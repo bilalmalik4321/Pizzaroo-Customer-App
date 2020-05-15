@@ -4,7 +4,7 @@ import { Button } from 'react-native-elements';
 import { subscribe } from 'react-contextual';
 import styles from "../style";
 import * as validations from './validations';
-import { getUser } from '../api/api';
+import { getUser } from '../api';
 import firebase from '../../firebases';
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Input } from 'react-native-elements';

@@ -4,7 +4,7 @@ import { Button, CheckBox } from 'react-native-elements';
 import { subscribe } from 'react-contextual';
 import styles from "../style";
 import * as validations from './validations';
-import { createUser } from '../api/api';
+import { createUser } from '../api';
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Input } from 'react-native-elements';
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";

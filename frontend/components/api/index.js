@@ -6,7 +6,7 @@ import moment from 'moment';
 // console.log("aall", all);
 const db = firebase.firestore();
 // timestamp
-const timestamp = moment().format('YYYY-MM-DD hh:mm:ss:SS:SSS a');
+export const timestamp = moment().format('YYYY-MM-DD hh:mm:ss:SS:SSS a');
 
 /**
  * firebase database is like json file using key-value pair 

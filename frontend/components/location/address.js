@@ -1,16 +1,20 @@
 import React from 'react';
 import { subscribe } from 'react-contextual';
 import {  Text, View,StyleSheet, TouchableHighlight} from 'react-native';
-import { uuidv4 , editAddresses,} from '../api/api';
 import { ListItem} from "react-native-elements";
 import { Input } from 'react-native-elements';
 import moment from 'moment';
 
-const timestamp = moment()
-    .utcOffset('+05:30')
-    .format('YYYY-MM-DD hh:mm:ss a');
+import { uuidv4 , editAddresses } from '../api';
 
+// get the current local date
+const timestamp = moment().format('YYYY-MM-DD hh:mm:ss a');
+
+/**
+ * Edit Address component - Allow user to edit the detail of the address
+ */
 const EditAddress = subscribe()(props => {
+
   const {    
     title,
     uuid,
@@ -25,6 +29,7 @@ const EditAddress = subscribe()(props => {
     instruction,
   } = props.address;
 
+  // Save the changed address
   const onSaveAddress = async () => {
     const { addresses } = props.user;
     let payload = addresses;
@@ -42,20 +47,21 @@ const EditAddress = subscribe()(props => {
       uuid,
       instruction
     }
+    // if it is a newly search address, add uuid to it
+    // else it is an edit, using uuid to filter into a new list of address and update the store
     if((uuid === undefined || !uuid )&& newlySearch) {
       temp.createdAt = timestamp;
       temp.uuid = uuidv4();
       temp.newlySearch = false;
       payload.push(temp);
-      // console.log("new addres-------")
     } else {
       const newArray = addresses.filter( e => e.uuid !== props.address.uuid)
       temp.newlySearch = false;
       newArray.push(temp);
       payload = newArray;
-      // console.log("edited address-------", temp);
     }
 
+    // attempt to update addresses in the database
     try {
       const result = await editAddresses(payload);
       // console.log("this is user info ", props.user)
@@ -68,6 +74,7 @@ const EditAddress = subscribe()(props => {
     } catch (err) {
       console.log("error", err)
     }
+    // clear the address from store and from input prompt 
     props.updateAddress({
       title: '',
       apt: '',
@@ -76,6 +83,7 @@ const EditAddress = subscribe()(props => {
     });
   };
 
+  // delete an address from store and database
   const onDeleteAddress = async () => {
     const temp = props.user.addresses.filter(e => e.uuid != props.address.uuid);
     const result = await editAddresses(temp);
@@ -105,7 +113,7 @@ const EditAddress = subscribe()(props => {
         selected_address: false
       })
   }
-  // console.log("screen-----", props.user.previousScreen)
+
   return(
     <View style={{...styles.centeredView}}>
       <View style={styles.modalView}>
@@ -116,9 +124,6 @@ const EditAddress = subscribe()(props => {
             title={street}
             titleStyle={{ fontWeight: "bold" , fontSize: 20}}
             subtitleStyle={{ paddingTop: 10 }}
-            // onPress={()=> {
-            //   props.navigation.navigate("Location");
-            // }}
           />
         </View>
         <View style={{ paddingBottom: 20}}>
@@ -137,16 +142,6 @@ const EditAddress = subscribe()(props => {
             onChangeText={text => props.updateAddress({apt: text})}
           />
         </View>
-       {/* <View style={{ paddingBottom: 20}}>
-           <Input
-            label="Instructions for Deliveryman"
-            placeholder="e.g. Righ the door bell.."
-            value={props.address.instruction}
-            onChangeText={text => props.updateAddress({instruction: text})}
-
-          />
-
-        </View> */}
         <View style={{backgroundColor: 'white', paddingTop: 50 ,paddingLeft: 15, paddingRight: 15, flexDirection: 'row', justifyContent:'space-between'}}>
           <TouchableHighlight
             style={{ ...styles.openButton,width: '45%', backgroundColor: "#2196F3"}}

@@ -25,7 +25,7 @@ import InputSpinner from "react-native-input-spinner";
 import {subscribe} from "react-contextual";
 import { ScrollView } from "react-native-gesture-handler";
 import {RadioButton} from 'react-native-paper';
-import {uuidv4} from '../api/api';
+import {uuidv4} from '../api';
 function MenuScreen(props) {
 
   const [modalVisibleOther, setModalVisibleOther] = useState(false);
