@@ -103,7 +103,7 @@ function Login(props) {
                 props.updateUser({email: ""})
               }}  
               />}
-            onChangeText={text =>  {``
+            onChangeText={text =>  {
               setClearEmail(true)
               props.updateUser({email: text})
             }}

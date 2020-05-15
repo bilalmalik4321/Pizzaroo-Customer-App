@@ -1,44 +1,25 @@
 import React, {useState} from 'react';
 import { subscribe } from 'react-contextual';
 import {  Text, View,StyleSheet, TouchableHighlight} from 'react-native';
-import { uuidv4 , editAddresses, getUser,} from '../api';
-import { ListItem} from "react-native-elements";
 import { Input, Badge} from 'react-native-elements';
 import moment from 'moment';
+
 import firebase from '../../firebases';
+import * as validation from './validations';
 
-const timestamp = moment()
-    .utcOffset('+05:30')
-    .format('YYYY-MM-DD hh:mm:ss a');
-
-const ChangeAddress = props => {
+/**
+ * Change password screen
+ * @param {Object} props - store of HOC 
+ */
+const ChangePassword = props => {
   
-  // console.log("user", props.user)
-
   const [newPassword, setNewPassword] = useState('');
   const [password, setPassword] = useState('');
-
   const [_errors , setErrors] = useState({});
-
   const [success, setSuccess] = useState(false);
 
-  // console.log("errors", _errors);
-  
-  const validation = ( password , newPassword) => {
-    let errors  = {};
-    console.log("password", password, 'new', newPassword);
-    if(!password) errors.password = "Please enter current password";
-    if(!password && password.length < 6) errors.password  = "Please enter a valid password!";
-    if(!newPassword) errors.newPassword = "Please enter a new password!";
-    if(!newPassword && newPassword.length < 6) errors.newPassword = "Please enter a valid password!"
-    if( password !== newPassword ) errors.newPassword = "Passwords DO NOT match";
-    console.log("errors", errors);
-    return errors;
-  }
-  // console.log('errors', errors);
-  // console.log("email---", current, 'new---',newEmail , 'password', password)
   const onSave = async (password, newPassword) => {
-    const errors_ = validation(password, newPassword);
+    const errors_ = validation.password(password, newPassword);
     setErrors(errors_);
     console.log("why not print", Object.keys(errors_).length === 0)
     if( Object.keys(errors_).length === 0 ) 
@@ -147,7 +128,7 @@ const ChangeAddress = props => {
   )
 };
 
-export default subscribe()(ChangeAddress);
+export default subscribe()(ChangePassword);
 
 
 const styles = StyleSheet.create({
