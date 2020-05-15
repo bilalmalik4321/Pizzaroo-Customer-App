@@ -15,6 +15,10 @@ import {
 
 import { subscribe } from "react-contextual";
 
+/**
+ * Restaurant screen
+ * @param {Object} props - store of HOC
+ */
 function RestaurantScreen(props) {
  
   let list = [];

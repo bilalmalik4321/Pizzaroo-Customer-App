@@ -11,9 +11,9 @@ import { createStackNavigator } from "react-navigation-stack";
 import { Provider } from "react-contextual";
 import { Avatar } from "react-native-elements";
 
-import Restaurants from "./components/restaurant/restaurantScreen";
-import MenuScreen from "./components/restaurant/menuScreen";
-import accountScreen from "./components/account/accountScreen";
+import Restaurants from "./components/restaurant/restaurants";
+import MenuScreen from "./components/restaurant/menu";
+import accountScreen from "./components/account/setting";
 import Introduction from "./components/intro";
 import LoginScreen from "./components/account/login";
 import ReviewOrderScreen from "./components/order/review";
@@ -26,10 +26,31 @@ import ChangeEmail from './components/account/changeEmail';
 import Orders from './components/order/orderHistory';
 import StatusOrder from './components/order/status';
 import Signup from './components/account/signup';
-
+import ForgotPassword from './components/account/forgotPassword';
 
 const AppNavigator = createStackNavigator(
-  {
+  
+{
+    ForgotPassword: {
+      screen: ForgotPassword,
+
+      navigationOptions: ({ navigation }) => ({
+        title: 'Reset Password',
+	    	headerTitleAlign: 'center',
+        headerLeft: () => (
+          <TouchableOpacity
+            onPress={() => navigation.navigate("LoginScreen")}
+            activeOpacity={0.2}
+          >
+            <Image
+              source={require("./images/left-chevron.png")}
+              style={styles.backButton}
+            />
+          </TouchableOpacity>
+        ),
+      })
+    },
+
     Signup: {
       screen: Signup,
 

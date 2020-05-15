@@ -79,7 +79,6 @@ function AccountScreen(props) {
 
 export default subscribe()(AccountScreen);
 
-
 const styles = StyleSheet.create({
   scrollableArea: {
     paddingBottom:300

@@ -135,9 +135,18 @@ function Login(props) {
             errorMessage={errors.password}
       
           />
-           
+           <View style={{ flexDirection: 'row', justifyContent: 'center', paddingTop: 10, marginBottom: 10}}>
+            <TouchableOpacity
+              onPress={() => {
+                  props.navigation.navigate('ForgotPassword')
+              }}
+            >
+              <Text style={{textAlign:'center', fontSize: 15, color: 'green', fontWeight: '300'}}>{"Forgot password?"}</Text>
+            </TouchableOpacity>
+          </View>
+
           <Button
-            buttonStyle={styles.loginButton}
+            buttonStyle={{...styles.loginButton, marginTop: 30}}
             onPress={()=> {
               setReturnError('');
               const errs  = validations.signin(props);
