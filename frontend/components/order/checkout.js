@@ -7,7 +7,6 @@ import {
   Modal,
   ScrollView
 } from "react-native";
-import { subscribe } from 'react-contextual';
 import {
   Text,
   Button,
@@ -19,50 +18,32 @@ import {
 import StickyHeaderFooterScrollView from 'react-native-sticky-header-footer-scroll-view';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import Icon from "react-native-vector-icons/FontAwesome";
+import { subscribe } from 'react-contextual';
+
 import { createOrder } from '../api/api';
+import { findNumberOfOrder , total } from '../_shared/utility';
 
-const findNumberOfOrder = (items) => {
-  const {pizzas, desserts, drinks, dipping, sides} = items;
-
-  return pizzas.length+ desserts.length+ drinks.length+ dipping.length+sides.length
-}
-const total = (items) => {
-  
-  let count = 0;
-  const { pizzas, dipping, drinks, sides,desserts} = items;      
-
-  pizzas.forEach(element =>{
-    count = count + (element.quantity * element.price);
-  });
-  drinks.forEach(element =>{
-    count = count + (element.quantity * element.price);
-  });
-  sides.forEach(element =>{
-    count = count + (element.quantity * element.price);
-  });
-  dipping.forEach(element =>{
-    count = count + (element.quantity * element.price);
-  });
-  desserts.forEach(element =>{
-    count = count + (element.quantity * element.price);
-  });
-
-  return count;
-
- }
-
+/**
+ * Checkout component - display the pizza store info and prompt for order delivery detail
+ * @param {Object} props - store of HOC 
+ */
 const  Checkout = props => {
+
+  // set modal for instruction input
   const [modalVisibleOther, setModalVisibleOther] = useState(false);
+  // payment cash/card var
   const [method, setMethod] = useState(0);
   const [errMsg , setErrMsg] = useState(null);
-  console.log("checkout info",props.checkout.address);
-  console.log("items info",props.items);
 
+  // Confirm action to place an order for user
   const onConfirm = async ()=> {
+
+    // make the address is selected
     if(!props.checkout.selected_address){
       setErrMsg('You must select an address')
     } else {
       
+      // store all the important info of an order
       const { address, instruction, payment, store } = props.checkout;
       const { items } = props;
       const numberOfItems = findNumberOfOrder(items);
@@ -79,8 +60,9 @@ const  Checkout = props => {
         numberOfItems,
         total: total(items)
       }
+      // call the api to create an order
       await createOrder(payload);
-
+      // navigate to the order history to see the order status
       props.navigation.navigate('Orders')
     }
   };
@@ -89,7 +71,7 @@ const  Checkout = props => {
     <SafeAreaView>
       <StickyHeaderFooterScrollView
         renderStickyFooter={() => 
-          <View  style={styles.shoppingButton}>
+          <View  style={{paddingLeft: 15, paddingRight:15, marginBottom: 10}}>
             <Button 
               buttonStyle={{backgroundColor: '#ff6363', borderRadius: 20}}
               raised 
@@ -109,7 +91,6 @@ const  Checkout = props => {
         </View>
         </View>
         
-          
         <View  style={{paddingRight: 20,paddingLeft: 20, flex: 1, flexDirection: "row", justifyContent: 'space-between'}}>
           <View style={{paddingLeft: 15}}>
             <Text style={{fontWeight: "bold", fontSize: 20, color: 'grey'}} >
@@ -393,128 +374,26 @@ const  Checkout = props => {
 export default subscribe()(Checkout);
 
 const styles = StyleSheet.create({
-centeredView: {
-  flex: 1,
-  justifyContent: "center",
-},
-
-modalView: {
-  margin: 20,
-  // height: '100%',
-  backgroundColor: "white",
-  borderRadius: 20,
-  padding: "5%",
-  alignItems: "center",
-  shadowColor: "#000",
-  shadowOffset: {
-    width: 0,
-    height: 2,
+  modalExit: {
+    position:"absolute",
   },
-  shadowOpacity: 0.6,
-  shadowRadius: 3.84,
-},
-
-foodAddOrder: {
-  backgroundColor: "#ff6363",
-  borderRadius: 25,
-  height: 45,
-  width: '80%',
-  marginTop: 20,
-},
-
-foodItemDescription: {
-  marginBottom: 10,
-},
-
-foodItemPrice: {
-  marginBottom: 10,
-  color: "green",
-},
-
-modalItemHeader: {
-  textAlign:"center",
-},
-
-modalInput: {
-  marginBottom: 20,
-  margin:20,
-  width:"80%",
-  height:40,
-},
-
-modalInput2: {
-  marginBottom: 20,
-  margin:20,
-  width:"100%",
-  height:60,
-},
-
-modalPrice: {
-  textAlign: 'center',
-  marginTop: 20,
-  marginBottom: 20,
-  color: "green",
-},
-
-modalExit: {
-  // left:1,
-  // padding:5,
-  position:"absolute",
-},
-modalExit2: {
-  position:"absolute",
-  marginLeft: 20, 
-  marginTop: 50, 
-  zIndex: 1, 
-  height: 40, 
-  width: 40,
-  backgroundColor: 'grey', 
-  borderRadius: 50,
-  opacity:0.8,
-},
-displayChoice: { 
-  width: '100%', 
-  paddingBottom: 20, 
-  paddingLeft: 20, 
-  paddingRight: 20, 
-  marginTop:0
-}
-  ,
-cardborder: {
-  shadowColor: "#000",
-  shadowOffset: {
-    width: 0,
-    height: 1,
+  modalExit2: {
+    position:"absolute",
+    marginLeft: 20, 
+    marginTop: 50, 
+    zIndex: 1, 
+    height: 40, 
+    width: 40,
+    backgroundColor: 'grey', 
+    borderRadius: 50,
+    opacity:0.8,
   },
-  shadowOpacity: 0.20,
-  shadowRadius: 1.41,
-  elevation: 2,
-  borderRadius: 10,
-},
-drinks: {
-  paddingBottom: 0,
-  marginBottom: 0,
-  shadowColor: "#000",
-  shadowOffset: {
-    width: 0,
-    height: 1,
-  },
-  shadowOpacity: 0.20,
-  shadowRadius: 1.41,
-  elevation: 2,
-  borderRadius: 10,
-},
-
-shoppingButton: {
- 
-  paddingLeft: 15,
-  paddingRight:15,
-  marginBottom: 10
-},
-
-Icon: {
-  marginTop:2,
-  marginRight: 10
-}
+  displayChoice: { 
+    width: '100%', 
+    paddingBottom: 20, 
+    paddingLeft: 20, 
+    paddingRight: 20, 
+    marginTop:0
+  }
 
 });
