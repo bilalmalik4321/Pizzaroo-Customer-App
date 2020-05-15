@@ -23,7 +23,7 @@ import Location from './components/location/location';
 import Address from './components/location/address';
 import ChangePassword from './components/account/changePassword';
 import ChangeEmail from './components/account/changeEmail';
-import Orders from './components/order/ordersList';
+import Orders from './components/order/orderHistory';
 import StatusOrder from './components/order/status';
 import Signup from './components/account/signup';
 
