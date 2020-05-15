@@ -40,7 +40,9 @@ function AccountScreen(props) {
       onClick: async () => {
         await firebase.auth().signOut(); 
         props.updateUser({
-          loggedIn: false
+          loggedIn: false,
+          email: '',
+          password: ''
         })
         props.navigation.navigate("Introduction");
       }

@@ -18,35 +18,51 @@ import { getUser } from '../api';
 
 function Login(props) {
 
-  const { loggedIn } = props.user;
+  const [loading, setLoading] = useState(false);
+  const { loggedIn ,justSignedUp} = props.user;
   const [returnError, setReturnError ] = useState('');
   const [clearEmail, setClearEmail] = useState(false);
   const [clearPass, setClearPass] = useState(false);
   
   const errors = props.errors.error_signin;
 
+  console.log('user signed up---', justSignedUp);
+  console.log("current user", firebase.auth().currentUser);
   useEffect(()=> {
       try {
         firebase.auth().onAuthStateChanged(async user => {
           if (user) {
             const userInfo = await getUser(user.uid);
-            props.updateUser({
-              ...userInfo,
-              loggedIn: true
-            });
-            props.getCustomerOrders();
-            if(userInfo.addresses !== undefined)
-              props.navigation.navigate("Restaurants");
-            else 
-              props.navigation.navigate("Location")
+            const { emailVerified } = user;
+            
+            if(!loggedIn) {
+              props.updateUser({
+                ...userInfo,
+                emailVerified,
+                loggedIn: true
+              });
+            }
+
+            if(emailVerified) {
+           
+              props.getCustomerOrders();
+
+              if(userInfo.addresses !== undefined)
+                props.navigation.navigate("Restaurants");
+              else 
+                props.navigation.navigate("Location");
+            
+            } 
           }
         });
       } catch (err) {
         console.log(err);
-    }
+      }
   },[loggedIn, props.getCustomerOrders]);
 
   const onLogin = async () => {
+
+    setLoading(true);
     const { email, password } = props.user;
     try{
       const signedInUser = await firebase
@@ -56,7 +72,9 @@ function Login(props) {
           password
         );
 
-      if(signedInUser) {
+      const { emailVerified } = firebase.auth().currentUser;
+
+      if(signedInUser && emailVerified) {
         const user = await getUser(signedInUser.user.uid);
         // console.log("find ui please", user);
         props.updateUser({
@@ -64,6 +82,8 @@ function Login(props) {
           id: signedInUser.user.uid
         });
         props.navigation.navigate("Restaurants");
+      } else {
+        props.navigation.navigate('Verify');
       }
     } catch (error) {
       // console.log("errrorr-----sign", error);
@@ -73,6 +93,7 @@ function Login(props) {
         setReturnError(message);
       }
     }
+    setLoading(false);
   };
 
 
@@ -146,6 +167,8 @@ function Login(props) {
           </View>
 
           <Button
+            disabled={loading}
+            loading={loading}
             buttonStyle={{...styles.loginButton, marginTop: 30}}
             onPress={()=> {
               setReturnError('');
@@ -161,6 +184,7 @@ function Login(props) {
             <Text style={{textAlign:'center', fontSize: 15, fontWeight: '400', color: 'grey'}}> Don't have an account?</Text>
             <TouchableOpacity
               onPress={() => {
+                  props.clearUser();
                   props.navigation.navigate('Signup')
               }}
             >

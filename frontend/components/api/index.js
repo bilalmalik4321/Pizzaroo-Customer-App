@@ -37,6 +37,7 @@ export const createUser = async payload => {
         payload.password
       );
 		
+		signedUpUser.user.sendEmailVerification();
 		// console.log("user sign up", signedUpUser)
     // send verification email TODO
     // signedUpUser.user.sendEmailVerification();

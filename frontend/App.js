@@ -27,10 +27,17 @@ import Orders from './components/order/orderHistory';
 import StatusOrder from './components/order/status';
 import Signup from './components/account/signup';
 import ForgotPassword from './components/account/forgotPassword';
-
+import Verify from './components/account/verifyMessage';
 const AppNavigator = createStackNavigator(
   
 {
+    Verify: {
+      screen: Verify,
+
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
     ForgotPassword: {
       screen: ForgotPassword,
 
@@ -54,9 +61,21 @@ const AppNavigator = createStackNavigator(
     Signup: {
       screen: Signup,
 
-      navigationOptions: {
-        headerShown: false,
-      },
+      navigationOptions: ({ navigation }) => ({
+        title: 'Registration',
+	    	headerTitleAlign: 'center',
+        headerLeft: () => (
+          <TouchableOpacity
+            onPress={() => navigation.navigate("LoginScreen")}
+            activeOpacity={0.2}
+          >
+            <Image
+              source={require("./images/left-chevron.png")}
+              style={styles.backButton}
+            />
+          </TouchableOpacity>
+        ),
+      })
     },
     Status: {
       screen: StatusOrder,

@@ -25,7 +25,29 @@ export const updateUser = (key, value) => state => {
     user
   };
 };
-
+/**
+ * Clear user store
+ */
+export const clearUser = () => state => {
+  return {
+    user: {
+      id: '',
+      name: '',
+      phone: '',
+      email: '',
+      addresses: [],
+      password: '',
+      repeatPassword: '',
+      isAccepted: false,
+      loadingRegister: false,
+      loggedIn: false,
+      hasAddress: false,
+      showList: true,
+      previousScreen: '',
+      justSignedUp: false
+    }
+   }
+}
 /**
  * This updates the error in store.
  * @param {String || Object} key - key is string for the attribute or the object

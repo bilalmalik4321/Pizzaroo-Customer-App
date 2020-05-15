@@ -5,6 +5,7 @@ import { subscribe } from 'react-contextual';
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Input } from 'react-native-elements';
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
+import firebase from 'firebase';
 
 import styles from "../style";
 import * as validations from './validations';
@@ -22,11 +23,13 @@ function Login(props) {
   const [clearName, setClearName] = useState(false);
   const [clearPhone, setClearPhone] = useState(false);
   const [clearRepeatPass, setClearRepeatPass] = useState(false);
-
+  const [loading, setLoading] = useState(false);
   const errors = props.errors.error_signup;
 
+  // console.log("props", props);
   const onCreateUser = async () => {
-    console.log("hello")
+
+    setLoading(true);
     const { email, password , name, phone} = props.user;
     const res = await createUser({
       email,
@@ -34,13 +37,18 @@ function Login(props) {
       name,
       phone
     });
+
+    await firebase.auth().signOut();
     const { result , error } = res;
     if(result) {
-      props.navigation.navigate('LoginScreen')
+      props.clearUser();
+      props.navigation.navigate('Verify')
+      
     } else {
       console.log("error------", error)
       setReturnError(error);
     }
+    setLoading(false);
   };
 
 
@@ -179,6 +187,8 @@ function Login(props) {
   
           
             <Button
+              disabled={loading}
+              loading={loading}
               buttonStyle={{ backgroundColor: "#13aa52", borderRadius: 25, width: '100%',  marginTop: 35, paddingLeft: '15%',  paddingRight: '15%' }}
               onPress={()=> {
                 setReturnError('');
@@ -192,6 +202,8 @@ function Login(props) {
               title="Register"
             />
            
+
+
             <View style={{ flexDirection: 'row', justifyContent: 'center', paddingTop: 40}}>
               <Text style={{textAlign:'center', fontSize: 15, fontWeight: '400', color: 'grey'}}>Already a member?</Text>
               <TouchableOpacity

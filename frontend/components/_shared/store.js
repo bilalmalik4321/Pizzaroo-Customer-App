@@ -20,6 +20,8 @@ export default {
     hasAddress: false,
     showList: true,
     previousScreen: '',
+    justSignedUp: false,
+    verifiedEmail: false,
 
   },
 
