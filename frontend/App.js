@@ -18,7 +18,7 @@ import Introduction from "./components/intro";
 import LoginScreen from "./components/account/login";
 import ReviewOrderScreen from "./components/order/review";
 import CheckoutScreen from "./components/order/checkout";
-import store from './components/shared_/store';
+import store from './components/_shared/store';
 import Location from './components/location/location';
 import Address from './components/location/address';
 import ChangePassword from './components/account/changePassword';
