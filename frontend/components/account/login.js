@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from "react";
-import {Keyboard, Text, View, TouchableWithoutFeedback, KeyboardAvoidingView , YellowBox} from 'react-native';
+import {Keyboard, Text, View, TouchableWithoutFeedback, KeyboardAvoidingView , Image} from 'react-native';
 import { Button } from 'react-native-elements';
 import { subscribe } from 'react-contextual';
-import styles from "../style";
-import * as validations from './validations';
-import { getUser } from '../api';
 import firebase from '../../firebases';
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Input } from 'react-native-elements';
 import { TouchableOpacity } from "react-native-gesture-handler";
-// import SvgUri from 'react-native-svg-uri';
+
+import styles from "../style";
+import * as validations from './validations';
+import { getUser } from '../api';
+
+/**
+ * Login component - render the login prompt for user
+ * @param {Object} props 
+ */
 
 function Login(props) {
 
-  YellowBox.ignoreWarnings(['componentWillReceiveProps']);
   const { loggedIn } = props.user;
   const [returnError, setReturnError ] = useState('');
   const [clearEmail, setClearEmail] = useState(false);
@@ -26,18 +30,15 @@ function Login(props) {
         firebase.auth().onAuthStateChanged(async user => {
           if (user) {
             const userInfo = await getUser(user.uid);
-            // console.log('user', user)
             props.updateUser({
               ...userInfo,
               loggedIn: true
             });
-            props.getCustomerOrders()
-            // console.log("stayed log in ------", userInfo);
+            props.getCustomerOrders();
             if(userInfo.addresses !== undefined)
               props.navigation.navigate("Restaurants");
             else 
               props.navigation.navigate("Location")
-
           }
         });
       } catch (err) {
@@ -54,7 +55,6 @@ function Login(props) {
           email,
           password
         );
-        // console.log("signed", signedInUser);
 
       if(signedInUser) {
         const user = await getUser(signedInUser.user.uid);
@@ -81,14 +81,11 @@ function Login(props) {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.loginScreenContainer}>
           <View style={styles.loginFormView}> 
-          {/* <View style={{}}>
-            <SvgUri
-              style={{}}
+            <Image
               width="100"
               height="100"
-              source={require('../../images/pizza1.svg')}
+              source={require('../../images/pizza.png')}
             />
-          </View> */}
           <Text style={styles.logoText}>Pizzaro</Text>
           
           <Input 
@@ -113,6 +110,7 @@ function Login(props) {
             renderErrorMessage={(errors && errors.email) || returnError}
             errorMessage={returnError || errors.email}
           />
+
           <Input 
             secureTextEntry={true}
             containerStyle={{paddingBottom: 25}}
@@ -135,7 +133,7 @@ function Login(props) {
             }}
             renderErrorMessage={errors && errors.password}
             errorMessage={errors.password}
-    
+      
           />
            
           <Button
