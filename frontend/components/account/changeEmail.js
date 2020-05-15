@@ -1,47 +1,28 @@
 import React, {useState} from 'react';
 import { subscribe } from 'react-contextual';
 import {  Text, View,StyleSheet, TouchableHighlight} from 'react-native';
-import { uuidv4 , editAddresses, getUser,} from '../api';
-import { ListItem} from "react-native-elements";
 import { Input, Badge} from 'react-native-elements';
-import moment from 'moment';
-import firebase from '../../firebases';
 
-const timestamp = moment()
-    .utcOffset('+05:30')
-    .format('YYYY-MM-DD hh:mm:ss a');
+import * as validation from './validations';
+import { getUser,} from '../api';
 
-const ChangeAddress = props => {
+/**
+ * Change email screen
+ * @param {Object} props - store of HOC
+ */
+const ChangeEmail = props => {
   
-  console.log("user", props.user)
 
   const [current, setCurrent] = useState('');
   const [newEmail, setNewEmail] = useState('');
   const [password, setPassword] = useState('');
-
   const [errors , setErrors] = useState({});
-
   const [success, setSuccess] = useState(false);
 
-  const validation = ( current, newEmail, password) => {
-    let errors  = {};
-    const userInfo = firebase.auth().currentUser;
 
-    const { email } = userInfo;
-    if(!current) errors.current = "Please enter current email!";
-    if(!current && current.length < 6) errors.current  = "Please enter current email!";
-    if(!newEmail) errors.newEmail = "Please enter a new email!";
-    if(!password) errors.password = "Please enter a password!";
-    if( !current && email !== current) errors.current = "This is not your current email!"
-
-    return errors;
-  }
-  console.log('errors', errors);
-  console.log("email---", current, 'new---',newEmail , 'password', password)
   const onSave = async (email, newEmail, password) => {
-    const errors = validation(email, newEmail, password);
+    const errors = validation.email(email, newEmail, password);
     setErrors(errors);
-    console.log("email inside---", email, 'new---',newEmail , 'password', password,'should be false',Object.keys(errors).length === 0)
     
     if( Object.keys(errors).length === 0) {
       try{
@@ -76,18 +57,17 @@ const ChangeAddress = props => {
         .catch(err => {
           let error = {};
           error.newEmail = err.message;
-          // console.log("what went wrong?", err)
           setErrors(error);
         });
       } catch (err) {
       let error = {};
       error.newEmail = err.message;
       setErrors(error);
-      // console.log("err from change email", err);
+      
     }
   }
 }
-  // console.log("screen-----", props.user.previousScreen)
+
   return(
     <View style={{...styles.centeredView}}>
       <View style={styles.modalView}>
@@ -166,7 +146,7 @@ const ChangeAddress = props => {
   )
 };
 
-export default subscribe()(ChangeAddress);
+export default subscribe()(ChangeEmail);
 
 
 const styles = StyleSheet.create({
