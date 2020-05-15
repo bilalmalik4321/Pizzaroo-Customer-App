@@ -245,6 +245,18 @@ const Status = props => {
 
 
           <View style={{ alignContent: 'center', alignSelf: 'center', marginTop: 50}}> 
+            { props.status.order.status === 'cancelled' && 
+              <View>
+                <Text style={{ alignSelf: 'center', marginBottom: 30 , fontWeight: `${props.status.order.progressStep === 'waiting'? 'bold':'200'}`, color: `${props.status.order.progressStep === 'waiting'? 'green':'grey'}`}}>
+                This order was cancelled....!
+                </Text>
+                <Image 
+                  width={100}
+                  height={100}
+                  source={require('../../images/cancelled.png')}
+                /> 
+              </View>
+            }
             {props.status.order.progressStep === 'waiting' && 
               <View>
                 <Text style={{ alignSelf: 'center', marginBottom: 30 , fontWeight: `${props.status.order.progressStep === 'waiting'? 'bold':'200'}`, color: `${props.status.order.progressStep === 'waiting'? 'green':'grey'}`}}>
