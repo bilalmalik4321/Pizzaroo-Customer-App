@@ -28,8 +28,16 @@ const ResetPassword = () => {
       await firebase.auth().sendPasswordResetEmail(email);
 
       setLoading(false);
+      setSuccess(true);
+      setEmail('');
     } catch (error) {
-      setReturnError(error.message);
+
+      if (error.code === 'auth/user-not-found') {
+        setReturnError('Your email is not linked to any accounts.');
+      } else {
+        setReturnError('Something went wrong ...!')
+      }
+      setLoading(false);
     }
   };
 
