@@ -9,6 +9,11 @@ import {
   TextInput
 } from 'react-native';
 import { Button} from 'react-native-elements';
+
+/**
+ * Forked repo from react-native-place-input
+ * Modified and added an Icon to clear input
+ */
 class PlacesInput extends Component {
   state = {
     query: ''|| this.props.query,
@@ -19,10 +24,7 @@ class PlacesInput extends Component {
     showClear: false,
  
   };
-
   timeout = null;
-
-
   render() {
   
     return (

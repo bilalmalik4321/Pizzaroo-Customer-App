@@ -1,4 +1,8 @@
 
+/**
+ * signup validates all the input of the sign up form
+ * @param {Object} props 
+ */
 export const signup = props => {
   const error_signup = {};
   const { email , repeatPassword, password, isAccepted, phone, name} = props.user;
@@ -19,7 +23,10 @@ export const signup = props => {
   return error_signup;
 }
 
-
+/**
+ * signi validates the input from the sign in form
+ * @param {Object} props 
+ */
 export const signin = props => {
   const error_signin = {};
   const { email, password} = props.user;
