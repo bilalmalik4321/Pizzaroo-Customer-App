@@ -3,7 +3,7 @@
  * This updates the address state by key value pairs or if
  * an object is passed as the first arg, the values will
  * be appended. Refer to the store for the address's data.
- * @param {String || Object} key - the key in the user state or the object to append
+ * @param {String || Object} key - the key in the address state or the object to append
  * @param {Any} value - the value for the key if first arg is a string
  */
 
