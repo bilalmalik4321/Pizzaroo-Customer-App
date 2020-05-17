@@ -1,4 +1,4 @@
-/**
+ /**
  * This updates the user state by key value pairs or if
  * an object is passed as the first arg, the values will
  * be appended. Refer to the store for the user's data.
@@ -25,27 +25,34 @@ export const updateUser = (key, value) => state => {
     user
   };
 };
-
-export const updateOrder = (key, value) => state => {
-  let order = {};
-
-  if (typeof key === 'object') {
-    const dataToAppend = key;
-    order = {
-      ...state.order,
-      ...dataToAppend
-    };
-  } else {
-    order = {
-      ...state.order,
-      [key]: value
-    };
-  }
-
+/**
+ * Clear user store
+ */
+export const clearUser = () => state => {
   return {
-   order
-  };
-};
+    user: {
+      id: '',
+      name: '',
+      phone: '',
+      email: '',
+      addresses: [],
+      password: '',
+      repeatPassword: '',
+      isAccepted: false,
+      loadingRegister: false,
+      loggedIn: false,
+      hasAddress: false,
+      showList: true,
+      previousScreen: '',
+      justSignedUp: false
+    }
+   }
+}
+/**
+ * This updates the error in store.
+ * @param {String || Object} key - key is string for the attribute or the object
+ * @param {*} value - value is error message
+ */
 
 export const updateError = (key, value) => state => {
   let errors = {};
@@ -67,4 +74,3 @@ export const updateError = (key, value) => state => {
     errors
   };
 };
-

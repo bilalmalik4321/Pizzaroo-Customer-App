@@ -1,30 +1,30 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, Image } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
-import LoginScreen from './login.js'
+import LoginScreen from './account/login.js'
 
 const slides = [
   {
-    key: 1,
+    key: '1',
     title: 'Selection',
     text: 'Pick a restaurant and select your food',
     image: require('../images/1.png'),
     backgroundColor: '#000',
   },
-  {
-    key: 2,
-    title: 'Payment',
-    text: 'Enter your address and select a payment option',
-    image: require('../images/2.png'),
-    backgroundColor: '#000',
-  },
-  {
-    key: 3,
-    title: 'Delivered',
-    text: 'The restaurant will deliver your food right at your doorstep.',
-    image: require('../images/3.png'),
-    backgroundColor: '#000',
-  }
+  // {
+  //   key: '2',
+  //   title: 'Payment',
+  //   text: 'Enter your address and select a payment option',
+  //   image: require('../images/2.png'),
+  //   backgroundColor: '#000',
+  // },
+  // {
+  //   key: '3',
+  //   title: 'Delivered',
+  //   text: 'The restaurant will deliver your food right at your doorstep.',
+  //   image: require('../images/3.png'),
+  //   backgroundColor: '#000',
+  // }
 ];
 
 function intro(props) {
@@ -34,7 +34,7 @@ function intro(props) {
 
   _renderItem = ({ item }) => {
     return (
-      <View style={styles.slide}>
+      <View key={item.key} style={styles.slide}>
         <Image source={item.image} style={{width:"60%",height:"40%"}}/>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.text}>{item.text}</Text>
