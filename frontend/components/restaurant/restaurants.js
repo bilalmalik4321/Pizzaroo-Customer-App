@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useState} from "react";
 import {
   StyleSheet,
   Text,
@@ -6,11 +6,11 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
-  YellowBox
 } from "react-native";
 import {
   Card,
   Tile,
+  Modal
 } from "react-native-elements";
 
 import { subscribe } from "react-contextual";
@@ -21,12 +21,15 @@ import { subscribe } from "react-contextual";
  */
 function RestaurantScreen(props) {
  
+  const [toggleModal, setModal] = useState(false);
+
+
   let list = [];
   list.push(props.schema[0]);
   list.push(props.schema[0]);  
   list.push(props.schema[0]);
-  // console.log("hello props", list);
-  YellowBox.ignoreWarnings(['componentWillReceiveProps']);
+  console.log("hello props", list);
+
   return (
     <SafeAreaView>
       <ScrollView style={{backgroundColor: "white"}}> 
@@ -40,9 +43,6 @@ function RestaurantScreen(props) {
               onPress={() =>{
 
 
-                // clear the order when User goes back to Restuarant screen
-                // prevent user order from two restaurant and add into the same order
-                // TODO: better implement to save the draft for different restaurant for each order
                 props.clearItems();
                 props.updateCheckout({
                   store: {

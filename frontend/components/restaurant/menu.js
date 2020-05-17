@@ -33,6 +33,7 @@ function MenuScreen(props) {
   const [modalVisible, setModalVisible] = useState(false);
   const [footer, setFooter] = useState(false);
 
+
   const { pizzaMenu } = props;
   let counter = findNumberOfOrder(props.items);
 
@@ -265,7 +266,7 @@ function MenuScreen(props) {
                     props.navigation.navigate("Review");
                 }} 
                 icon={<View style={styles.Icon}>
-                        <Badge value={counter}  badgeStyle={{backgroundColor: "#ff6363"}}/>
+                        <Badge value={findNumberOfOrder(props.items)}  badgeStyle={{backgroundColor: "#ff6363"}}/>
                       </View>}
                 
               />}

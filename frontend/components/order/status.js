@@ -52,16 +52,15 @@ const Status = props => {
     switch (step) {
       case 'waiting' : return 1;
       case 'confirmed': return 2;
-      case 'preparing': return 3;
-      case 'enroute': return 4;
-      case 'delivered': return 5;
+      case 'enroute': return 3;
+      case 'delivered': return 4;
     }
   }
   
   // get width of the screen
   const width =  Dimensions.get('window').width;
   // calculate the step bar width dynamically
-  const widthBar = (width - 35*8)/4;
+  const widthBar = (width - 35*6)/4;
 
   // styling for step bar and completed step bar
   const stepBar = {
@@ -196,16 +195,10 @@ const Status = props => {
             </View> 
           
 
-            <View style={trackStep(props.status.order.progressStep) == 5 ? {...barCompleted} : {...bar}} />
-            <View style={ trackStep(props.status.order.progressStep) < 5 ? {...stepBar} : {...stepBarCompleted }} > 
-              <Text style={trackStep(props.status.order.progressStep) < 5 ? {...stepBarText} : {...stepBarTextCompleted }}>
-              5
-              </Text>
-            </View> 
-
+          
           </View>
    
-          <View style={{paddingTop: 5,paddingLeft:20, paddingRight: 20,flex: 1, flexDirection: 'row', justifyContent: 'space-evenly'}}>
+          <View style={{paddingTop: 5,paddingLeft:20, paddingRight: 10,flex: 1, flexDirection: 'row', justifyContent: 'space-evenly'}}>
             <View {...stepBar2} > 
               <Text style={{...stepBarText2}}>
               Waiting
@@ -220,12 +213,12 @@ const Status = props => {
             </View> 
             <View style={{...bar2}} />
 
-            <View {...stepBar2} > 
+            {/* <View {...stepBar2} > 
               <Text style={{...stepBarText2}}>
               Preparing
               </Text>
             </View> 
-            <View style={{...bar2}} />
+            <View style={{...bar2}} /> */}
 
             <View {...stepBar2} > 
               <Text style={{...stepBarText2}}>
@@ -270,7 +263,7 @@ const Status = props => {
               </View>
             }
 
-            {props.status.order.progressStep === 'preparing' && 
+            {/* {props.status.order.progressStep === 'preparing' && 
               <View>
                 <Text style={{ alignSelf: 'center', marginBottom: 30 , fontWeight: `${props.status.order.progressStep === 'preparing'? 'bold':'200'}`, color: `${props.status.order.progressStep === 'preparing'? 'green':'grey'}`}}>
                 Preparing
@@ -282,7 +275,7 @@ const Status = props => {
                 /> 
               </View>
             }
-            
+             */}
             {props.status.order.progressStep === 'confirmed' && 
               <View>
                 <Text style={{ alignSelf: 'center', marginBottom: 30 , fontWeight: `${props.status.order.progressStep === 'confirmed'? 'bold':'200'}`, color: `${props.status.order.progressStep === 'confirmed'? 'green':'grey'}`}}>

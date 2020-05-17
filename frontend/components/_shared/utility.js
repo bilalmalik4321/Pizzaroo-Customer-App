@@ -34,8 +34,8 @@ export const total = (items) => {
 export function findNumberOfOrder(items) {
   
   let count = 0;
-  Object.keys(items).map((type) => {
-      count = count + type.length;
+  Object.keys(items).map((type,index) => {
+      count = count + items[type].length;
   });
 
   return count;
