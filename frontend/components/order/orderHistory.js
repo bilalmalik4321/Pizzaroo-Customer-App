@@ -61,7 +61,7 @@ const  History = props => {
               You have no order....!
             </Text>
             <Text style={{alignSelf: 'center'}}>
-              Let's order your favorite Pizza!s
+              Let's order your favorite Pizza!
             </Text>
           </View>}
         {active && active.length !== 0 && active.map((item, index)=> (
