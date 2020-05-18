@@ -144,7 +144,7 @@ const EditAddress = subscribe()(props => {
         </View>
         <View style={{backgroundColor: 'white', paddingTop: 50 ,paddingLeft: 15, paddingRight: 15, flexDirection: 'row', justifyContent:'space-between'}}>
           <TouchableHighlight
-            style={{ ...styles.openButton,width: '45%', backgroundColor: "#2196F3"}}
+            style={{ ...styles.openButton,width: '45%', backgroundColor: "#0ecfb9"}}
             onPress={() => {
               onSaveAddress();
               if(props.user.previousScreen === 'checkout')

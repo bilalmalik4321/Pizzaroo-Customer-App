@@ -90,7 +90,7 @@ function MenuScreen(props) {
               key={index}
               leftElement={ 
               <RadioButton 
-                style={{ backgroundColor: 'purple'}} 
+                style={{ backgroundColor: '#0ecfb9'}} 
                 value={item.size}
                 onPress={() => {
                 props.updatePizzaOrder({ size: item.size , price: item.price, sizeDescription: item.description})
@@ -127,7 +127,7 @@ function MenuScreen(props) {
             min={1} 
             value={props.pizzaOrder.quantity} 
             colorMax={"red"}
-            color={"purple"}
+            color={"#0ecfb9"}
             
             onChange={e => props.updatePizzaOrder({quantity: e})} 
             
@@ -150,7 +150,7 @@ function MenuScreen(props) {
          
           }}
           title={`Add to Order\t\t\t${props.pizzaOrder.price && props.pizzaOrder.quantity? "$"+ (props.pizzaOrder.price * props.pizzaOrder.quantity).toFixed(2): '' }`}
-          buttonStyle={{borderRadius: 20, paddingRight: 40, paddingLeft: 40, alignItems: 'center', backgroundColor: "#21bf73", justifyContent: 'center'}}
+          buttonStyle={{borderRadius: 20, paddingRight: 40, paddingLeft: 40, alignItems: 'center', backgroundColor: "#0ecfb9", justifyContent: 'center'}}
           titleStyle={{ textAlign: 'center'}}
         />
       </View>
@@ -222,7 +222,7 @@ function MenuScreen(props) {
                 min={1} 
                 value={props.item.quantity} 
                 colorMax={"red"}
-				        color={"purple"}
+				color={"#0ecfb9"}
                 onChange={e => props.updateItem({quantity: e})} 
                 
               />
@@ -243,7 +243,7 @@ function MenuScreen(props) {
             
             }}
             title={`Add to Order\t\t\t${ props.item.price && props.item.quantity ? "$"+(props.item.price * props.item.quantity).toFixed(2): ''}`}
-            buttonStyle={{borderRadius: 20, paddingRight: 40, paddingLeft: 40, alignItems: 'center', backgroundColor: "#5f6caf", justifyContent: 'center'}}
+            buttonStyle={{borderRadius: 20, paddingRight: 40, paddingLeft: 40, alignItems: 'center', backgroundColor: "#0ecfb9", justifyContent: 'center'}}
             titleStyle={{ textAlign: 'center'}}
           />
         </View>
@@ -258,7 +258,7 @@ function MenuScreen(props) {
           <View  style={styles.shoppingButton}>
             { footer &&
               <Button 
-                buttonStyle={{ borderRadius: 20, backgroundColor:'#ff6363'}}
+                buttonStyle={{ borderRadius: 20, backgroundColor:'#0ecfb9'}}
                 raised 
                 title="View Order"
                 onPress={() => {
@@ -266,7 +266,7 @@ function MenuScreen(props) {
                     props.navigation.navigate("Review");
                 }} 
                 icon={<View style={styles.Icon}>
-                        <Badge value={findNumberOfOrder(props.items)}  badgeStyle={{backgroundColor: "#ff6363"}}/>
+                        <Badge value={findNumberOfOrder(props.items)}  badgeStyle={{backgroundColor: "#0ecfb9"}}/>
                       </View>}
                 
               />}
@@ -472,7 +472,7 @@ const styles = StyleSheet.create({
   },
 
   foodAddOrder: {
-    backgroundColor: "#13aa52",
+    backgroundColor: "#21bf73",
     borderRadius: 25,
     height: 45,
     width: '80%',
@@ -490,7 +490,7 @@ const styles = StyleSheet.create({
 
   foodItemPrice: {
     marginBottom: 10,
-    color: "green",
+    color: "#26bd76",
   },
 
   modalItemHeader: {
@@ -515,7 +515,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 20,
     marginBottom: 20,
-    color: "green",
+    color: "#26bd76",
   },
 
   modalExit: {
