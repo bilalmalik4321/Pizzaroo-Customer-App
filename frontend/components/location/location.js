@@ -19,6 +19,7 @@ const GooglePlacesInput = (props) => {
   // update in the checkout if there is no address selected
   useEffect(() => {
     if( props.user.addresses.length === 0) {
+    
       props.updateCheckout({
         selected_address: false,
         address: {}

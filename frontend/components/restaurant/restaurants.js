@@ -10,11 +10,11 @@ import {
 import {
   Card,
   Tile,
-  Modal
+  Icon
 } from "react-native-elements";
 
 import { subscribe } from "react-contextual";
-
+import { getDistanceFromLatLonInKm } from '../_shared/utility';
 /**
  * Restaurant screen
  * @param {Object} props - store of HOC
@@ -23,16 +23,22 @@ function RestaurantScreen(props) {
  
   const [toggleModal, setModal] = useState(false);
 
+  const { addresses } = props.user;
+  
 
   let list = [];
   list.push(props.schema[0]);
   list.push(props.schema[0]);  
   list.push(props.schema[0]);
-  // console.log("hello props", list);
 
+  const getLocation = addresses.length === 0;
+ 
+  const { lat, lng } = !getLocation? addresses[0] : {};
+  console.log("user", props.user.addresses.length)
   useEffect(() => {
     props.getAllRestaurants();
   }, [props.getAllRestaurants])
+
   const { stores, loading } = props.restaurants;
   // console.log('store ----', props.restaurants.stores);
   // console.log('how many restaurants ?', stores.length);
@@ -42,8 +48,25 @@ function RestaurantScreen(props) {
         <Tile
           imageSrc={require("../../images/banner.png")}
         />  
+        {
+          getLocation &&
+          <View style={{ paddingBottom: 20}}>
+            <Text style={{alignSelf: "center" , color: 'red' ,fontSize: 20 , paddingBottom: 20}}>
+              You do not have an address.
+            </Text>
+            <Text style={{alignSelf: "center" , color: 'red' ,fontSize: 20 , paddingBottom: 20}}>
+              Please Click
+            </Text>
+            <Icon 
+              size={50}
+              color='#ff6363'
+              name="location-on"
+              onPress={()=> props.navigation.navigate('Location')}
+            />
+          </View>
+        }
         { !loading && stores.length !=0 && stores && stores.sort((a,b) => (a.name < b.name)).map((res, index)=> {
-            console.log("menu", res.menu)
+            {/* console.log("menu", res.menu) */}
           if ( res.menu && Object.keys(res.menu).length !== 0)
            return (
           <View key={index}>
@@ -78,11 +101,21 @@ function RestaurantScreen(props) {
               <Text style={styles.card}>
                 {res.description}
               </Text>
+              <Text style={styles.card}>
+                {res.description}
+              </Text>
+              {props.user.addresses.length !==0 &&
+                <Text style={{marginBottom: 10,color: "green"}}>{getDistanceFromLatLonInKm(lat,lng,res.lat, res.lng).toFixed(0)+"km"}</Text>
+              }
+              { res.hour && res.hour.open && res.hour.close &&
+              <Text style={{marginBottom: 10,color: "green"}}>
+                open: {res.hour.open} - {res.hour.close}
+              </Text> 
+              }
             </Card>
             </TouchableOpacity>
           </View>
           )
-          
           })
         }
       </ScrollView>
