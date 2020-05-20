@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {
   StyleSheet,
   Text,
@@ -28,45 +28,62 @@ function RestaurantScreen(props) {
   list.push(props.schema[0]);
   list.push(props.schema[0]);  
   list.push(props.schema[0]);
-  console.log("hello props", list);
+  // console.log("hello props", list);
 
+  useEffect(() => {
+    props.getAllRestaurants();
+  }, [props.getAllRestaurants])
+  const { stores, loading } = props.restaurants;
+  // console.log('store ----', props.restaurants.stores);
+  // console.log('how many restaurants ?', stores.length);
   return (
     <SafeAreaView>
       <ScrollView style={{backgroundColor: "white"}}> 
         <Tile
           imageSrc={require("../../images/banner.png")}
         />  
-        {list.length !=0 && list && list.sort((a,b) => (a.name < b.name)).map((res, index)=> (
+        { !loading && stores.length !=0 && stores && stores.sort((a,b) => (a.name < b.name)).map((res, index)=> {
+            console.log("menu", res.menu)
+          if ( res.menu && Object.keys(res.menu).length !== 0)
+           return (
           <View key={index}>
             <TouchableOpacity
               key={index}
               onPress={() =>{
 
-
                 props.clearItems();
                 props.updateCheckout({
                   store: {
-                    id: res.id,
-                    address: res.address,
-                    phone: res.phone,
-                    hour: res.hour,
-                    name: res.name,
+                    id: res.storeId,
+                    address: {
+                      street : res.street,
+                      postalCode: res.postalCode,
+                      province: res.province,
+                      city: res.city
+
+                    },
+                    phone: res.storePhone,
+                    name: res.storeName,
                     email: res.email
                   }
                 })
+               
                 props.copyMenu({...res.menu})
-                props.navigation.navigate("Menu", { title: res.name + " " + index })
+                {/* console.log("menu--", res.menu) */}
+                props.navigation.navigate("Menu", { title: res.storeName + " " + index })
               }}
               activeOpacity={0.75}
             >
-            <Card key={index} title={res.name + " " + index} image={require("../../images/pic2.jpg")} containerStyle={styles.cardborder}>
+            <Card key={index} title={res.storeName + " " + index} image={require("../../images/pic2.jpg")} containerStyle={styles.cardborder}>
               <Text style={styles.card}>
                 {res.description}
               </Text>
             </Card>
             </TouchableOpacity>
           </View>
-          ))
+          )
+          
+          })
         }
       </ScrollView>
     </SafeAreaView>

@@ -40,7 +40,7 @@ export default {
   items: {
     pizzas: [],
     drinks: [],
-    dipping: [],
+    dippings: [],
     sides: [],
     desserts: []
   },
@@ -116,6 +116,13 @@ export default {
     error_signin: {
       
     }
+  },
+
+  // ------------ restaurants --------------- // 
+
+  restaurants: {
+    loading: false,
+    stores: []
   },
 
   // ------------ actions --------------- // 

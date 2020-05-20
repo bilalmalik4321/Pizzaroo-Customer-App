@@ -37,8 +37,8 @@ function MenuScreen(props) {
   const { pizzaMenu } = props;
   let counter = findNumberOfOrder(props.items);
 
-  const { pizza, desserts, drinks, sides, dipping } = props.menu;
-
+  const { pizzas, desserts, drinks, sides, dippings } = props.menu;
+  console.log("pizza menu--", props.pizzaMenu)
   return (
     <SafeAreaView>
 
@@ -93,14 +93,14 @@ function MenuScreen(props) {
                 style={{ backgroundColor: 'purple'}} 
                 value={item.size}
                 onPress={() => {
-                props.updatePizzaOrder({ size: item.size , price: item.price, sizeDescription: item.description})
+                props.updatePizzaOrder({ size: item.size , price: item.price})
               }}
               />}
-              title={item.description}
+              title={item.size}
               bottomDivider
               rightTitle={item.price.toString()}
               onPress={() => {
-                props.updatePizzaOrder({ size: item.size , price: item.price, sizeDescription: item.description})
+                props.updatePizzaOrder({ size: item.size , price: item.price})
               }}
             />
           </View>
@@ -282,20 +282,22 @@ function MenuScreen(props) {
         </View>
         <View>
           <View>
-            {pizza && Object.keys(pizza).length != 0 &&
+            {pizzas && Object.keys(pizzas).length != 0 &&
             <View style={styles.foodItemHeader}>
               <Text h3>
                 Pizzas
               </Text>
             </View>   
             }
-            { pizza && Object.keys(pizza).length != 0 && pizza.map((item, index)=>(
+            { pizzas && Object.keys(pizzas).length != 0 && pizzas.map((item, index)=>(
               
               <TouchableOpacity
                 key={index}
                 onPress={() => {
-                  props.updatePizzaOrder({name: item.name, description: item.description,price: item.sizes[0].price, size: 'S'})
+                  props.updatePizzaOrder({name: item.name, description: item.description,price: item.sizes[0].price, size: item.sizes[0].size})
                   props.copyPizzaMenu(item);
+                  console.log("pizza item", item)
+                  console.log("pizza item copy", props.pizzaMenu)
                   // updateTitle(item.name);
                   setModalVisible(true);
                 }}
@@ -371,7 +373,7 @@ function MenuScreen(props) {
                     {item.name} 
                   </Text>
                 <Text style={styles.foodItemDescription}>
-                  {item.size + " " + item.type + " " + item.cal + " cal." }
+                  {item.size + " " + item.type + " " + `${!item.cal?" ": item.cal + " cal."}` }
                 </Text>
               <Text style={styles.foodItemPrice}>{item.price}</Text>
             </Card>
@@ -412,12 +414,12 @@ function MenuScreen(props) {
             </View>
         
           <View>
-          {dipping && Object.keys(dipping).length!=0 &&
+          {dippings && Object.keys(dippings).length!=0 &&
               <View style={styles.foodItemHeader}>
                 <Text h3>Dipping Sauces</Text>
               </View>
             }
-              {dipping && Object.keys(dipping).length!=0 && dipping.map((item,index)=>(
+              {dippings && Object.keys(dippings).length!=0 && dippings.map((item,index)=>(
                 <TouchableOpacity 
                 key={index} 
                 onPress={()=> {
@@ -432,9 +434,11 @@ function MenuScreen(props) {
                   <Text style={{ fontWeight:"bold" , paddingBottom: 9}}>
                     {item.name} 
                   </Text>
+                  {item.cal &&
                   <Text style={styles.foodItemDescription}>
-                    {item.cal + " cal." }
+                    {!item.cal? "" : item.cal +" cal." }
                   </Text>
+                  }
                 <Text style={styles.foodItemPrice}>{item.price}</Text>
               </Card>
               </TouchableOpacity>

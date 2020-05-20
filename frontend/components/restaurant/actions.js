@@ -1,3 +1,4 @@
+import { getRestaurants } from '../api';
 /**
  * This makes a copy of the menu from restaurant to the menu screen
  * @param {Object} payload - payload is the selected menu by user
@@ -25,3 +26,29 @@ export const copyPizzaMenu = (payload) => state => {
   };
 };
 
+export const getAllRestaurants = () => async state => {
+ try {
+
+  state.setState({
+    restaurants: {
+      ...state.restaurants,
+      loading: true
+    }
+  })
+
+  await getRestaurants(
+    async (stores) => {
+      state.setState({
+        restaurants: {
+          ...state.restaurants,
+          stores,
+          loading: false
+        }
+      })
+    }
+  )
+
+ }catch(err){
+   console.log("error get all the restaurants", err)
+ }
+}

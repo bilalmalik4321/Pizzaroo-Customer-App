@@ -35,6 +35,7 @@ const  Checkout = props => {
   const [method, setMethod] = useState(0);
   const [errMsg , setErrMsg] = useState(null);
 
+  // console.log("items", props.items, "props checkout", props.checkout)
   // Confirm action to place an order for user
   const onConfirm = async ()=> {
 
@@ -60,6 +61,7 @@ const  Checkout = props => {
         numberOfItems,
         total: total(items)
       }
+      console.log("did it work")
       // call the api to create an order
       await createOrder(payload);
       // navigate to the order history to see the order status
@@ -107,7 +109,7 @@ const  Checkout = props => {
               title="Restaurant"
               rightElement={ 
                 <View>
-                    <Text>Pizzia Plazza</Text>
+                    <Text>{props.checkout.store.name}</Text>
                 </View>}
             /> 
             <View style={{paddingLeft: 15, paddingRight: 15}}>
@@ -118,7 +120,7 @@ const  Checkout = props => {
               title="Address"
               rightElement={ 
                 <View>
-                  <Text>400 sunset ave</Text> 
+                  <Text>{props.checkout.store.address.street}</Text> 
                 </View>}
               /> 
               <View style={{paddingLeft: 15, paddingRight: 15}}>
@@ -240,7 +242,7 @@ const  Checkout = props => {
                 title="Phone"
                 rightElement={ 
                   <View>
-                      <Text style={{color: 'grey'}} >123-123-123</Text>
+                      <Text style={{color: 'grey'}} >{props.user.phone}</Text>
                   </View>}
               /> 
               <View style={{paddingLeft: 15, paddingRight: 15}}>
