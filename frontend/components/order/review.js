@@ -35,7 +35,7 @@ const Review = (props) => {
   // toggle edit x icons 
   const [edit, setEdit] = useState(false);
   // get each kind of food
-  const { pizzas, desserts, drinks, sides, dipping } = props.items;
+  const { pizzas, desserts, drinks, sides, dippings } = props.items;
 
   // Remove an item of the list
   const onRemove = (item) => {
@@ -162,7 +162,7 @@ const Review = (props) => {
 
              {/* -------- Dipping --------- */}
           <View style={{ paddingLeft: 20, paddingRight: 20}}>
-            {dipping && Object.keys(dipping).length!=0 && dipping.sort((a,b)=>a.name < b.name).map((item,index)=>(
+            {dippings && Object.keys(dippings).length!=0 && dippings.sort((a,b)=>a.name < b.name).map((item,index)=>(
               <View  key={index}>
                 <ListItem 
                   key={index}

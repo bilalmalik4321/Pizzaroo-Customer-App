@@ -34,25 +34,27 @@ function RestaurantScreen(props) {
     props.getAllRestaurants();
   }, [props.getAllRestaurants])
   const { stores, loading } = props.restaurants;
-  console.log('store ----', props.restaurants.stores);
-  console.log('how many restaurants ?', stores.length);
+  // console.log('store ----', props.restaurants.stores);
+  // console.log('how many restaurants ?', stores.length);
   return (
     <SafeAreaView>
       <ScrollView style={{backgroundColor: "white"}}> 
         <Tile
           imageSrc={require("../../images/banner.png")}
         />  
-        { !loading && stores.length !=0 && stores && stores.sort((a,b) => (a.name < b.name)).map((res, index)=> (
+        { !loading && stores.length !=0 && stores && stores.sort((a,b) => (a.name < b.name)).map((res, index)=> {
+            console.log("menu", res.menu)
+          if ( res.menu && Object.keys(res.menu).length !== 0)
+           return (
           <View key={index}>
             <TouchableOpacity
               key={index}
               onPress={() =>{
 
-
                 props.clearItems();
                 props.updateCheckout({
                   store: {
-                    id: res.sotreId,
+                    id: res.storeId,
                     address: {
                       street : res.street,
                       postalCode: res.postalCode,
@@ -61,14 +63,13 @@ function RestaurantScreen(props) {
 
                     },
                     phone: res.storePhone,
-                    hour: res.hour,
                     name: res.storeName,
                     email: res.email
                   }
                 })
                
                 props.copyMenu({...res.menu})
-                console.log("menu--", res.menu)
+                {/* console.log("menu--", res.menu) */}
                 props.navigation.navigate("Menu", { title: res.storeName + " " + index })
               }}
               activeOpacity={0.75}
@@ -80,7 +81,9 @@ function RestaurantScreen(props) {
             </Card>
             </TouchableOpacity>
           </View>
-          ))
+          )
+          
+          })
         }
       </ScrollView>
     </SafeAreaView>

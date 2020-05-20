@@ -40,7 +40,7 @@ export default {
   items: {
     pizzas: [],
     drinks: [],
-    dipping: [],
+    dippings: [],
     sides: [],
     desserts: []
   },
