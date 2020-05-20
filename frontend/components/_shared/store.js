@@ -118,6 +118,13 @@ export default {
     }
   },
 
+  // ------------ restaurants --------------- // 
+
+  restaurants: {
+    loading: false,
+    stores: []
+  },
+
   // ------------ actions --------------- // 
   ...accountActions,
   ...locationActions,

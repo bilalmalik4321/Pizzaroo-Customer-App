@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {
   StyleSheet,
   Text,
@@ -28,8 +28,14 @@ function RestaurantScreen(props) {
   list.push(props.schema[0]);
   list.push(props.schema[0]);  
   list.push(props.schema[0]);
-  console.log("hello props", list);
+  // console.log("hello props", list);
 
+  useEffect(() => {
+    props.getAllRestaurants();
+  }, [props.getAllRestaurants])
+  const { stores } = props.restaurants
+  console.log('store ----', props.restaurants.stores);
+  console.log('how many restaurants ?', stores.length);
   return (
     <SafeAreaView>
       <ScrollView style={{backgroundColor: "white"}}> 

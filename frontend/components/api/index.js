@@ -1,5 +1,6 @@
 import firebase from '../../firebases';
 import moment from 'moment';
+import { any } from 'prop-types';
 // access the database
 
 // const { firebase , firestore } = all;
@@ -235,5 +236,30 @@ export const updateOrder = async (payload, orderId, status) => {
 
 	} catch (error) {
 		console.log('createOrder failed', error);
+	}
+}
+
+
+export const getRestaurants = async (updateRestaurant) => {
+	try {
+		return  await db
+			.collection('stores')
+			.get()
+			.then( snapshot => {
+				const withinRange = [];
+				console.log("hello")
+				snapshot.forEach( doc => (
+					withinRange.push({
+						storeId: doc.id,
+						...doc.data()
+					})
+
+				))
+
+				console.log("data ---", withinRange)
+				updateRestaurant(withinRange)
+			})
+	} catch (error) {
+		
 	}
 }
