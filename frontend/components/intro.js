@@ -71,7 +71,7 @@ slide: {
     alignItems: 'center',
 	padding:'15%',
     justifyContent: 'center',
-    backgroundColor: 'purple',
+    backgroundColor: '#FF9800',
 	color: 'red',
   },
   image: {

@@ -43,7 +43,10 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: 'Reset Password',
-	    	headerTitleAlign: 'center',
+	    headerTitleAlign: 'center',
+		headerStyle: {
+			backgroundColor: '#FFC100',
+		},
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("LoginScreen")}
@@ -63,7 +66,10 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: 'Registration',
-	    	headerTitleAlign: 'center',
+	    headerTitleAlign: 'center',
+		headerStyle: {
+			backgroundColor: '#FFC100',
+		},
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("LoginScreen")}
@@ -82,7 +88,10 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: 'Status',
-	    	headerTitleAlign: 'center',
+	    headerTitleAlign: 'center',
+		headerStyle: {
+			backgroundColor: '#FFC100',
+		},
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Orders")}
@@ -101,8 +110,11 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: 'Orders',
-	    	headerTitleAlign: 'center',
-        headerLeft: () => (
+	    headerTitleAlign: 'center',
+        headerStyle: {
+			backgroundColor: '#FFC100',
+		},
+		headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Restaurants")}
             activeOpacity={0.2}
@@ -120,7 +132,10 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: 'Email',
-	    	headerTitleAlign: 'center',
+	    headerTitleAlign: 'center',
+		headerStyle: {
+			backgroundColor: '#FFC100',
+		},
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Account")}
@@ -140,7 +155,10 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: 'Password',
-	    	headerTitleAlign: 'center',
+	    headerTitleAlign: 'center',
+		headerStyle: {
+			backgroundColor: '#FFC100',
+		},
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Account")}
@@ -159,7 +177,10 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: 'Address',
-		    headerTitleAlign: 'center',
+		headerTitleAlign: 'center',
+		headerStyle: {
+			backgroundColor: '#FFC100',
+		},
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Location")}
@@ -178,7 +199,10 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: 'Address',
-		    headerTitleAlign: 'center',
+		headerTitleAlign: 'center',
+		headerStyle: {
+			backgroundColor: '#FFC100',
+		},
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("SelectLocation")}
@@ -197,7 +221,10 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: 'Select Address',
-	    	headerTitleAlign: 'center',
+	    headerTitleAlign: 'center',
+		headerStyle: {
+			backgroundColor: '#FFC100',
+		},
         headerLeft: 
          () => (
           <TouchableOpacity
@@ -221,7 +248,10 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: 'Search Address',
-		    headerTitleAlign: 'center',
+		headerTitleAlign: 'center',
+		headerStyle: {
+			backgroundColor: '#FFC100',
+		},
         headerLeft: 
          () => (
           <TouchableOpacity
@@ -264,7 +294,10 @@ const AppNavigator = createStackNavigator(
       navigationOptions: ({ navigation }) => ({
 		
         gestureEnabled: false,
-		    headerTitleAlign: 'center',
+		headerTitleAlign: 'center',
+		headerStyle: {
+			backgroundColor: '#FFC100', //looks weird with icon
+		},
         headerRight: () => (
 
           <Avatar
@@ -285,7 +318,10 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: `Menu`,
-		    headerTitleAlign: 'center',
+		headerTitleAlign: 'center',
+		headerStyle: {
+			backgroundColor: '#FFC100',
+		},
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Restaurants")}
@@ -306,6 +342,9 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
 		headerTitleAlign: 'center',
+		headerStyle: {
+			backgroundColor: '#FFC100',
+		},
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Restaurants")}
@@ -326,7 +365,10 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: `Review Order`,
-		    headerTitleAlign: 'center',
+		headerTitleAlign: 'center',
+		headerStyle: {
+			backgroundColor: '#FFC100',
+		},
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Menu")}
@@ -347,7 +389,10 @@ const AppNavigator = createStackNavigator(
 
       navigationOptions: ({ navigation }) => ({
         title: `Checkout`,
-		    headerTitleAlign: 'center',
+		headerTitleAlign: 'center',
+		headerStyle: {
+			backgroundColor: '#FFC100',
+		},
         headerLeft: () => (
           <TouchableOpacity
             onPress={() => navigation.navigate("Review")}

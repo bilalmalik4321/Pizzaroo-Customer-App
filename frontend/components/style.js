@@ -71,7 +71,7 @@ export default {
     marginLeft: "15%",
     marginRight: "15%",
     marginTop: "2.5%",
-    marginBottom: "2.5%",
+    marginBottom: "2.5%"
   },
   signupFormcheckbox: {
 

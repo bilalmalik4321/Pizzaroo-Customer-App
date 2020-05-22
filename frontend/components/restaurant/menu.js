@@ -41,7 +41,7 @@ function MenuScreen(props) {
 
   return (
     <SafeAreaView>
-
+	<View style={{}}>
       {/* ---------- Modal Pizza selection size ----------- */}
       <Modal visible={modalVisible} animationType="slide" >
       <View   style={styles.modalExit2}>
@@ -443,6 +443,7 @@ function MenuScreen(props) {
           </View>
         </StickyHeaderFooterScrollView>
       </View>
+	</View>
     </SafeAreaView>
   );
 }
@@ -458,7 +459,7 @@ const styles = StyleSheet.create({
   modalView: {
     margin: 20,
     // height: '100%',
-    backgroundColor: "white",
+  
     borderRadius: 20,
     padding: "5%",
     alignItems: "center",
@@ -552,6 +553,7 @@ const styles = StyleSheet.create({
     shadowRadius: 1.41,
     elevation: 2,
     borderRadius: 10,
+	
   },
   drinks: {
     paddingBottom: 0,
