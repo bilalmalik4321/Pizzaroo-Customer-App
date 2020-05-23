@@ -35,7 +35,7 @@ function RestaurantScreen(props) {
   const getLocation = addresses.length === 0;
  
   const { lat, lng } = !getLocation? addresses[0] : {};
-  console.log("user", props.user.addresses.length)
+  console.log("user", getLocation)
   useEffect(() => {
     props.getAllRestaurants();
   }, [props.getAllRestaurants])
@@ -105,13 +105,15 @@ function RestaurantScreen(props) {
               <Text style={styles.card}>
                 {res.description}
               </Text>
-              {props.user.addresses.length !==0 &&
+              { props.user.addresses.length !==0?
                 <Text style={{marginBottom: 10,color: "green"}}>{getDistanceFromLatLonInKm(lat,lng,res.lat, res.lng).toFixed(0)+"km"}</Text>
+                : 
+                <></>
               }
               { res.hour && res.hour.open && res.hour.close &&
-              <Text style={{marginBottom: 10,color: "green"}}>
-                open: {res.hour.open} - {res.hour.close}
-              </Text> 
+                <Text style={{marginBottom: 10,color: "green"}}>
+                  open: {res.hour.open} - {res.hour.close}
+                </Text> 
               }
             </Card>
             </TouchableOpacity>
