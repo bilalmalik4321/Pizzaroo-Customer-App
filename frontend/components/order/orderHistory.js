@@ -64,7 +64,7 @@ const  History = props => {
               Let's order your favorite Pizza!s
             </Text>
           </View>}
-        {active && active.length !== 0 && active.map((item, index)=> (
+        {active && active.length !== 0 && active.sort((a,b) => a.createdAt < b.createdAt).map((item, index)=> (
           <TouchableOpacity 
             key={index}
             onPress={() => {

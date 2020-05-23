@@ -37,8 +37,9 @@ function MenuScreen(props) {
   const { pizzaMenu } = props;
   let counter = findNumberOfOrder(props.items);
 
+  // console.log("items---", props.item)
   const { pizzas, desserts, drinks, sides, dippings } = props.menu;
-  console.log("pizza menu--", props.pizzaMenu)
+  // console.log("pizza menu--", props.pizzaMenu)
   return (
     <SafeAreaView>
 
@@ -191,7 +192,7 @@ function MenuScreen(props) {
                 {props.item.size + " " + props.item.type + " " + props.item.cal + " cal." }
               </Text>
             }
-            {props.item.kind === 'dipping' &&
+            {props.item.kind === 'dippings' &&
               <Text style={{ color: 'grey', paddingBottom: 20}}>
                 {props.item.cal + " cal." }
               </Text>
@@ -232,6 +233,7 @@ function MenuScreen(props) {
           <Button 
             onPress={() => {
               let temp = props.items[props.item.kind];
+              console.log("dippings is empty?",props.item.kind, "items", props.items);
               const item = props.item;
               item.id = uuidv4();
               temp.push(item);
@@ -423,7 +425,7 @@ function MenuScreen(props) {
                 <TouchableOpacity 
                 key={index} 
                 onPress={()=> {
-                  props.updateItem({kind: 'dipping',...item})
+                  props.updateItem({kind: 'dippings',...item})
                   setModalVisibleOther(true);
                 }}
               >

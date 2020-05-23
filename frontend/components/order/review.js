@@ -26,6 +26,7 @@ const Review = (props) => {
   // count the number of the items
   const numberOfOrder =findNumberOfOrder(props.items);
 
+  console.log("list---", props.items);
   // if user removes all item from the list, return to the Menu
   useEffect(() => {
    if(numberOfOrder === 0)
