@@ -4,6 +4,7 @@
 
 ![alt-text](https://github.com/bilalmalik4321/Pizzaroo-Customer-App/blob/master/Demo.gif)
 
+<img src="https://github.com/bilalmalik4321/Pizzaroo-Customer-App/blob/master/Demo.gif" width="50" height="100" />
 - Master branch : production
 - Staging branch : development
 - Default branch : staging 
