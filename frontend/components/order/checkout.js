@@ -212,7 +212,7 @@ const  Checkout = props => {
                           }}
                           borderWidth={1}
                           buttonInnerColor={method===1? '#0ecfb9' : '#000'}
-                          buttonOuterColor={'#0ecfb9s'}
+                          buttonOuterColor={'#0ecfb9'}
                           buttonSize={20}
                           buttonOuterSize={25}
                           buttonStyle={{}}
