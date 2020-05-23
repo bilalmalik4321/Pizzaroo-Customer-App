@@ -2,9 +2,9 @@
 
 # Demo
 
-![alt-text](https://github.com/bilalmalik4321/Pizzaroo-Customer-App/blob/master/Demo.gif)
+<img src="https://github.com/bilalmalik4321/Pizzaroo-Customer-App/blob/master/Demo.gif" width="400" height="800" />
 
-<img src="https://github.com/bilalmalik4321/Pizzaroo-Customer-App/blob/master/Demo.gif" width="300" height="600" />
+# Developer Team
 - Master branch : production
 - Staging branch : development
 - Default branch : staging 
