@@ -47,7 +47,7 @@ function Login(props) {
            
               props.getCustomerOrders();
 
-              if(userInfo.addresses !== undefined)
+              if(userInfo.addresses !== undefined && userInfo.addresses.length !== 0)
                 props.navigation.navigate("Restaurants");
               else 
                 props.navigation.navigate("Location");

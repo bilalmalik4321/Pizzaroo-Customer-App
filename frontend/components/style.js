@@ -103,7 +103,6 @@ export default {
     marginTop: 60,
     paddingLeft: '15%',
     paddingRight: '15%',
-	textAlign: 'center'
   },
   modalExit: {
     left:1,
