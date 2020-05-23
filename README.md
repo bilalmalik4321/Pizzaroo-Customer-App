@@ -1,5 +1,9 @@
 # Pizzaroo Customer App
 
+# Demo
+
+![alt-text](https://github.com/bilalmalik4321/Pizzaroo-Customer-App/blob/master/Demo.gif)
+
 - Master branch : production
 - Staging branch : development
 - Default branch : staging 
