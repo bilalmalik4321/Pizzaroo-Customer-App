@@ -14,7 +14,8 @@ import {
 } from "react-native-elements";
 
 import { subscribe } from "react-contextual";
-import { getDistanceFromLatLonInKm } from '../_shared/utility';
+import { getDistanceFromLatLonInKm, convertDate } from '../_shared/utility';
+import moment from 'moment';
 /**
  * Restaurant screen
  * @param {Object} props - store of HOC
@@ -24,7 +25,7 @@ function RestaurantScreen(props) {
   const [toggleModal, setModal] = useState(false);
 
   const { addresses } = props.user;
-  
+ 
 
   let list = [];
   list.push(props.schema[0]);
