@@ -1,5 +1,6 @@
 import firebase from '../../firebases';
 import moment from 'moment';
+import { convertDate } from '../_shared/utility';
 // access the database
 
 // const { firebase , firestore } = all;
@@ -177,15 +178,19 @@ export const getOrders = async (callback) => {
 			.onSnapshot( snapshot => {
 				const active = [];
 				const completed = [];
+			  const orderDate = (time) => moment(time,'YYYY-MM-DD').format('L');
+				const today = moment().format('MM/DD/YYYY');
+				
 
+				console.log("today", today)
 				snapshot.forEach( doc => (
-					doc.data().status === 'open' && active.push({
+					doc.data().status === 'open' && today === orderDate(doc.data().createdAt) && active.push({
 						id: doc.id,
 						...doc.data()
 					})
 				))
 				snapshot.forEach( doc => (
-					doc.data().status === 'closed' && completed.push({
+					(doc.data().status === 'closed' || doc.data().status === 'cancelled')&&completed.push({
 						id: doc.id,
 						...doc.data()
 					})
@@ -235,5 +240,30 @@ export const updateOrder = async (payload, orderId, status) => {
 
 	} catch (error) {
 		console.log('createOrder failed', error);
+	}
+}
+
+
+export const getRestaurants = async (updateRestaurant) => {
+	try {
+		return  await db
+			.collection('stores')
+			.get()
+			.then( snapshot => {
+				const withinRange = [];
+				console.log("hello")
+				snapshot.forEach( doc => (
+					withinRange.push({
+						storeId: doc.id,
+						...doc.data()
+					})
+
+				))
+
+				console.log("data ---", withinRange)
+				updateRestaurant(withinRange)
+			})
+	} catch (error) {
+		
 	}
 }

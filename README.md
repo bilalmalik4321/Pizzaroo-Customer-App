@@ -1,4 +1,4 @@
-# HomeMenuScreen
+# Pizzaroo Customer App
 
 - Master branch : production
 - Staging branch : development

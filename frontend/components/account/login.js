@@ -26,8 +26,8 @@ function Login(props) {
   
   const errors = props.errors.error_signin;
 
-  console.log('user signed up---', justSignedUp);
-  console.log("current user", firebase.auth().currentUser);
+  // console.log('user signed up---', justSignedUp);
+  // console.log("current user", firebase.auth().currentUser);
   useEffect(()=> {
       try {
         firebase.auth().onAuthStateChanged(async user => {
