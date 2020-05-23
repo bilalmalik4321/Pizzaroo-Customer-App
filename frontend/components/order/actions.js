@@ -81,7 +81,7 @@ export const clearItems = () => state =>{
     items: {
       pizzas: [],
       drinks: [],
-      dipping: [],
+      dippings: [],
       sides: [],
       desserts: []
     }

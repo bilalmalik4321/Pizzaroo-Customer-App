@@ -75,7 +75,7 @@ const  Checkout = props => {
         renderStickyFooter={() => 
           <View  style={{paddingLeft: 15, paddingRight:15, marginBottom: 10}}>
             <Button 
-              buttonStyle={{backgroundColor: '#ff6363', borderRadius: 20}}
+              buttonStyle={{backgroundColor: '#0ecfb9', borderRadius: 20}}
               raised 
               title="Confirm"
               onPress={() => onConfirm()}
@@ -177,13 +177,14 @@ const  Checkout = props => {
                             props.updateCheckout({payment: 'cash'});
                           }}
                           borderWidth={1}
-                          buttonInnerColor={method===0 ? '#c3edea' : '#000'}
-                          buttonOuterColor={'#c3edea'}
+                          buttonInnerColor={method===0 ? '#0ecfb9' : '#000'}
+                          buttonOuterColor={'#0ecfb9'}
                           buttonSize={20}
                           buttonOuterSize={25}
                           buttonStyle={{}}
                           buttonWrapStyle={{}}
                         />
+
                         <RadioButtonLabel
                           labelStyle={{color: 'grey' ,fontWeight: `${method===0? 'bold': 'normal'}`}}
                           onPress={()=>{
@@ -204,14 +205,14 @@ const  Checkout = props => {
                       >
                         <RadioButtonInput
                         isSelected={method===1}
-                          obj={{label: 'Card', value: 1}}
+                          obj={{label: ' Card', value: 1}}
                           onPress={()=>{
                             setMethod(1)
                             props.updateCheckout({payment: 'card'});
                           }}
                           borderWidth={1}
-                          buttonInnerColor={method===1? '#c3edea' : '#000'}
-                          buttonOuterColor={'#c3edea'}
+                          buttonInnerColor={method===1? '#0ecfb9' : '#000'}
+                          buttonOuterColor={'#0ecfb9'}
                           buttonSize={20}
                           buttonOuterSize={25}
                           buttonStyle={{}}
@@ -279,7 +280,7 @@ const  Checkout = props => {
 
                         }
                         <Icon 
-                          color='red'
+                          color='#0ecfb9'
                           name="search"
                           />
                       </View> 
@@ -305,7 +306,7 @@ const  Checkout = props => {
                         {props.checkout.instruction.length < 20 ? props.checkout.instruction : props.checkout.instruction.substring(0,20) }
                       </Text>
                       <Icon 
-                            color='red'
+                            color='#0ecfb9'
                             name="chevron-right"
                       />
                     </View>
@@ -365,7 +366,7 @@ const  Checkout = props => {
             setModalVisibleOther(false);
           }}
           title="Save"
-          buttonStyle={{borderRadius: 20, paddingRight: 40, paddingLeft: 40, alignItems: 'center', backgroundColor: "#ff6363", justifyContent: 'center'}}
+          buttonStyle={{borderRadius: 20, paddingRight: 40, paddingLeft: 40, alignItems: 'center', backgroundColor: "#0ecfb9", justifyContent: 'center'}}
           titleStyle={{ textAlign: 'center'}}
         />
       </View>

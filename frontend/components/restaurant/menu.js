@@ -37,11 +37,12 @@ function MenuScreen(props) {
   const { pizzaMenu } = props;
   let counter = findNumberOfOrder(props.items);
 
+  // console.log("items---", props.item)
   const { pizzas, desserts, drinks, sides, dippings } = props.menu;
-  console.log("pizza menu--", props.pizzaMenu)
+  // console.log("pizza menu--", props.pizzaMenu)
   return (
     <SafeAreaView>
-
+	<View style={{}}>
       {/* ---------- Modal Pizza selection size ----------- */}
       <Modal visible={modalVisible} animationType="slide" >
       <View   style={styles.modalExit2}>
@@ -90,7 +91,7 @@ function MenuScreen(props) {
               key={index}
               leftElement={ 
               <RadioButton 
-                style={{ backgroundColor: 'purple'}} 
+                style={{ backgroundColor: '#0ecfb9'}} 
                 value={item.size}
                 onPress={() => {
                 props.updatePizzaOrder({ size: item.size , price: item.price})
@@ -127,7 +128,7 @@ function MenuScreen(props) {
             min={1} 
             value={props.pizzaOrder.quantity} 
             colorMax={"red"}
-            color={"purple"}
+            color={"#0ecfb9"}
             
             onChange={e => props.updatePizzaOrder({quantity: e})} 
             
@@ -150,7 +151,7 @@ function MenuScreen(props) {
          
           }}
           title={`Add to Order\t\t\t${props.pizzaOrder.price && props.pizzaOrder.quantity? "$"+ (props.pizzaOrder.price * props.pizzaOrder.quantity).toFixed(2): '' }`}
-          buttonStyle={{borderRadius: 20, paddingRight: 40, paddingLeft: 40, alignItems: 'center', backgroundColor: "#21bf73", justifyContent: 'center'}}
+          buttonStyle={{borderRadius: 20, paddingRight: 40, paddingLeft: 40, alignItems: 'center', backgroundColor: "#0ecfb9", justifyContent: 'center'}}
           titleStyle={{ textAlign: 'center'}}
         />
       </View>
@@ -191,7 +192,7 @@ function MenuScreen(props) {
                 {props.item.size + " " + props.item.type + " " + props.item.cal + " cal." }
               </Text>
             }
-            {props.item.kind === 'dipping' &&
+            {props.item.kind === 'dippings' &&
               <Text style={{ color: 'grey', paddingBottom: 20}}>
                 {props.item.cal + " cal." }
               </Text>
@@ -222,7 +223,7 @@ function MenuScreen(props) {
                 min={1} 
                 value={props.item.quantity} 
                 colorMax={"red"}
-				        color={"purple"}
+				color={"#0ecfb9"}
                 onChange={e => props.updateItem({quantity: e})} 
                 
               />
@@ -232,6 +233,7 @@ function MenuScreen(props) {
           <Button 
             onPress={() => {
               let temp = props.items[props.item.kind];
+              console.log("dippings is empty?",props.item.kind, "items", props.items);
               const item = props.item;
               item.id = uuidv4();
               temp.push(item);
@@ -243,7 +245,7 @@ function MenuScreen(props) {
             
             }}
             title={`Add to Order\t\t\t${ props.item.price && props.item.quantity ? "$"+(props.item.price * props.item.quantity).toFixed(2): ''}`}
-            buttonStyle={{borderRadius: 20, paddingRight: 40, paddingLeft: 40, alignItems: 'center', backgroundColor: "#5f6caf", justifyContent: 'center'}}
+            buttonStyle={{borderRadius: 20, paddingRight: 40, paddingLeft: 40, alignItems: 'center', backgroundColor: "#0ecfb9", justifyContent: 'center'}}
             titleStyle={{ textAlign: 'center'}}
           />
         </View>
@@ -258,7 +260,7 @@ function MenuScreen(props) {
           <View  style={styles.shoppingButton}>
             { footer &&
               <Button 
-                buttonStyle={{ borderRadius: 20, backgroundColor:'#ff6363'}}
+                buttonStyle={{ borderRadius: 20, backgroundColor:'#0ecfb9'}}
                 raised 
                 title="View Order"
                 onPress={() => {
@@ -266,7 +268,7 @@ function MenuScreen(props) {
                     props.navigation.navigate("Review");
                 }} 
                 icon={<View style={styles.Icon}>
-                        <Badge value={findNumberOfOrder(props.items)}  badgeStyle={{backgroundColor: "#ff6363"}}/>
+                        <Badge value={findNumberOfOrder(props.items)}  badgeStyle={{backgroundColor: "#0ecfb9"}}/>
                       </View>}
                 
               />}
@@ -423,7 +425,7 @@ function MenuScreen(props) {
                 <TouchableOpacity 
                 key={index} 
                 onPress={()=> {
-                  props.updateItem({kind: 'dipping',...item})
+                  props.updateItem({kind: 'dippings',...item})
                   setModalVisibleOther(true);
                 }}
               >
@@ -447,6 +449,7 @@ function MenuScreen(props) {
           </View>
         </StickyHeaderFooterScrollView>
       </View>
+	</View>
     </SafeAreaView>
   );
 }
@@ -462,7 +465,7 @@ const styles = StyleSheet.create({
   modalView: {
     margin: 20,
     // height: '100%',
-    backgroundColor: "white",
+  
     borderRadius: 20,
     padding: "5%",
     alignItems: "center",
@@ -476,7 +479,7 @@ const styles = StyleSheet.create({
   },
 
   foodAddOrder: {
-    backgroundColor: "#13aa52",
+    backgroundColor: "#21bf73",
     borderRadius: 25,
     height: 45,
     width: '80%',
@@ -494,7 +497,7 @@ const styles = StyleSheet.create({
 
   foodItemPrice: {
     marginBottom: 10,
-    color: "green",
+    color: "#26bd76",
   },
 
   modalItemHeader: {
@@ -519,7 +522,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 20,
     marginBottom: 20,
-    color: "green",
+    color: "#26bd76",
   },
 
   modalExit: {
@@ -556,6 +559,7 @@ const styles = StyleSheet.create({
     shadowRadius: 1.41,
     elevation: 2,
     borderRadius: 10,
+	
   },
   drinks: {
     paddingBottom: 0,

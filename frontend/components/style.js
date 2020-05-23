@@ -71,7 +71,7 @@ export default {
     marginLeft: "15%",
     marginRight: "15%",
     marginTop: "2.5%",
-    marginBottom: "2.5%",
+    marginBottom: "2.5%"
   },
   signupFormcheckbox: {
 
@@ -102,7 +102,8 @@ export default {
     width: '100%',
     marginTop: 60,
     paddingLeft: '15%',
-    paddingRight: '15%'
+    paddingRight: '15%',
+	textAlign: 'center'
   },
   modalExit: {
     left:1,

@@ -38,7 +38,7 @@ const  History = props => {
         renderStickyFooter={() => 
           <View  style={{paddingLeft: 15, paddingRight:15, marginBottom: 10}}>
             <Button 
-              buttonStyle={{backgroundColor: '#ff6363', borderRadius: 20}}
+              buttonStyle={{backgroundColor: '#0ecfb9', borderRadius: 20}}
               raised 
               title="Home"
               onPress={() => props.navigation.navigate('Restaurants')}
@@ -61,10 +61,10 @@ const  History = props => {
               You have no order....!
             </Text>
             <Text style={{alignSelf: 'center'}}>
-              Let's order your favorite Pizza!s
+              Let's order your favorite Pizza!
             </Text>
           </View>}
-        {active && active.length !== 0 && active.map((item, index)=> (
+        {active && active.length !== 0 && active.sort((a,b) => a.createdAt < b.createdAt).map((item, index)=> (
           <TouchableOpacity 
             key={index}
             onPress={() => {

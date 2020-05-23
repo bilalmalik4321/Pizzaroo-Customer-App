@@ -240,7 +240,7 @@ const Status = props => {
           <View style={{ alignContent: 'center', alignSelf: 'center', marginTop: 50}}> 
             { props.status.order.status === 'cancelled' && 
               <View>
-                <Text style={{ alignSelf: 'center', marginBottom: 30 , fontWeight: `${props.status.order.progressStep === 'waiting'? 'bold':'200'}`, color: `${props.status.order.progressStep === 'waiting'? 'green':'grey'}`}}>
+                <Text style={{ alignSelf: 'center', marginBottom: 30 , fontWeight: `${props.status.order.progressStep === 'waiting'? 'bold':'200'}`, color: `${props.status.order.progressStep === 'waiting'? 'red':'grey'}`}}>
                 This order was cancelled....!
                 </Text>
                 <Image 
@@ -252,7 +252,7 @@ const Status = props => {
             }
             {props.status.order.progressStep === 'waiting' && 
               <View>
-                <Text style={{ alignSelf: 'center', marginBottom: 30 , fontWeight: `${props.status.order.progressStep === 'waiting'? 'bold':'200'}`, color: `${props.status.order.progressStep === 'waiting'? 'green':'grey'}`}}>
+                <Text style={{ alignSelf: 'center', marginBottom: 30 , fontWeight: `${props.status.order.progressStep === 'waiting'? 'bold':'200'}`, color: `${props.status.order.progressStep === 'waiting'? '#0ecfb9':'grey'}`}}>
                 Waiting
                 </Text>
                 <Image 

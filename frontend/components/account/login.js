@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {Keyboard, Text, View, TouchableWithoutFeedback, KeyboardAvoidingView , Image} from 'react-native';
+import {Keyboard, Text, View, TouchableWithoutFeedback, KeyboardAvoidingView , Image, ImageBackground} from 'react-native';
 import { Button } from 'react-native-elements';
 import { subscribe } from 'react-contextual';
 import firebase from '../../firebases';
@@ -100,16 +100,20 @@ function Login(props) {
   return (
     <KeyboardAvoidingView style={styles.containerView} behavior="padding">
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+	    
         <View style={styles.loginScreenContainer}>
+		 <ImageBackground style = {{flex: 1, resizeMode: 'stretch'}} source = {require('../../images/login-bg.jpg')}>
           <View style={styles.loginFormView}> 
-            <Image
-              width="100"
-              height="100"
-              source={require('../../images/pizza.png')}
-            />
-          <Text style={styles.logoText}>Pizzaro</Text>
-          
-          <Input 
+			<View style={{}}>
+				<Image
+				  width="100"
+				  height="100"
+				  source={require('../../images/pizza.png')}
+				  
+				/>
+				<Text style={styles.logoText}>Pizzaro</Text>
+			</View>
+            <Input 
             containerStyle={{paddingBottom: 25}}
             label="Email"
             value={props.user.email}
@@ -132,7 +136,7 @@ function Login(props) {
             errorMessage={returnError || errors.email}
           />
 
-          <Input 
+            <Input 
             secureTextEntry={true}
             containerStyle={{paddingBottom: 25}}
             label="Password"
@@ -192,7 +196,8 @@ function Login(props) {
             </TouchableOpacity>
           </View>
        </View>
-      </View> 
+	   </ImageBackground>
+      </View>
     </TouchableWithoutFeedback>
   </KeyboardAvoidingView>
   );

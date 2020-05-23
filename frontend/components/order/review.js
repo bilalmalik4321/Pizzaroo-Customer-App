@@ -26,6 +26,7 @@ const Review = (props) => {
   // count the number of the items
   const numberOfOrder =findNumberOfOrder(props.items);
 
+  console.log("list---", props.items);
   // if user removes all item from the list, return to the Menu
   useEffect(() => {
    if(numberOfOrder === 0)
@@ -62,7 +63,7 @@ const Review = (props) => {
        renderStickyFooter={() => 
         <View  style={{paddingLeft: 15, paddingRight:15, marginBottom: 10 }}>
           <Button 
-            buttonStyle={{backgroundColor: '#ff6363', borderRadius: 20}}
+            buttonStyle={{backgroundColor: '#0ecfb9', borderRadius: 20}}
             raised 
             title="Checkout"
             onPress={() => props.navigation.navigate('Checkout')}

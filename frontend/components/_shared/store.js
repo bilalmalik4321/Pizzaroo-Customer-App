@@ -11,7 +11,7 @@ export default {
     name: '',
     phone: '',
     email: '',
-    addresses: [],
+    addresses: undefined,
     password: '',
     repeatPassword: '',
     isAccepted: false,
