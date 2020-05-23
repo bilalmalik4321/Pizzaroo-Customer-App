@@ -1,6 +1,6 @@
 # Pizzaroo Customer App
 
-# Demo
+### Demo
 
 <img src="https://github.com/bilalmalik4321/Pizzaroo-Customer-App/blob/master/Demo.gif" width="400" height="800" />
 
