@@ -260,7 +260,7 @@ export const getRestaurants = async (updateRestaurant) => {
 
 				))
 
-				console.log("data ---", withinRange)
+				// console.log("data ---", withinRange)
 				updateRestaurant(withinRange)
 			})
 	} catch (error) {

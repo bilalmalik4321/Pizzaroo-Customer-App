@@ -16,16 +16,39 @@ import {
 import { subscribe } from "react-contextual";
 import { getDistanceFromLatLonInKm, convertDate } from '../_shared/utility';
 import moment from 'moment';
+
+var stripe = require('stripe-client')('pk_test_COhB9eDpQa7IK6llDCJffqFs003rbLlfSE');
+ 
+var information = {
+  card: {
+    number: '4242424242424242',
+    exp_month: '02',
+    exp_year: '31',
+    cvc: '999',
+    name: 'Billy Joe'
+  }
+}
 /**
  * Restaurant screen
  * @param {Object} props - store of HOC
  */
 function RestaurantScreen(props) {
+
+
  
   const [toggleModal, setModal] = useState(false);
 
   const { addresses } = props.user;
- 
+  async  function onPayment() {
+    var card = await stripe.createToken(information);
+    delete information.card.number;
+    delete information.card.exp_month;
+    delete information.card.cvc;
+    delete information.card.exp_year;
+    var token = card.id;
+    console.log("helllllllo from stripe", card, '\n----infor', information);
+    // send token to backend for processing
+  }
 
   let list = [];
   list.push(props.schema[0]);
@@ -35,7 +58,7 @@ function RestaurantScreen(props) {
   const getLocation = addresses.length === 0;
  
   const { lat, lng } = !getLocation? addresses[0] : {};
-  console.log("user", getLocation)
+  // console.log("user", getLocation)
   useEffect(() => {
     props.getAllRestaurants();
   }, [props.getAllRestaurants])
@@ -49,6 +72,12 @@ function RestaurantScreen(props) {
         <Tile
           imageSrc={require("../../images/banner.png")}
         />  
+       <Icon 
+              size={50}
+              color='#ff6363'
+              name="location-on"
+              onPress={()=> onPayment()}
+            />
         {
           getLocation &&
           <View style={{ paddingBottom: 20}}>
