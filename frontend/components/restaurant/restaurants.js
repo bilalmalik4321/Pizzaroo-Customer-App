@@ -72,12 +72,12 @@ function RestaurantScreen(props) {
         <Tile
           imageSrc={require("../../images/banner.png")}
         />  
-       <Icon 
+       {/* <Icon 
               size={50}
               color='#ff6363'
               name="location-on"
               onPress={()=> onPayment()}
-            />
+            /> */}
         {
           getLocation &&
           <View style={{ paddingBottom: 20}}>

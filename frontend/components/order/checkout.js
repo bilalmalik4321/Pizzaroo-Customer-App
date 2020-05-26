@@ -22,6 +22,7 @@ import { subscribe } from 'react-contextual';
 
 import { createOrder } from '../api';
 import { findNumberOfOrder , total } from '../_shared/utility';
+import { CreditCardInput, LiteCreditCardInput } from "react-native-input-credit-card";
 
 /**
  * Checkout component - display the pizza store info and prompt for order delivery detail
@@ -85,6 +86,23 @@ const  Checkout = props => {
         makeScrollable = {true}
       >
       <View style={{backgroundColor: 'white'}}>
+   
+          <View style={{paddingLeft: 35, marginTop: 30}}>
+            <Text h4 style={{fontWeight: "bold"}} >
+              Payment
+            </Text>
+          </View>
+          <View style={{ marginTop: 40}}>
+            <CreditCardInput 
+              onChange={(_form)=>{console.log(_form)}} 
+              requiresName={true}
+              requiresPostalCode={true}
+              validatePostalCode={() => {}}
+              inputContainerStyle={{ borderBottomWidth: 0.3}}
+              allowScroll={true}
+              /> 
+          </View>
+
         <View  style={{padding: 20, flex: 1, flexDirection: "row", justifyContent: 'space-between'}}>
           <View style={{paddingLeft: 15}}>
             <Text h4 style={{fontWeight: "bold"}} >
@@ -93,18 +111,18 @@ const  Checkout = props => {
         </View>
         </View>
         
-        <View  style={{paddingRight: 20,paddingLeft: 20, flex: 1, flexDirection: "row", justifyContent: 'space-between'}}>
+        {/* <View  style={{paddingRight: 20,paddingLeft: 20, flex: 1, flexDirection: "row", justifyContent: 'space-between'}}>
           <View style={{paddingLeft: 15}}>
             <Text style={{fontWeight: "bold", fontSize: 20, color: 'grey'}} >
               From
             </Text>
           </View>
-        </View>
+        </View> */}
 
           {/* -------- Pizza --------- */}
         <View style={{ paddingLeft: 20, paddingRight: 20}}>
-          
-          <View >
+{/*           
+           <View >
             <ListItem 
               title="Restaurant"
               rightElement={ 
@@ -126,22 +144,22 @@ const  Checkout = props => {
               <View style={{paddingLeft: 15, paddingRight: 15}}>
                 <Divider/>
               </View>
-            </View>
+            </View> */}
           </View>
         
-                
+{/*                 
           <View  style={{paddingRight: 20,paddingTop: 20,paddingLeft: 20, flex: 1, flexDirection: "row", justifyContent: 'space-between'}}>
             <View style={{paddingLeft: 15}}>
               <Text style={{fontWeight: "bold", fontSize: 20, color: 'grey'}} >
                 To
               </Text>
             </View>
-          </View>
+          </View> */}
           {/* -------- Pizza --------- */}
           <View style={{ paddingLeft: 20, paddingRight: 20}}>
             <View style={{paddingRight: 20}}>
               {/* -------- Name -------- */}
-              <ListItem 
+              {/* <ListItem 
                 title="Name"
                 rightElement={ 
                   <View>
@@ -150,11 +168,11 @@ const  Checkout = props => {
               /> 
               <View style={{paddingLeft: 15, paddingRight: 15}}>
                 <Divider/>
-              </View>
+              </View> */}
 
 
              {/* --------Payment -------- */}
-              <ListItem 
+              {/* <ListItem 
                 title="Payment"
                 rightElement={ 
                   <View > 
@@ -233,13 +251,13 @@ const  Checkout = props => {
                   </RadioForm>
                 </View>
                  
-                }/> 
-              <View style={{paddingLeft: 15, paddingRight: 15}}>
+                }/>  */}
+              {/* <View style={{paddingLeft: 15, paddingRight: 15}}>
                 <Divider/>
-              </View>
+              </View> */}
 
               {/* -------- Phone -------- */}
-              <ListItem 
+              {/* <ListItem 
                 title="Phone"
                 rightElement={ 
                   <View>
@@ -248,7 +266,7 @@ const  Checkout = props => {
               /> 
               <View style={{paddingLeft: 15, paddingRight: 15}}>
                 <Divider/>
-              </View>
+              </View> */}
 
               {/* -------- Address -------- */}
               <ListItem 
@@ -358,6 +376,11 @@ const  Checkout = props => {
             onChangeText={text => props.updateCheckout({ instruction: text})}
           />
         </View>
+
+         <View style={{width:'100%', backgroundColor: 'red', paddingTop: '30%', height: 50}} >
+          <CreditCardInput onChange={()=>{}} /> 
+         </View>
+  
       </ScrollView>
 
       <View style={{flexDirection: 'row', paddingBottom: 20, alignItems: 'center', justifyContent: 'center', textAlign: 'center'}}>
