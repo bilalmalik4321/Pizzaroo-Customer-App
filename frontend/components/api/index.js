@@ -182,7 +182,7 @@ export const getOrders = async (callback) => {
 				const today = moment().format('MM/DD/YYYY');
 				
 
-				console.log("today", today)
+				// console.log("today", today)
 				snapshot.forEach( doc => (
 					doc.data().status === 'open' && today === orderDate(doc.data().createdAt) && active.push({
 						id: doc.id,

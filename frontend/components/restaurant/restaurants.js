@@ -17,7 +17,6 @@ import { subscribe } from "react-contextual";
 import { getDistanceFromLatLonInKm, convertDate } from '../_shared/utility';
 import moment from 'moment';
 
-var stripe = require('stripe-client')('pk_test_COhB9eDpQa7IK6llDCJffqFs003rbLlfSE');
  
 var information = {
   card: {

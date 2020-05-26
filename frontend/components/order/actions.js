@@ -246,3 +246,24 @@ export const getCustomerOrder = () => async state => {
   }
 
 }
+
+export const updateCard = (key, value) => state => {
+  let card = {};
+
+  if (typeof key === 'object') {
+    const dataToAppend = key;
+    card = {
+      ...state.card,
+      ...dataToAppend
+    };
+  } else {
+    card = {
+      ...state.card,
+      [key]: value
+    };
+  }
+
+  return {
+    card
+  };
+};

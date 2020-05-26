@@ -22,8 +22,8 @@ import { subscribe } from 'react-contextual';
 
 import { createOrder } from '../api';
 import { findNumberOfOrder , total } from '../_shared/utility';
-import { CreditCardInput, LiteCreditCardInput } from "react-native-input-credit-card";
-
+import { CreditCardInput } from "react-native-input-credit-card";
+const stripe = require('stripe-client')('pk_test_COhB9eDpQa7IK6llDCJffqFs003rbLlfSE');
 /**
  * Checkout component - display the pizza store info and prompt for order delivery detail
  * @param {Object} props - store of HOC 
@@ -35,7 +35,9 @@ const  Checkout = props => {
   // payment cash/card var
   const [method, setMethod] = useState(0);
   const [errMsg , setErrMsg] = useState(null);
-
+  const [errCard, setErrCard] = useState(null);
+  const [_form, setForm ] = useState(null);
+  const [zip , setZip] = useState('');
   // console.log("items", props.items, "props checkout", props.checkout)
   // Confirm action to place an order for user
   const onConfirm = async ()=> {
@@ -45,6 +47,35 @@ const  Checkout = props => {
       setErrMsg('You must select an address')
     } else {
       
+      console.log("form--", _form);
+
+      const { values, valid } = _form;
+      const { number, name, postalCode, expiry, cvc} = values;
+
+      if ( valid ) {
+        const exp_month = expiry.split('/')[0];
+        const exp_year = '20' + expiry.split('/')[1];
+        const token = await stripe.createToken({
+          card: {
+            number,
+            exp_month,
+            exp_year,
+            cvc,
+            name,
+            address_zip: postalCode.toUpperCase()
+
+          }
+        });
+
+        if(!token.error){
+          console.log("one-- sucesss", token)
+        } else {
+          setErrCard('Something is wrong with the transaction.')
+          console.log("one-- failed", token.error);;
+        }
+
+        console.log('******\n\ntoken ------', token);
+      } 
       // store all the important info of an order
       const { address, instruction, payment, store } = props.checkout;
       const { items } = props;
@@ -78,8 +109,14 @@ const  Checkout = props => {
             <Button 
               buttonStyle={{backgroundColor: '#0ecfb9', borderRadius: 20}}
               raised 
-              title="Confirm"
-              onPress={() => onConfirm()}
+              title="Pay"
+              onPress={() => {
+              
+                if( _form && _form.valid )
+                  onConfirm() 
+                else 
+                  setErrCard('Please enter valid card info.')
+              }}
             />
           </View>}
         style={{ backgroundColor: 'white'}}
@@ -94,13 +131,23 @@ const  Checkout = props => {
           </View>
           <View style={{ marginTop: 40}}>
             <CreditCardInput 
-              onChange={(_form)=>{console.log(_form)}} 
+              onChange={(e)=> setForm(e)} 
               requiresName={true}
+              onFocus={()=> setErrCard('')}
               requiresPostalCode={true}
-              validatePostalCode={() => {}}
+              validatePostalCode={() => 'valid'}
               inputContainerStyle={{ borderBottomWidth: 0.3}}
               allowScroll={true}
-              /> 
+            /> 
+    
+            {  !errCard ? 
+            <></> 
+            :
+            <Badge
+              status="error"
+              value={errCard}
+            />
+            }
           </View>
 
         <View  style={{padding: 20, flex: 1, flexDirection: "row", justifyContent: 'space-between'}}>
@@ -376,10 +423,6 @@ const  Checkout = props => {
             onChangeText={text => props.updateCheckout({ instruction: text})}
           />
         </View>
-
-         <View style={{width:'100%', backgroundColor: 'red', paddingTop: '30%', height: 50}} >
-          <CreditCardInput onChange={()=>{}} /> 
-         </View>
   
       </ScrollView>
 
