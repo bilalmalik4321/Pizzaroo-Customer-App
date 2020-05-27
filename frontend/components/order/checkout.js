@@ -19,10 +19,12 @@ import StickyHeaderFooterScrollView from 'react-native-sticky-header-footer-scro
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import Icon from "react-native-vector-icons/FontAwesome";
 import { subscribe } from 'react-contextual';
+import axios from 'axios';
 
 import { createOrder } from '../api';
 import { findNumberOfOrder , total } from '../_shared/utility';
 import { CreditCardInput } from "react-native-input-credit-card";
+import { createPaymentIntent } from '../api';
 const stripe = require('stripe-client')('pk_test_COhB9eDpQa7IK6llDCJffqFs003rbLlfSE');
 /**
  * Checkout component - display the pizza store info and prompt for order delivery detail
@@ -33,6 +35,7 @@ const  Checkout = props => {
   // set modal for instruction input
   const [modalVisibleOther, setModalVisibleOther] = useState(false);
   // payment cash/card var
+  const [loading, setLoading] = useState(false);
   const [method, setMethod] = useState(0);
   const [errMsg , setErrMsg] = useState(null);
   const [errCard, setErrCard] = useState(null);
@@ -42,63 +45,82 @@ const  Checkout = props => {
   // Confirm action to place an order for user
   const onConfirm = async ()=> {
 
+    setLoading(true);
     // make the address is selected
-    if(!props.checkout.selected_address){
-      setErrMsg('You must select an address')
-    } else {
+    // if(!props.checkout.selected_address){
+    //   setErrMsg('You must select an address')
+    // } else {
       
-      console.log("form--", _form);
+      // console.log("form--", _form);
 
       const { values, valid } = _form;
       const { number, name, postalCode, expiry, cvc} = values;
 
-      if ( valid ) {
+      if ( true) {
+
+        try {
+
+    
         const exp_month = expiry.split('/')[0];
         const exp_year = '20' + expiry.split('/')[1];
         const token = await stripe.createToken({
           card: {
-            number,
-            exp_month,
-            exp_year,
-            cvc,
-            name,
-            address_zip: postalCode.toUpperCase()
+            number: '424242424242',
+            exp_month: '8',
+            exp_year: '2022',
+            cvc: '222',
+            name: 'Hello',
+            address_zip: postalCode.toUpperCase() || 'n9g2p3'
 
           }
         });
-
+        console.log("token-------", token.id);
         if(!token.error){
-          console.log("one-- sucesss", token)
-        } else {
-          setErrCard('Something is wrong with the transaction.')
-          console.log("one-- failed", token.error);;
-        }
+          
+          const { address, instruction, payment, store } = props.checkout;
+          const { items } = props;
+          const numberOfItems = findNumberOfOrder(items);
+          
+          console.log("\n\n hi \n\n");
+          console.log("one-- sucesss", token);
 
-        console.log('******\n\ntoken ------', token);
-      } 
-      // store all the important info of an order
-      const { address, instruction, payment, store } = props.checkout;
-      const { items } = props;
-      const numberOfItems = findNumberOfOrder(items);
-      const payload = {
-        customerName: props.user.name,
-        customerPhone: props.user.phone,
-        customerEmail: props.user.email,
-        items,
-        address,
-        instruction,
-        payment,
-        storeId: store.id,
-        store,
-        numberOfItems,
-        total: total(items)
+          const result = await createPaymentIntent({
+            amount: total(items),
+            customerEmail: 'leanprakort@gmail.com',
+            token: 'tok_visa',
+            connectedAccount: 'acct_1Gm0odJK4atiVEFX'
+          })
+          console.log("result=====",result)
+          if(result){
+
+            const payload = {
+              customerName: props.user.name,
+              customerPhone: props.user.phone,
+              customerEmail: props.user.email,
+              items,
+              address,
+              instruction,
+              payment: 'paid',
+              paymentIntent: result.result.id,
+              storeId: store.id,
+              store,
+              numberOfItems,
+              total: total(items),
+            }
+
+            await createOrder(payload);
+
+            props.navigation.navigate('Orders')
+          } else {
+            setErrCard('There is something with the payment.')
+          }
+        }
+      } catch (error) {
+        console.log("error", error);
       }
-      console.log("did it work")
-      // call the api to create an order
-      await createOrder(payload);
-      // navigate to the order history to see the order status
-      props.navigation.navigate('Orders')
     }
+
+    setLoading(false);
   };
 
   return (
@@ -107,15 +129,17 @@ const  Checkout = props => {
         renderStickyFooter={() => 
           <View  style={{paddingLeft: 15, paddingRight:15, marginBottom: 10}}>
             <Button 
+             disabled={loading}
+             loading={loading}
               buttonStyle={{backgroundColor: '#0ecfb9', borderRadius: 20}}
               raised 
               title="Pay"
               onPress={() => {
-              
-                if( _form && _form.valid )
-                  onConfirm() 
-                else 
-                  setErrCard('Please enter valid card info.')
+                onConfirm() 
+                // if( _form && _form.valid )
+                //   onConfirm() 
+                // else 
+                //   setErrCard('Please enter valid card info.')
               }}
             />
           </View>}

@@ -1,6 +1,7 @@
 import firebase from '../../firebases';
 import moment from 'moment';
 import { convertDate } from '../_shared/utility';
+import axios from 'axios';
 // access the database
 
 // const { firebase , firestore } = all;
@@ -266,4 +267,25 @@ export const getRestaurants = async (updateRestaurant) => {
 	} catch (error) {
 		
 	}
+}
+
+
+export const createPaymentIntent = async ( params = {}) => {
+
+	try {
+		const res = await axios.post(`https://us-central1-pizzaro-staging.cloudfunctions.net/createPaymentIntent`,{ ...params });
+
+		if(res.status !== 200)
+			return false;
+		if(!res.data)
+			return false;
+
+		return res.data;
+
+	} catch (err) {
+		console.log("error creating a payment", err);
+		return false;
+	
+	}
+
 }
