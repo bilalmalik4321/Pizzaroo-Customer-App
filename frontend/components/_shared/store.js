@@ -125,6 +125,27 @@ export default {
     stores: []
   },
 
+  // ------------- card ----------------- //
+
+  card : {
+      "status": {
+        "cvc": "",
+        "expiry": "",
+        "name": "",
+        "number": "",
+        "postalCode": "",
+      },
+      "valid": false,
+      "values":  {
+        "cvc": "",
+        "expiry": "",
+        "name": "",
+        "number": "",
+        "postalCode": "",
+        "type": "",
+      },
+  },
+
   // ------------ actions --------------- // 
   ...accountActions,
   ...locationActions,

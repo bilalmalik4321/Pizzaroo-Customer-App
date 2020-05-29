@@ -11,7 +11,7 @@ import {
 import { subscribe } from 'react-contextual';
 import { Text, Divider, Icon} from 'react-native-elements';
 
-import firebase from '../../firebases';
+import firebase from '../../firebase';
 import { convertDate } from '../_shared/utility';
 
 // Status screen 

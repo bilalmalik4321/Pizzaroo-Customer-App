@@ -1,6 +1,7 @@
-import firebase from '../../firebases';
+import firebase from '../../firebase';
 import moment from 'moment';
 import { convertDate } from '../_shared/utility';
+import axios from 'axios';
 // access the database
 
 // const { firebase , firestore } = all;
@@ -182,7 +183,7 @@ export const getOrders = async (callback) => {
 				const today = moment().format('MM/DD/YYYY');
 				
 
-				console.log("today", today)
+				// console.log("today", today)
 				snapshot.forEach( doc => (
 					doc.data().status === 'open' && today === orderDate(doc.data().createdAt) && active.push({
 						id: doc.id,
@@ -248,22 +249,71 @@ export const getRestaurants = async (updateRestaurant) => {
 	try {
 		return  await db
 			.collection('stores')
+			.where('isConnectedWithStripe', '==', true)
 			.get()
 			.then( snapshot => {
 				const withinRange = [];
-				console.log("hello")
+				// console.log("hello")
 				snapshot.forEach( doc => (
-					withinRange.push({
+					doc.stripe_connected_account_id !== '' && withinRange.push({
 						storeId: doc.id,
 						...doc.data()
 					})
 
 				))
 
-				console.log("data ---", withinRange)
+				// console.log("data ---",withinRange)
 				updateRestaurant(withinRange)
 			})
 	} catch (error) {
 		
+	}
+}
+
+
+export const createPaymentIntent = async ( params = {}) => {
+
+	try {
+		const res = await axios.post(`https://us-central1-pizzaro-staging.cloudfunctions.net/createPaymentIntent`,{ ...params });
+
+		if(res.status !== 200)
+			return false;
+		if(!res.data)
+			return false;
+
+		return res.data;
+
+	} catch (err) {
+		console.log("error creating a payment", err);
+		return false;
+	
+	}
+
+}
+
+
+export const callCloudFunctions = async (funcName, params = {} ) => {
+	try {
+		const isDevelopment = __DEV__ ;
+
+		// ---------- if run emulators function add the url here -----------// 
+		const localhostEmulator = `http://localhost:5001/pizzaro-staging/us-central1/${funcName}`
+	
+		console.log("localhost params", params)
+		const url = `https://us-central1-${isDevelopment? 'pizzaro-staging' : 'pizzaroo-34b58'}.cloudfunctions.net/${funcName}`
+
+		// doing firebase end point ==> use localhostEmulator
+		const res = await axios.post(localhostEmulator, { ...params });
+		if(res.status !== 200)
+			return false;
+		if(!res.data)
+			return false;
+
+		return res.data;
+
+	} catch (err) {
+		console.log("error get address", err);
+		return false;
+	
 	}
 }

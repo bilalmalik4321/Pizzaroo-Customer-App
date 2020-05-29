@@ -19,10 +19,16 @@ import StickyHeaderFooterScrollView from 'react-native-sticky-header-footer-scro
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import Icon from "react-native-vector-icons/FontAwesome";
 import { subscribe } from 'react-contextual';
+import axios from 'axios';
 
 import { createOrder } from '../api';
 import { findNumberOfOrder , total } from '../_shared/utility';
+import { CreditCardInput } from "react-native-input-credit-card";
+import { callCloudFunctions } from '../api';
+const stripe_test_pk = 'pk_test_COhB9eDpQa7IK6llDCJffqFs003rbLlfSE';
+const stripe_live_pk = 'pk_test_COhB9eDpQa7IK6llDCJffqFs003rbLlfSE';
 
+const stripe = require('stripe-client')( __DEV__? stripe_test_pk : stripe_live_pk );
 /**
  * Checkout component - display the pizza store info and prompt for order delivery detail
  * @param {Object} props - store of HOC 
@@ -32,41 +38,96 @@ const  Checkout = props => {
   // set modal for instruction input
   const [modalVisibleOther, setModalVisibleOther] = useState(false);
   // payment cash/card var
+  const [loading, setLoading] = useState(false);
   const [method, setMethod] = useState(0);
   const [errMsg , setErrMsg] = useState(null);
-
+  const [errCard, setErrCard] = useState(null);
+  const [_form, setForm ] = useState(null);
+  const [zip , setZip] = useState('');
   // console.log("items", props.items, "props checkout", props.checkout)
   // Confirm action to place an order for user
   const onConfirm = async ()=> {
 
+    setLoading(true);
     // make the address is selected
-    if(!props.checkout.selected_address){
-      setErrMsg('You must select an address')
-    } else {
+    // if(!props.checkout.selected_address){
+    //   setErrMsg('You must select an address')
+    // } else {
       
-      // store all the important info of an order
-      const { address, instruction, payment, store } = props.checkout;
-      const { items } = props;
-      const numberOfItems = findNumberOfOrder(items);
-      const payload = {
-        customerName: props.user.name,
-        customerPhone: props.user.phone,
-        customerEmail: props.user.email,
-        items,
-        address,
-        instruction,
-        payment,
-        storeId: store.id,
-        store,
-        numberOfItems,
-        total: total(items)
+      // console.log("form--", _form);
+
+      const { values, valid } = _form;
+      const { number, name, postalCode, expiry, cvc} = values;
+
+      if ( true) {
+
+        try {
+
+    
+        const exp_month = expiry.split('/')[0];
+        const exp_year = '20' + expiry.split('/')[1];
+        const token = await stripe.createToken({
+          card: {
+            number: '424242424242',
+            exp_month: '8',
+            exp_year: '2022',
+            cvc: '222',
+            name: 'Hello',
+            address_zip: postalCode.toUpperCase() || 'n9g2p3'
+
+          }
+        });
+        console.log("token-------", token.id);
+        if(!token.error){
+          
+          const { address, instruction, payment, store } = props.checkout;
+          const { items } = props;
+          const numberOfItems = findNumberOfOrder(items);
+          
+          console.log("\n\n hi \n\n");
+          console.log("one-- sucesss", token);
+          // connectedAccount from the firebase
+          // prevent somenone from input their connected account and take the tranfer payment
+          // retrieve seller connected account ID from the backend instead
+
+          const result = await callCloudFunctions(`createPaymentIntent`,{
+            amount: total(items),
+            customerEmail: 'leanprakort@gmail.com',
+            token: 'tok_visa',
+            storeId: store.id,
+            // connectedAccount: 'acct_1Gm0odJK4atiVEFX'
+          })
+          console.log("result=====",result)
+          if(result){
+
+            const payload = {
+              customerName: props.user.name,
+              customerPhone: props.user.phone,
+              customerEmail: props.user.email,
+              items,
+              address,
+              instruction,
+              payment: 'paid',
+              paymentIntent: result.result.id,
+              storeId: store.id,
+              store,
+              numberOfItems,
+              total: total(items),
+            }
+
+            await createOrder(payload);
+
+            props.navigation.navigate('Orders')
+          } else {
+            setErrCard('There is something with the payment.')
+          }
+        }
+      } catch (error) {
+        console.log("error", error);
       }
-      console.log("did it work")
-      // call the api to create an order
-      await createOrder(payload);
-      // navigate to the order history to see the order status
-      props.navigation.navigate('Orders')
     }
+
+    setLoading(false);
   };
 
   return (
@@ -75,180 +136,60 @@ const  Checkout = props => {
         renderStickyFooter={() => 
           <View  style={{paddingLeft: 15, paddingRight:15, marginBottom: 10}}>
             <Button 
+             disabled={loading}
+             loading={loading}
               buttonStyle={{backgroundColor: '#0ecfb9', borderRadius: 20}}
               raised 
-              title="Confirm"
-              onPress={() => onConfirm()}
+              title="Pay"
+              onPress={() => {
+                onConfirm() 
+                // if( _form && _form.valid )
+                //   onConfirm() 
+                // else 
+                //   setErrCard('Please enter valid card info.')
+              }}
             />
           </View>}
         style={{ backgroundColor: 'white'}}
         makeScrollable = {true}
       >
       <View style={{backgroundColor: 'white'}}>
+   
+          <View style={{paddingLeft: 35, marginTop: 30}}>
+            <Text h4 style={{fontWeight: "bold"}} >
+              Payment
+            </Text>
+          </View>
+          <View style={{ marginTop: 40}}>
+            <CreditCardInput 
+              onChange={(e)=> setForm(e)} 
+              requiresName={true}
+              onFocus={()=> setErrCard('')}
+              requiresPostalCode={true}
+              validatePostalCode={() => 'valid'}
+              inputContainerStyle={{ borderBottomWidth: 0.3}}
+              allowScroll={true}
+            /> 
+    
+            {  !errCard ? 
+            <></> 
+            :
+            <Badge
+              status="error"
+              value={errCard}
+            />
+            }
+          </View>
+
         <View  style={{padding: 20, flex: 1, flexDirection: "row", justifyContent: 'space-between'}}>
           <View style={{paddingLeft: 15}}>
             <Text h4 style={{fontWeight: "bold"}} >
               Delivery Details
             </Text>
-        </View>
-        </View>
-        
-        <View  style={{paddingRight: 20,paddingLeft: 20, flex: 1, flexDirection: "row", justifyContent: 'space-between'}}>
-          <View style={{paddingLeft: 15}}>
-            <Text style={{fontWeight: "bold", fontSize: 20, color: 'grey'}} >
-              From
-            </Text>
           </View>
         </View>
-
-          {/* -------- Pizza --------- */}
-        <View style={{ paddingLeft: 20, paddingRight: 20}}>
-          
-          <View >
-            <ListItem 
-              title="Restaurant"
-              rightElement={ 
-                <View>
-                    <Text>{props.checkout.store.name}</Text>
-                </View>}
-            /> 
-            <View style={{paddingLeft: 15, paddingRight: 15}}>
-              <Divider/>
-            </View>
-
-            <ListItem 
-              title="Address"
-              rightElement={ 
-                <View>
-                  <Text>{props.checkout.store.address.street}</Text> 
-                </View>}
-              /> 
-              <View style={{paddingLeft: 15, paddingRight: 15}}>
-                <Divider/>
-              </View>
-            </View>
-          </View>
-        
-                
-          <View  style={{paddingRight: 20,paddingTop: 20,paddingLeft: 20, flex: 1, flexDirection: "row", justifyContent: 'space-between'}}>
-            <View style={{paddingLeft: 15}}>
-              <Text style={{fontWeight: "bold", fontSize: 20, color: 'grey'}} >
-                To
-              </Text>
-            </View>
-          </View>
-          {/* -------- Pizza --------- */}
-          <View style={{ paddingLeft: 20, paddingRight: 20}}>
-            <View style={{paddingRight: 20}}>
-              {/* -------- Name -------- */}
-              <ListItem 
-                title="Name"
-                rightElement={ 
-                  <View>
-                      <Text style={{fontWeight: 'bold', fontSize: 20}}>John Wick</Text>
-                  </View>}
-              /> 
-              <View style={{paddingLeft: 15, paddingRight: 15}}>
-                <Divider/>
-              </View>
-
-
-             {/* --------Payment -------- */}
-              <ListItem 
-                title="Payment"
-                rightElement={ 
-                  <View > 
-                    <RadioForm
-                      initial={0}
-                      formHorizontal={true}
-                    >
-                      <View>
-                      <RadioButton
-                        onPress={()=>{
-                          setMethod(0)
-                          props.updateCheckout({payment: 'cash'});
-                        }}
-                      >
-                        <RadioButtonInput
-                          isSelected={method===0}
-                          obj={{label: 'Cash', value: 0}}
-                          onPress={()=>{
-                            setMethod(0)
-                            props.updateCheckout({payment: 'cash'});
-                          }}
-                          borderWidth={1}
-                          buttonInnerColor={method===0 ? '#0ecfb9' : '#000'}
-                          buttonOuterColor={'#0ecfb9'}
-                          buttonSize={20}
-                          buttonOuterSize={25}
-                          buttonStyle={{}}
-                          buttonWrapStyle={{}}
-                        />
-
-                        <RadioButtonLabel
-                          labelStyle={{color: 'grey' ,fontWeight: `${method===0? 'bold': 'normal'}`}}
-                          onPress={()=>{
-                            setMethod(0)
-                            props.updateCheckout({payment: 'cash'});
-                          }}
-                          obj={{label: 'Cash ', value: 0}}
-                        />
-                      </RadioButton>
-                    </View>
-                    
-                    <View>
-                      <RadioButton
-                        onPress={()=>{
-                          setMethod(1)
-                          props.updateCheckout({payment: 'card'});
-                        }}
-                      >
-                        <RadioButtonInput
-                        isSelected={method===1}
-                          obj={{label: ' Card', value: 1}}
-                          onPress={()=>{
-                            setMethod(1)
-                            props.updateCheckout({payment: 'card'});
-                          }}
-                          borderWidth={1}
-                          buttonInnerColor={method===1? '#0ecfb9' : '#000'}
-                          buttonOuterColor={'#0ecfb9'}
-                          buttonSize={20}
-                          buttonOuterSize={25}
-                          buttonStyle={{}}
-                          buttonWrapStyle={{alignItems: 'center', justifyContent:'center'}}
-                        />
-                        <RadioButtonLabel
-                          labelStyle={{color: 'grey',fontWeight: `${method===1? 'bold': 'normal'}`}}
-                          onPress={()=>{
-                            setMethod(1)
-                            props.updateCheckout({payment: 'card'});
-                          }}
-                          obj={{label: 'Card', value:1}}
-                        >
-                        </RadioButtonLabel>
-                      </RadioButton>  
-                    </View>
-                    
-                  </RadioForm>
-                </View>
-                 
-                }/> 
-              <View style={{paddingLeft: 15, paddingRight: 15}}>
-                <Divider/>
-              </View>
-
-              {/* -------- Phone -------- */}
-              <ListItem 
-                title="Phone"
-                rightElement={ 
-                  <View>
-                      <Text style={{color: 'grey'}} >{props.user.phone}</Text>
-                  </View>}
-              /> 
-              <View style={{paddingLeft: 15, paddingRight: 15}}>
-                <Divider/>
-              </View>
+     
+      
 
               {/* -------- Address -------- */}
               <ListItem 
@@ -319,8 +260,7 @@ const  Checkout = props => {
               </View>
 
             </View>
-          </View>
-        </View>
+        
       <View >
     </View>
   </StickyHeaderFooterScrollView>
@@ -358,6 +298,7 @@ const  Checkout = props => {
             onChangeText={text => props.updateCheckout({ instruction: text})}
           />
         </View>
+  
       </ScrollView>
 
       <View style={{flexDirection: 'row', paddingBottom: 20, alignItems: 'center', justifyContent: 'center', textAlign: 'center'}}>

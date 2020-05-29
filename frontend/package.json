@@ -10,9 +10,11 @@
   "dependencies": {
     "@react-native-community/masked-view": "0.1.5",
     "@react-navigation/stack": "^5.2.13",
+    "axios": "^0.19.2",
     "expo": "~36.0.0",
     "expo-constants": "~8.0.0",
     "expo-location": "~8.0.0",
+    "expo-payments-stripe": "~8.0.0",
     "firebase": "7.9.0",
     "loadash": "^1.0.0",
     "metro-react-native-babel-preset": "^0.59.0",
@@ -28,6 +30,7 @@
     "react-native-elements": "^1.2.7",
     "react-native-gesture-handler": "~1.5.0",
     "react-native-google-places-autocomplete": "^1.4.1",
+    "react-native-input-credit-card": "^0.5.5",
     "react-native-input-spinner": "^1.2.10",
     "react-native-material-textfield": "^0.16.1",
     "react-native-paper": "^3.9.0",
@@ -45,6 +48,8 @@
     "react-native-web": "~0.11.7",
     "react-navigation": "^4.3.8",
     "react-navigation-stack": "^2.3.13",
+    "stripe": "^8.55.0",
+    "stripe-client": "^1.1.5",
     "uuid": "^8.0.0"
   },
   "devDependencies": {

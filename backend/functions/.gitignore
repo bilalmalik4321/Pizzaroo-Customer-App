@@ -1,0 +1,7 @@
+node_modules/
+.env
+serviceAccount.json
+.env_config.json
+
+sendMessage.sh
+.runtimeconfig.json

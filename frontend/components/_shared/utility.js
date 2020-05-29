@@ -57,3 +57,10 @@ export function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
 function deg2rad(deg) {
   return deg * (Math.PI/180)
 }
+
+
+export const isPostalCode = (code) => {
+  console.log("code", code);
+  const reg = new RegExp(/^[ABCEGHJ-NPRSTVXY][0-9][ABCEGHJ-NPRSTV-Z] [0-9][ABCEGHJ-NPRSTV-Z][0-9]$/);
+  return reg.test(code.toString());
+}

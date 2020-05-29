@@ -1,4 +1,4 @@
-import firebase from '../../firebases';
+import firebase from '../../firebase';
 /**
  * signup validates all the input of the sign up form
  * @param {Object} props 

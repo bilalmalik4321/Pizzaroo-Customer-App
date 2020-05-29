@@ -4,7 +4,7 @@ import {  Text, View,StyleSheet, TouchableHighlight} from 'react-native';
 import { Input, Badge} from 'react-native-elements';
 import moment from 'moment';
 
-import firebase from '../../firebases';
+import firebase from '../../firebase';
 import * as validation from './validations';
 
 /**
