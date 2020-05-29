@@ -87,12 +87,15 @@ const  Checkout = props => {
           console.log("\n\n hi \n\n");
           console.log("one-- sucesss", token);
           // connectedAccount from the firebase
+          // prevent somenone from input their connected account and take the tranfer payment
+          // retrieve seller connected account ID from the backend instead
 
           const result = await callCloudFunctions(`createPaymentIntent`,{
             amount: total(items),
             customerEmail: 'leanprakort@gmail.com',
             token: 'tok_visa',
-            connectedAccount: 'acct_1Gm0odJK4atiVEFX'
+            storeId: store.id,
+            // connectedAccount: 'acct_1Gm0odJK4atiVEFX'
           })
           console.log("result=====",result)
           if(result){
@@ -186,63 +189,7 @@ const  Checkout = props => {
           </View>
         </View>
      
-          {/* -------- Pizza --------- */}
-          <View style={{ paddingLeft: 20, paddingRight: 20}}>
-            <View style={{paddingRight: 20}}>
-             
-                    <View>
-                      <RadioButton
-                        onPress={()=>{
-                          setMethod(1)
-                          props.updateCheckout({payment: 'card'});
-                        }}
-                      >
-                        <RadioButtonInput
-                        isSelected={method===1}
-                          obj={{label: ' Card', value: 1}}
-                          onPress={()=>{
-                            setMethod(1)
-                            props.updateCheckout({payment: 'card'});
-                          }}
-                          borderWidth={1}
-                          buttonInnerColor={method===1? '#0ecfb9' : '#000'}
-                          buttonOuterColor={'#0ecfb9'}
-                          buttonSize={20}
-                          buttonOuterSize={25}
-                          buttonStyle={{}}
-                          buttonWrapStyle={{alignItems: 'center', justifyContent:'center'}}
-                        />
-                        <RadioButtonLabel
-                          labelStyle={{color: 'grey',fontWeight: `${method===1? 'bold': 'normal'}`}}
-                          onPress={()=>{
-                            setMethod(1)
-                            props.updateCheckout({payment: 'card'});
-                          }}
-                          obj={{label: 'Card', value:1}}
-                        >
-                        </RadioButtonLabel>
-                      </RadioButton>  
-                    </View>
-                    
-                  </RadioForm>
-                </View>
-                 
-                }/>  */}
-              {/* <View style={{paddingLeft: 15, paddingRight: 15}}>
-                <Divider/>
-              </View> */}
-
-              {/* -------- Phone -------- */}
-              {/* <ListItem 
-                title="Phone"
-                rightElement={ 
-                  <View>
-                      <Text style={{color: 'grey'}} >{props.user.phone}</Text>
-                  </View>}
-              /> 
-              <View style={{paddingLeft: 15, paddingRight: 15}}>
-                <Divider/>
-              </View> */}
+      
 
               {/* -------- Address -------- */}
               <ListItem 
@@ -313,8 +260,7 @@ const  Checkout = props => {
               </View>
 
             </View>
-          </View>
-        </View>
+        
       <View >
     </View>
   </StickyHeaderFooterScrollView>

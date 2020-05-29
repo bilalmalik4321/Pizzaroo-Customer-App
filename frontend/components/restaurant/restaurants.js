@@ -39,16 +39,6 @@ function RestaurantScreen(props) {
   const [toggleModal, setModal] = useState(false);
 
   const { addresses } = props.user;
-  async  function onPayment() {
-    var card = await stripe.createToken(information);
-    delete information.card.number;
-    delete information.card.exp_month;
-    delete information.card.cvc;
-    delete information.card.exp_year;
-    var token = card.id;
-    console.log("helllllllo from stripe", card, '\n----infor', information);
-    // send token to backend for processing
-  }
 
   let list = [];
   list.push(props.schema[0]);

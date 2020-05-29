@@ -62,25 +62,32 @@ exports.createPaymentIntent = functions.https
      
       const data = req.body;
       // console.log("data\n\n", data);
-      const { customerEmail, connectedAccount, amount, token} = data;
-      const result = await stripe.paymentIntents.create({
-        confirm: true,
-        amount: amount * 100,
-        currency: 'cad',
-        payment_method_types: ['card'],
-        payment_method_data: {
-          type: 'card',
-          card: {
-            token
-          }
-          
-        },
-        receipt_email: customerEmail,
-        transfer_data: {
-          destination: connectedAccount
-        }
+      const { customerEmail, connectedAccount, amount, token, storeId} = data;
+      const sellerRef = await admin.firestore().doc(`stores/${storeId}`).get();
+      const sellerInfo = sellerRef.data();
+      const { stripe_connected_account_id } = sellerInfo;
+      // only if the stripe connected account id exists then make the payment
+      if(stripe_connected_account_id) {
 
-      })
+        const result = await stripe.paymentIntents.create({
+          confirm: true,
+          amount: amount * 100,
+          currency: 'cad',
+          payment_method_types: ['card'],
+          payment_method_data: {
+            type: 'card',
+            card: {
+              token
+            }
+            
+          },
+          receipt_email: customerEmail,
+          transfer_data: {
+            destination: stripe_connected_account_id
+          }
+
+        })
+      }
       
       return res.status(200).send({
         result
@@ -273,4 +280,43 @@ exports.geoCodeSearchDetail = functions.https.onRequest( async( req, res) => {
     } catch (error) {
       return res.status(400).send({error: 'failed to search address'})
     }
+})
+
+exports.getExpressLoginLink = functions.https.onRequest( async( req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+
+  // This is a preflight request, and needs to be handled correctly.
+  if (req.method === 'OPTIONS') {
+
+    // Allowed methods for request
+    res.set("Access-Control-Allow-Methods", "POST");
+
+    // Allowed headers in preflight request.
+    // res.set("Access-Control-Allow-Headers", "Content-Type,Authorization");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept,Authorization");
+
+    // Set max age
+    res.set("Access-Control-Max-Age", "3600");
+
+    // Return a status early for preflight.
+    return res.status(204).send('');
+  }
+
+
+    const { connectedAccount, redirect_url } = req.body;
+    console.log(" get auth link", req.body);
+    try{
+   
+      const link = await stripe.accounts.createLoginLink(connectedAccount,{redirect_url});
+      console.log("link", link)
+      return res.status(200).send({
+        ...link
+      })
+      
+    } catch (error ) {
+      return res.status(400).send({
+        error: 'Invalid authorization code or state'
+      })
+    }
+   
 })

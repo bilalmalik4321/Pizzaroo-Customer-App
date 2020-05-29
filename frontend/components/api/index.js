@@ -252,16 +252,16 @@ export const getRestaurants = async (updateRestaurant) => {
 			.get()
 			.then( snapshot => {
 				const withinRange = [];
-				console.log("hello")
+				// console.log("hello")
 				snapshot.forEach( doc => (
-					withinRange.push({
+					doc.stripe_connected_account_id !== '' && withinRange.push({
 						storeId: doc.id,
 						...doc.data()
 					})
 
 				))
 
-				// console.log("data ---", withinRange)
+				console.log("data ---",withinRange)
 				updateRestaurant(withinRange)
 			})
 	} catch (error) {
@@ -293,7 +293,7 @@ export const createPaymentIntent = async ( params = {}) => {
 
 export const callCloudFunctions = async (funcName, params = {} ) => {
 	try {
-		const isDevelopment = !__DEV__ ;
+		const isDevelopment = __DEV__ ;
 
 		// ---------- if run emulators function add the url here -----------// 
 		const localhostEmulator = `http://localhost:5001/pizzaro-staging/us-central1/${funcName}`
