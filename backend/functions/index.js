@@ -25,7 +25,7 @@ const isDevelopment = adminConfig.projectId.includes('staging')
 const stripe = require('stripe')( isDevelopment ? stripe_test_sk : stripe_sk);
 console.log("env--------",stripe_test_sk);
 console.log("env--------",stripe_test_pk);
-console.log("env--------",stripe_sk);
+console.log("env--------",stripe_client_id);
 // set up firebase admin config
 
 const environment = isDevelopment ? 'development' : 'production';
@@ -122,12 +122,13 @@ exports.getAuthLink = functions.https.onRequest( async( req, res) => {
     
       const args = {
         state: customToken,
-        client_id: process.env.STRIPE_CLIENT_ID,
+        client_id: stripe_test_client_id,
         response_type: 'code',
-        redirect_uri
+        redirect_uri: redirect_uri.toString()
   
       }
       const qs = queryString.stringify(args);
+      console.log("redirect",);
       // const url = `https://dashboard.stripe.com/express/oauth/authorize?${args.toString()}`;
       // const testMode = `https://dashboard.stripe.com/oauth/authorize?response_type=code&client_id=ca_HKSErf5hYOZiXLPdHqxfpJ2ytCbBuqT1`
   
