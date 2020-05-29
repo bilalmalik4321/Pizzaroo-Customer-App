@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import {Keyboard, Text, View, TouchableWithoutFeedback, KeyboardAvoidingView , Image, ImageBackground} from 'react-native';
 import { Button } from 'react-native-elements';
 import { subscribe } from 'react-contextual';
-import firebase from '../../firebases';
+import firebase from '../../firebase';
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Input } from 'react-native-elements';
 import { TouchableOpacity } from "react-native-gesture-handler";

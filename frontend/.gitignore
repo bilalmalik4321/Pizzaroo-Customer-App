@@ -16,3 +16,4 @@ web-report/
 # firebase config
 serviceAccount.js
 googleAPI.js
+firebase.js

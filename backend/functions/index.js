@@ -235,10 +235,12 @@ exports.geoCodeAutoComplete = functions.https.onRequest( async( req, res) => {
       }&fields=${
         queryFields
       }${buildLocationQuery}${buildCountryQuery}${buildTypesQuery}${buildSessionQuery}`
-      )
-      
-    return res.status(200).send({...data});
-    } catch (error) {
+      )  
+    return res.status(200).send({
+      ...data
+    });
+    
+  } catch (error) {
       return res.status(400).send({error: 'failed to search address'})
     }
 })

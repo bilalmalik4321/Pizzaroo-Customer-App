@@ -1,4 +1,4 @@
-import firebase from '../../firebases';
+import firebase from '../../firebase';
 import moment from 'moment';
 import { convertDate } from '../_shared/utility';
 import axios from 'axios';
@@ -262,7 +262,7 @@ export const getRestaurants = async (updateRestaurant) => {
 
 				))
 
-				console.log("data ---",withinRange)
+				// console.log("data ---",withinRange)
 				updateRestaurant(withinRange)
 			})
 	} catch (error) {
