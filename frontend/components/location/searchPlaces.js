@@ -9,7 +9,7 @@ import {
   TextInput
 } from 'react-native';
 import { Button} from 'react-native-elements';
-import { callCloudFunctions,geoCodeSearchDetail } from '../api';
+import { callCloudFunctions } from '../api';
 /**
  * Forked repo from react-native-place-input
  * Modified and added an Icon to clear input

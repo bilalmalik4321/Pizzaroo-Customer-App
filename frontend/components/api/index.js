@@ -249,6 +249,7 @@ export const getRestaurants = async (updateRestaurant) => {
 	try {
 		return  await db
 			.collection('stores')
+			.where('isConnectedWithStripe', '==', true)
 			.get()
 			.then( snapshot => {
 				const withinRange = [];

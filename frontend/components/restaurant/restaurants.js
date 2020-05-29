@@ -53,15 +53,12 @@ function RestaurantScreen(props) {
     props.getAllRestaurants();
   }, [props.getAllRestaurants])
 
-  console.log("window __DEV__", __DEV__);
-  console.log("window location", window.location);
-
   const { stores, loading } = props.restaurants;
   // console.log('store ----', props.restaurants.stores);
   // console.log('how many restaurants ?', stores.length);
   return (
     <SafeAreaView>
-      <ScrollView style={{backgroundColor: "white"}}> 
+      <ScrollView style={{backgroundColor: "white", height: '100%'}}> 
         <Tile
           imageSrc={require("../../images/banner.png")}
         />  
@@ -116,7 +113,7 @@ function RestaurantScreen(props) {
                
                 props.copyMenu({...res.menu})
                 {/* console.log("menu--", res.menu) */}
-                props.navigation.navigate("Menu", { title: res.storeName + " " + index })
+                props.navigation.navigate("Menu", { title: res.storeName})
               }}
               activeOpacity={0.75}
             >
