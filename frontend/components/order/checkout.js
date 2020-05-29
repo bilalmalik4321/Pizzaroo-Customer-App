@@ -24,8 +24,11 @@ import axios from 'axios';
 import { createOrder } from '../api';
 import { findNumberOfOrder , total } from '../_shared/utility';
 import { CreditCardInput } from "react-native-input-credit-card";
-import { createPaymentIntent } from '../api';
-const stripe = require('stripe-client')('pk_test_COhB9eDpQa7IK6llDCJffqFs003rbLlfSE');
+import { callCloudFunctions } from '../api';
+const stripe_test_pk = 'pk_test_COhB9eDpQa7IK6llDCJffqFs003rbLlfSE';
+const stripe_live_pk = 'pk_test_COhB9eDpQa7IK6llDCJffqFs003rbLlfSE';
+
+const stripe = require('stripe-client')( __DEV__? stripe_test_pk : stripe_live_pk );
 /**
  * Checkout component - display the pizza store info and prompt for order delivery detail
  * @param {Object} props - store of HOC 
@@ -83,8 +86,9 @@ const  Checkout = props => {
           
           console.log("\n\n hi \n\n");
           console.log("one-- sucesss", token);
+          // connectedAccount from the firebase
 
-          const result = await createPaymentIntent({
+          const result = await callCloudFunctions(`createPaymentIntent`,{
             amount: total(items),
             customerEmail: 'leanprakort@gmail.com',
             token: 'tok_visa',
@@ -179,112 +183,13 @@ const  Checkout = props => {
             <Text h4 style={{fontWeight: "bold"}} >
               Delivery Details
             </Text>
-        </View>
-        </View>
-        
-        {/* <View  style={{paddingRight: 20,paddingLeft: 20, flex: 1, flexDirection: "row", justifyContent: 'space-between'}}>
-          <View style={{paddingLeft: 15}}>
-            <Text style={{fontWeight: "bold", fontSize: 20, color: 'grey'}} >
-              From
-            </Text>
           </View>
-        </View> */}
-
-          {/* -------- Pizza --------- */}
-        <View style={{ paddingLeft: 20, paddingRight: 20}}>
-{/*           
-           <View >
-            <ListItem 
-              title="Restaurant"
-              rightElement={ 
-                <View>
-                    <Text>{props.checkout.store.name}</Text>
-                </View>}
-            /> 
-            <View style={{paddingLeft: 15, paddingRight: 15}}>
-              <Divider/>
-            </View>
-
-            <ListItem 
-              title="Address"
-              rightElement={ 
-                <View>
-                  <Text>{props.checkout.store.address.street}</Text> 
-                </View>}
-              /> 
-              <View style={{paddingLeft: 15, paddingRight: 15}}>
-                <Divider/>
-              </View>
-            </View> */}
-          </View>
-        
-{/*                 
-          <View  style={{paddingRight: 20,paddingTop: 20,paddingLeft: 20, flex: 1, flexDirection: "row", justifyContent: 'space-between'}}>
-            <View style={{paddingLeft: 15}}>
-              <Text style={{fontWeight: "bold", fontSize: 20, color: 'grey'}} >
-                To
-              </Text>
-            </View>
-          </View> */}
+        </View>
+     
           {/* -------- Pizza --------- */}
           <View style={{ paddingLeft: 20, paddingRight: 20}}>
             <View style={{paddingRight: 20}}>
-              {/* -------- Name -------- */}
-              {/* <ListItem 
-                title="Name"
-                rightElement={ 
-                  <View>
-                      <Text style={{fontWeight: 'bold', fontSize: 20}}>John Wick</Text>
-                  </View>}
-              /> 
-              <View style={{paddingLeft: 15, paddingRight: 15}}>
-                <Divider/>
-              </View> */}
-
-
-             {/* --------Payment -------- */}
-              {/* <ListItem 
-                title="Payment"
-                rightElement={ 
-                  <View > 
-                    <RadioForm
-                      initial={0}
-                      formHorizontal={true}
-                    >
-                      <View>
-                      <RadioButton
-                        onPress={()=>{
-                          setMethod(0)
-                          props.updateCheckout({payment: 'cash'});
-                        }}
-                      >
-                        <RadioButtonInput
-                          isSelected={method===0}
-                          obj={{label: 'Cash', value: 0}}
-                          onPress={()=>{
-                            setMethod(0)
-                            props.updateCheckout({payment: 'cash'});
-                          }}
-                          borderWidth={1}
-                          buttonInnerColor={method===0 ? '#0ecfb9' : '#000'}
-                          buttonOuterColor={'#0ecfb9'}
-                          buttonSize={20}
-                          buttonOuterSize={25}
-                          buttonStyle={{}}
-                          buttonWrapStyle={{}}
-                        />
-
-                        <RadioButtonLabel
-                          labelStyle={{color: 'grey' ,fontWeight: `${method===0? 'bold': 'normal'}`}}
-                          onPress={()=>{
-                            setMethod(0)
-                            props.updateCheckout({payment: 'cash'});
-                          }}
-                          obj={{label: 'Cash ', value: 0}}
-                        />
-                      </RadioButton>
-                    </View>
-                    
+             
                     <View>
                       <RadioButton
                         onPress={()=>{

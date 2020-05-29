@@ -71,7 +71,7 @@ exports.createPaymentIntent = functions.https
         payment_method_data: {
           type: 'card',
           card: {
-            token: 'tok_visa'
+            token
           }
           
         },
@@ -218,7 +218,7 @@ exports.geoCodeAutoComplete = functions.https.onRequest( async( req, res) => {
       buildTypesQuery,
       buildSessionQuery
     } = req.body;
-    // console.log("body", req.body)
+  
     try {
       const { data } = await axios.get(
       `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${
@@ -229,7 +229,7 @@ exports.geoCodeAutoComplete = functions.https.onRequest( async( req, res) => {
         queryFields
       }${buildLocationQuery}${buildCountryQuery}${buildTypesQuery}${buildSessionQuery}`
       )
-
+      
     return res.status(200).send({...data});
     } catch (error) {
       return res.status(400).send({error: 'failed to search address'})
@@ -263,15 +263,13 @@ exports.geoCodeSearchDetail = functions.https.onRequest( async( req, res) => {
     } = req.body;
    
     try {
-      console.log("body", req.body)
+
       const {data} = await axios.get(
         `https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}&key=${functions.config().google.geo_apikey}&fields=${queryFields}&language=${language}${buildSessionQuery}`
       )
 
-      console.log("what happend search details", data);
       return res.status(200).send({...data});
 
-  
     } catch (error) {
       return res.status(400).send({error: 'failed to search address'})
     }

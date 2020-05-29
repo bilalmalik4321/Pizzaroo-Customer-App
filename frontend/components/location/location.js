@@ -1,12 +1,11 @@
 import React, { useState , useEffect} from 'react';
 import { subscribe } from 'react-contextual';
-import {  Text,View ,StyleSheet,Dimensions} from 'react-native';
+import {  Text,View ,StyleSheet} from 'react-native';
 import { ListItem ,Icon } from "react-native-elements";
 import GoogleSearch from './searchPlaces';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ScrollView } from 'react-native-gesture-handler';
 
-import apiKey  from '../../googleAPI';
 /**
  * This component is the screen to search autocomplete address
  * @param {Object} props - store of HOC 

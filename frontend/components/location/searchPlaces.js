@@ -9,7 +9,7 @@ import {
   TextInput
 } from 'react-native';
 import { Button} from 'react-native-elements';
-import { geoCodeAuto, geoCodeSearchDetail } from '../api';
+import { callCloudFunctions,geoCodeSearchDetail } from '../api';
 /**
  * Forked repo from react-native-place-input
  * Modified and added an Icon to clear input
@@ -180,7 +180,7 @@ class PlacesInput extends Component {
         isLoading: true,
       },
       async () => {
-        const places = await geoCodeAuto({
+        const places = await callCloudFunctions('geoCodeAutoComplete',{
           query: this.state.query,
           language: this.props.language, 
           queryFields: this.props.queryFields, 
@@ -189,10 +189,10 @@ class PlacesInput extends Component {
           buildTypesQuery: this.buildTypesQuery(),
           buildSessionQuery: this.buildSessionQuery()
         })
-        console.log("place results", places)
+        // console.log("place results", places)
         this.setState({
           isLoading: false,
-          places: places ? places.predictions : {},
+          places: places.predictions
         });
       }
     );
@@ -203,17 +203,18 @@ class PlacesInput extends Component {
       isLoading: true,
     }, async () => {
       try {
-        // const place = await fetch(
-        //   `https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}&key=${this.props.googleApiKey}&fields=${this.props.queryFields}&language=${this.props.language}${this.buildSessionQuery()}`
-        // ).then(response => response.json());
-
-        const place = await geoCodeSearchDetail({
+        const place = await callCloudFunctions('geoCodeSearchDetail',{
           id,
           queryFields: this.props.queryFields,
           buildSessionQuery: this.buildSessionQuery(),
           language: this.props.language
         })
-        console.log("places", place)
+        // console.log("places ------- *********", {
+        //   id,
+        //   queryFields: this.props.queryFields,
+        //   buildSessionQuery: this.buildSessionQuery(),
+        //   language: this.props.language
+        // })
         return this.setState(
           {
             showList: false,

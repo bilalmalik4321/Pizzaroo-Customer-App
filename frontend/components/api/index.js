@@ -290,28 +290,19 @@ export const createPaymentIntent = async ( params = {}) => {
 
 }
 
-export const geoCodeAuto = async ( params = {} ) => {
+
+export const callCloudFunctions = async (funcName, params = {} ) => {
 	try {
-		const res = await axios.post(`http://localhost:5001/pizzaro-staging/us-central1/geoCodeAutoComplete`,{ ...params });
-		console.log('ressssss', res)
-		if(res.status !== 200)
-			return false;
-		if(!res.data)
-			return false;
+		const isDevelopment = !__DEV__ ;
 
-		return res.data;
-
-	} catch (err) {
-		console.log("error get address", err);
-		return false;
+		// ---------- if run emulators function add the url here -----------// 
+		const localhostEmulator = `http://localhost:5001/pizzaro-staging/us-central1/${funcName}`
 	
-	}
-}
+		console.log("localhost params", params)
+		const url = `https://us-central1-${isDevelopment? 'pizzaro-staging' : 'pizzaroo-34b58'}.cloudfunctions.net/${funcName}`
 
-export const geoCodeSearchDetail = async ( params = {} ) => {
-	try {
-		const res = await axios.post(`http://localhost:5001/pizzaro-staging/us-central1/geoCodeSearchDetail`,{ ...params });
-		console.log('ressssss', res)
+		// doing firebase end point ==> use localhostEmulator
+		const res = await axios.post(localhostEmulator, { ...params });
 		if(res.status !== 200)
 			return false;
 		if(!res.data)
