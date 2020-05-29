@@ -9,7 +9,7 @@ import {
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { Provider } from "react-contextual";
-import { Avatar } from "react-native-elements";
+import { Avatar, Icon } from "react-native-elements";
 
 import Restaurants from "./components/restaurant/restaurants";
 import MenuScreen from "./components/restaurant/menu";
@@ -299,13 +299,18 @@ const AppNavigator = createStackNavigator(
 			backgroundColor: '#FFC100', //looks weird with icon
 		},
         headerRight: () => (
-
-          <Avatar
-            rounded
-            icon={{ name: "user", type: "font-awesome" }}
+          <TouchableOpacity
             onPress={() => navigation.navigate("Account")}
-            style={styles.userButton}
-          />
+            activeOpacity={0.2}
+          >
+            <Icon 
+              containerStyle={{ marginRight: 10}}
+              name="person"
+             
+            />
+          </TouchableOpacity>
+         
+      
         ),
         headerLeft: () => {
 			

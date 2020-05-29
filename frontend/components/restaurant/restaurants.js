@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
+  Platform
 } from "react-native";
 import {
   Card,
@@ -61,6 +62,9 @@ function RestaurantScreen(props) {
   useEffect(() => {
     props.getAllRestaurants();
   }, [props.getAllRestaurants])
+
+  console.log("window __DEV__", __DEV__);
+  console.log("window location", window.location);
 
   const { stores, loading } = props.restaurants;
   // console.log('store ----', props.restaurants.stores);
