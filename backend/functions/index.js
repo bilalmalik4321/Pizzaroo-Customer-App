@@ -21,13 +21,13 @@ const stripe_client_id = functions.config().stripe.client_id;
 const firebaseConfig = process.env.FIREBASE_CONFIG;
 const adminConfig = JSON.parse(firebaseConfig);
 
-const stripe = require('stripe')( adminConfig.projectId === 'pizzaroo-34b58' ? stripe_test_sk : stripe_sk);
+const isDevelopment = adminConfig.projectId.includes('staging')
+const stripe = require('stripe')( isDevelopment ? stripe_test_sk : stripe_sk);
 console.log("env--------",stripe_test_sk);
 console.log("env--------",stripe_test_pk);
 console.log("env--------",stripe_sk);
 // set up firebase admin config
 
-const isDevelopment = adminConfig.projectId.includes('pizzaroo-34b58') || adminConfig.projectId === 'pizzaroo-34b58'
 const environment = isDevelopment ? 'development' : 'production';
 const serviceAccount = require(`./serviceAccount.${environment}.json`);
 if(!admin.apps.length)
