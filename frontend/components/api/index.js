@@ -289,3 +289,39 @@ export const createPaymentIntent = async ( params = {}) => {
 	}
 
 }
+
+export const geoCodeAuto = async ( params = {} ) => {
+	try {
+		const res = await axios.post(`http://localhost:5001/pizzaro-staging/us-central1/geoCodeAutoComplete`,{ ...params });
+		console.log('ressssss', res)
+		if(res.status !== 200)
+			return false;
+		if(!res.data)
+			return false;
+
+		return res.data;
+
+	} catch (err) {
+		console.log("error get address", err);
+		return false;
+	
+	}
+}
+
+export const geoCodeSearchDetail = async ( params = {} ) => {
+	try {
+		const res = await axios.post(`http://localhost:5001/pizzaro-staging/us-central1/geoCodeSearchDetail`,{ ...params });
+		console.log('ressssss', res)
+		if(res.status !== 200)
+			return false;
+		if(!res.data)
+			return false;
+
+		return res.data;
+
+	} catch (err) {
+		console.log("error get address", err);
+		return false;
+	
+	}
+}

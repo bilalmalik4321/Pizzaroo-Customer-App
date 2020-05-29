@@ -84,7 +84,6 @@ const GooglePlacesInput = (props) => {
   <SafeAreaView style={{ backgroundColor: 'white', height: '100%'}}>
     <View style={{ width: '100%', height: props.user.showList? 90 : '100%' , backgroundColor: 'white' }}>
       <GoogleSearch
-        googleApiKey={apiKey}
         queryCountries={['ca']}
         placeHolder={"Search address"}
         language={"en-US"}

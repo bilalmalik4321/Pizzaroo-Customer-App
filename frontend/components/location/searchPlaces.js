@@ -9,7 +9,7 @@ import {
   TextInput
 } from 'react-native';
 import { Button} from 'react-native-elements';
-
+import { geoCodeAuto, geoCodeSearchDetail } from '../api';
 /**
  * Forked repo from react-native-place-input
  * Modified and added an Icon to clear input
@@ -180,19 +180,19 @@ class PlacesInput extends Component {
         isLoading: true,
       },
       async () => {
-        const places = await fetch(
-          `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${
-            this.state.query
-          }&key=${this.props.googleApiKey}&inputtype=textquery&language=${
-            this.props.language
-          }&fields=${
-            this.props.queryFields
-          }${this.buildLocationQuery()}${this.buildCountryQuery()}${this.buildTypesQuery()}${this.buildSessionQuery()}`
-        ).then(response => response.json());
-
+        const places = await geoCodeAuto({
+          query: this.state.query,
+          language: this.props.language, 
+          queryFields: this.props.queryFields, 
+          buildLocationQuery: this.buildLocationQuery(), 
+          buildCountryQuery: this.buildCountryQuery(), 
+          buildTypesQuery: this.buildTypesQuery(),
+          buildSessionQuery: this.buildSessionQuery()
+        })
+        console.log("place results", places)
         this.setState({
           isLoading: false,
-          places: places.predictions,
+          places: places ? places.predictions : {},
         });
       }
     );
@@ -203,10 +203,17 @@ class PlacesInput extends Component {
       isLoading: true,
     }, async () => {
       try {
-        const place = await fetch(
-          `https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}&key=${this.props.googleApiKey}&fields=${this.props.queryFields}&language=${this.props.language}${this.buildSessionQuery()}`
-        ).then(response => response.json());
+        // const place = await fetch(
+        //   `https://maps.googleapis.com/maps/api/place/details/json?placeid=${id}&key=${this.props.googleApiKey}&fields=${this.props.queryFields}&language=${this.props.language}${this.buildSessionQuery()}`
+        // ).then(response => response.json());
 
+        const place = await geoCodeSearchDetail({
+          id,
+          queryFields: this.props.queryFields,
+          buildSessionQuery: this.buildSessionQuery(),
+          language: this.props.language
+        })
+        console.log("places", place)
         return this.setState(
           {
             showList: false,
@@ -255,7 +262,7 @@ PlacesInput.propTypes = {
   searchRadius: PropTypes.number,
   searchLatitude: PropTypes.number,
   searchLongitude: PropTypes.number,
-  googleApiKey: PropTypes.string.isRequired,
+  // googleApiKey: PropTypes.string.isRequired,
   placeHolder: PropTypes.string,
   textInputProps: PropTypes.object,
   iconResult: PropTypes.any,
