@@ -2,15 +2,38 @@ require("dotenv").config();
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 
-const stripe = require('stripe')(process.env.STRIPE_SK);
 const queryString = require('query-string');
 
-const serviceAccount = require('./HelloTHere.json');
+// production until the hard launch we use test keys, same as development
+// stripe.sk
+// stripe.pk
+// stripe.client_id
+// development stripe test mode api keys
+// stripe.test_sk
+// stripe.test_pk
+// stripe.test_client_id
+const stripe_test_sk = functions.config().stripe.test_sk;
+const stripe_test_pk = functions.config().stripe.test_pk;
+const stripe_test_client_id = functions.config().stripe.test_client_id;
+const stripe_sk = functions.config().stripe.sk;
+const stripe_ok = functions.config().stripe.pk;
+const stripe_client_id = functions.config().stripe.client_id;
+const firebaseConfig = process.env.FIREBASE_CONFIG;
+const adminConfig = JSON.parse(firebaseConfig);
+
+const stripe = require('stripe')( adminConfig.projectId === 'pizzaroo-34b58' ? stripe_test_sk : stripe_sk);
+console.log("env--------",stripe_test_sk);
+console.log("env--------",stripe_test_pk);
+console.log("env--------",stripe_sk);
+// set up firebase admin config
+
+const isDevelopment = adminConfig.projectId.includes('pizzaroo-34b58') || adminConfig.projectId === 'pizzaroo-34b58'
+const environment = isDevelopment ? 'development' : 'production';
+const serviceAccount = require(`./serviceAccount.${environment}.json`);
 if(!admin.apps.length)
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://pizzaro-staging.firebaseio.com"
-
+    databaseURL: isDevelopment ? "https://pizzaro-staging.firebaseio.com" : "https://pizzaroo-34b58.firebaseio.com"
   });
 
 
@@ -18,7 +41,7 @@ exports.createPaymentIntent = functions.https
   .onRequest( async (req, res) => {
     // Allow all origins
     res.set("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept,Authorization");
+    
     // This is a preflight request, and needs to be handled correctly.
     if (req.method === 'OPTIONS') {
 
@@ -93,7 +116,7 @@ exports.getAuthLink = functions.https.onRequest( async( req, res) => {
 
     try {
       const  data  = req.body;
-      const { customToken } = data;
+      const { customToken , redirect_uri } = data;
       
       console.log(" get auth link", req.body);
     
@@ -101,6 +124,7 @@ exports.getAuthLink = functions.https.onRequest( async( req, res) => {
         state: customToken,
         client_id: process.env.STRIPE_CLIENT_ID,
         response_type: 'code',
+        redirect_uri
   
       }
       const qs = queryString.stringify(args);
@@ -145,6 +169,7 @@ exports.confirmAuth = functions.https.onRequest( async( req, res) => {
     const userInfo = await admin.auth().verifyIdToken(state)
    
     const response = await stripe.oauth.token({
+      client_secret: stripe_test_client_id,
       grant_type: 'authorization_code',
       code
     })

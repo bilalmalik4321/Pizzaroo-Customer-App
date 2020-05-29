@@ -65,3 +65,5 @@ node_modules/
 .env
 
 HelloTHere.json
+serviceAccount.development.json
+serviceAccount.production.json
