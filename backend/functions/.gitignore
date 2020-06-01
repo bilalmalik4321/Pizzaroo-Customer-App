@@ -5,3 +5,6 @@ serviceAccount.json
 
 sendMessage.sh
 .runtimeconfig.json
+serviceAccount.development.json
+serviceAccount.production.json
+runtimeconfig.json

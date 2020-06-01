@@ -6,8 +6,8 @@
     "serve": "firebase serve --only functions",
     "shell": "firebase functions:shell",
     "start": "npm run shell",
-    "deploy:development": "firebase use development && firebase deploy --only functions && ./sendMessage.sh 'Deployed **** Development **** functions'",
-    "deploy:production": "firebase use production && firebase deploy --only functions && ./sendMessage.sh 'Deployed **** Production **** functions'",
+    "deploy:development": "firebase use development && firebase deploy --only functions",
+    "deploy:production": "firebase use production && firebase deploy --only functions",
     "logs": "firebase functions:log"
   },
   "engines": {

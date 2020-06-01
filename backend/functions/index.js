@@ -322,3 +322,51 @@ exports.getExpressLoginLink = functions.https.onRequest( async( req, res) => {
     }
    
 })
+
+exports.geoCoding = functions.https.onRequest( async (req, res) => {
+
+  res.set("Access-Control-Allow-Origin", "*");
+
+      // This is a preflight request, and needs to be handled correctly.
+  if (req.method === 'OPTIONS') {
+
+    // Allowed methods for request
+    res.set("Access-Control-Allow-Methods", "POST");
+
+    // Allowed headers in preflight request.
+    // res.set("Access-Control-Allow-Headers", "Content-Type,Authorization");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept,Authorization");
+
+    // Set max age
+    res.set("Access-Control-Max-Age", "3600");
+
+    // Return a status early for preflight.
+    return res.status(204).send('');
+  }
+    const { address } = req.body;
+    try {
+      const key = functions.config().google.geo_apikey;
+      const { data } = await axios.get(
+        'https://maps.googleapis.com/maps/api/geocode/json',
+        {
+          params: {
+            address,
+            key
+          }
+        }
+      );
+  
+      const { lat, lng } = data.results[0].geometry.location;
+      
+      return res.status(200).send({
+          lat,
+          lng
+      })
+    } catch (error ) {
+      console.log("error")
+      return res.status(400).send({
+        error: 'error geoCoding' 
+      })
+    }
+  
+  })
