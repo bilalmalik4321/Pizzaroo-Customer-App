@@ -39,12 +39,6 @@ function RestaurantScreen(props) {
   const [toggleModal, setModal] = useState(false);
 
   const { addresses } = props.user;
-
-  let list = [];
-  list.push(props.schema[0]);
-  list.push(props.schema[0]);  
-  list.push(props.schema[0]);
-
   const getLocation = addresses.length === 0;
  
   const { lat, lng } = !getLocation? addresses[0] : {};
