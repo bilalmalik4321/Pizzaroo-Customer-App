@@ -183,6 +183,28 @@ export const getOrders = async (callback) => {
 				const today = moment().format('MM/DD/YYYY');
 				
 
+				const getMinutesDiff = (date) => {
+				
+					const orderDate = (time) => moment(time,'YYYY-MM-DD HH:mm:ss a').format('LLL');
+					const rightNow = orderDate(timestamp);
+					const check = orderDate(date)
+			
+					return moment(rightNow).diff(check,'minutes');
+			
+				}
+		
+				snapshot.forEach( async doc => {
+					
+					if (getMinutesDiff(doc.data().updatedAt >= 20 && doc.data().progessStep === 'enroute')) {
+						await firebase.firebase().doc(`orders/${doc.uid}`).update({
+							progessStep: 'delivered',
+							status: 'closed',
+							updatedAt: timestamp
+						})
+					}
+					
+				})
+			
 				// console.log("today", today)
 				snapshot.forEach( doc => (
 					doc.data().status === 'open' && today === orderDate(doc.data().createdAt) && active.push({
