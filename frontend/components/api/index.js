@@ -8,7 +8,7 @@ import axios from 'axios';
 // console.log("aall", all);
 const db = firebase.firestore();
 // timestamp
-export const timestamp = moment().format('YYYY-MM-DD hh:mm:ss:SS:SSS a');
+export const timestamp = moment().format('YYYY MM DD hh:mm:ss:SS:SSS a');
 
 /**
  * firebase database is like json file using key-value pair 
@@ -185,22 +185,24 @@ export const getOrders = async (callback) => {
 
 				const getMinutesDiff = (date) => {
 				
-					const orderDate = (time) => moment(time,'YYYY-MM-DD HH:mm:ss a').format('LLL');
-					const rightNow = orderDate(timestamp);
-					const check = orderDate(date)
-			
-					return moment(rightNow).diff(check,'minutes');
-			
+					const rightNow = moment();
+					const check = moment(date,'YYYY MM DD hh:mm a');
+					return rightNow.diff(check,'minutes');
 				}
 		
 				snapshot.forEach( async doc => {
-					
-					if (getMinutesDiff(doc.data().updatedAt >= 20 && doc.data().progessStep === 'enroute')) {
-						await firebase.firebase().doc(`orders/${doc.uid}`).update({
-							progessStep: 'delivered',
-							status: 'closed',
-							updatedAt: timestamp
-						})
+			
+					if (getMinutesDiff(doc.data().updatedAt) >= 20 && doc.data().progressStep === 'enroute') {
+						try {
+							await db.doc(`orders/${doc.id}`).update({
+								progressStep: 'delivered',
+								status: 'closed',
+								updatedAt: timestamp
+							})
+						} catch( err) {
+							console.log("err update progressStep", err)
+						}
+						
 					}
 					
 				})
@@ -218,7 +220,7 @@ export const getOrders = async (callback) => {
 						...doc.data()
 					})
 				))
-
+			// console.log("active", active)
 			callback(active, completed);
 
 			})

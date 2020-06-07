@@ -93,7 +93,7 @@ const  Checkout = props => {
           const result = await callCloudFunctions(`createPaymentIntent`,{
             amount: total(items),
             customerEmail: 'leanprakort@gmail.com',
-            token: 'tok_visa',
+            token: __DEV__ ? 'tok_visa' : token.id,
             storeId: store.id,
             // connectedAccount: 'acct_1Gm0odJK4atiVEFX'
           })
