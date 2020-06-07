@@ -25,8 +25,9 @@ export const updateUser = (key, value) => state => {
     user
   };
 };
+
 /**
- * Clear user store
+ * Clear user store and reset the value to the default state
  */
 export const clearUser = () => state => {
   return {
@@ -48,10 +49,11 @@ export const clearUser = () => state => {
     }
    }
 }
+
 /**
  * This updates the error in store.
  * @param {String || Object} key - key is string for the attribute or the object
- * @param {*} value - value is error message
+ * @param {String} value - value is error message
  */
 
 export const updateError = (key, value) => state => {
