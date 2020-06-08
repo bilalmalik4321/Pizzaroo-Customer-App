@@ -246,7 +246,12 @@ export const getCustomerOrder = () => async state => {
   }
 
 }
-
+/**
+ * update card state in the store
+ * using key,value 
+ * @param {String} key 
+ * @param {Any} value 
+ */
 export const updateCard = (key, value) => state => {
   let card = {};
 

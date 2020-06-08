@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import {Keyboard, Text, View, TouchableWithoutFeedback, KeyboardAvoidingView , Image} from 'react-native';
-import { Button, CheckBox } from 'react-native-elements';
+import { Keyboard, Text, View, TouchableWithoutFeedback, KeyboardAvoidingView, Image } from 'react-native';
+import { Button } from 'react-native-elements';
 import { subscribe } from 'react-contextual';
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Input } from 'react-native-elements';
@@ -26,7 +26,7 @@ function Login(props) {
   const [loading, setLoading] = useState(false);
   const errors = props.errors.error_signup;
 
-  // console.log("props", props);
+  // create a user - add user auth and add user detail in the database of firebase
   const onCreateUser = async () => {
 
     setLoading(true);
@@ -38,6 +38,11 @@ function Login(props) {
       phone
     });
 
+    // prevent user from accessing the app right away
+    // firebase create account => trigger signin directly
+    // since we have firebase to user logged in in login.js
+    // we have to force user to sign out to verify their email first
+    
     await firebase.auth().signOut();
     const { result , error } = res;
     if(result) {

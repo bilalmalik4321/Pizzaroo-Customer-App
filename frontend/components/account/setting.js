@@ -1,14 +1,12 @@
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  SafeAreaView,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, View, SafeAreaView, ScrollView } from "react-native";
 import { Card, ListItem } from "react-native-elements";
-import firebase from '../../firebase';
-import {subscribe} from 'react-contextual';
 
+
+import firebase from '../../firebase';
+import { subscribe } from 'react-contextual';
+
+// Account screen - list all the profile management
 function AccountScreen(props) {
 
   const list = [
