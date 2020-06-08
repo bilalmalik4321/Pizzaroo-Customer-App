@@ -1,14 +1,14 @@
-import React, {useState} from 'react';
+import React, { useState} from 'react';
 import { subscribe } from 'react-contextual';
-import {  Text, View,StyleSheet, TouchableHighlight} from 'react-native';
-import { Input, Badge} from 'react-native-elements';
-import moment from 'moment';
+import {  Text, View, StyleSheet, TouchableHighlight } from 'react-native';
+import { Input, Badge } from 'react-native-elements';
 
 import firebase from '../../firebase';
 import * as validation from './validations';
 
 /**
  * Change password screen
+ * user updates the new password 
  * @param {Object} props - store of HOC 
  */
 const ChangePassword = props => {
@@ -18,15 +18,23 @@ const ChangePassword = props => {
   const [_errors , setErrors] = useState({});
   const [success, setSuccess] = useState(false);
 
+  /**
+   * onSave - change user password
+   * first authenticate user then update the password
+   * @param {String} password 
+   * @param {String} newPassword 
+   */
   const onSave = async (password, newPassword) => {
+
+    // check validation for any errors
     const errors_ = validation.password(password, newPassword);
     setErrors(errors_);
-    console.log("why not print", Object.keys(errors_).length === 0)
+  
     if( Object.keys(errors_).length === 0 ) 
     {
      try{
+        // get the current logged in user
         const userInfo = firebase.auth().currentUser;
-
         const { email } = userInfo;
         const signedIn =firebase
         .auth()
@@ -34,40 +42,41 @@ const ChangePassword = props => {
           email,
           password
         ).then(async userInfo => {
-
+          // after authentication, update the password
           userInfo.user.updatePassword(newPassword);    
           setSuccess(true);
           setNewPassword('');
           setPassword('');
         })
         .catch(err => {
+
           let error = {};
           error.newPassword = err.message;
-          // console.log("what went wrong?", err)
+          // set the error message
           setErrors(error);
+
         });
       } catch (err) {
-      let error = {};
-      error.newPassword = err.message;
-      setErrors(error);
-      // console.log("err from change email", err);
+
+        let error = {};
+        error.newPassword = err.message;
+        setErrors(error);
     }
   } else {
       setErrors(errors_);
-      console.log("checkout nukk", _errors.password)
     } 
   }
-  // console.log("screen-----", props.user.previousScreen)
+  
   return(
     <View style={{...styles.centeredView}}>
       <View style={styles.modalView}>
-        <View style={{paddingBottom: 40, justifyContent: 'center'}}> 
+        <View style={styles.successBox}> 
           { success && <Badge  
             value="Successfully update your password!!"
             status="success"
             /> }
         </View>
-        <View style={{ paddingBottom: 20}}>
+        <View style={styles.paddingBottom20}>
           <Input
             secureTextEntry={true}
             label="Current Passoword"
@@ -81,7 +90,7 @@ const ChangePassword = props => {
             errorMessage={_errors.password === null? '' :_errors.password}
           />
         </View>
-        <View style={{ paddingBottom: 20}}>
+        <View style={styles.paddingBottom20}>
           <Input
             secureTextEntry={true}
             label="New Password"
@@ -98,9 +107,9 @@ const ChangePassword = props => {
         </View>
 
   
-        <View style={{backgroundColor: 'white', paddingTop: 50 ,paddingLeft: 15, paddingRight: 15, flexDirection: 'row', justifyContent:'space-between'}}>
+        <View style={styles.buttonWrapper}>
           <TouchableHighlight
-            style={{ ...styles.openButton,width: '45%', backgroundColor: "#ff6363"}}
+            style={{ ...styles.openButton, backgroundColor: "#ff6363"}}
             onPress={() => {
               setSuccess(false);
               props.navigation.navigate('Account');
@@ -111,7 +120,7 @@ const ChangePassword = props => {
             </Text>
           </TouchableHighlight>
           <TouchableHighlight
-            style={{ ...styles.openButton,width: '45%', backgroundColor: "#2196F3"}}
+            style={{ ...styles.openButton, backgroundColor: "#2196F3"}}
             onPress={() => {
               setSuccess(false);
               setErrors({});
@@ -158,19 +167,31 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5
   },
+  paddingBottom20: {
+    paddingBottom: 20
+  },
+  successBox: {
+    paddingBottom: 40,
+    justifyContent: 'center'
+  },
+  buttonWrapper:{
+    backgroundColor: 'white', 
+    paddingTop: 50 ,
+    paddingLeft: 15, 
+    paddingRight: 15, 
+    flexDirection: 'row', 
+    justifyContent:'space-between'
+  },
   openButton: {
     backgroundColor: "#F194FF",
     borderRadius: 20,
     padding: 10,
-    elevation: 2
+    elevation: 2,
+    width: '45%'
   },
   textStyle: {
     color: "white",
     fontWeight: "bold",
     textAlign: "center"
   },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center"
-  }
 });
