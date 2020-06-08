@@ -40,6 +40,14 @@ export function findNumberOfOrder(items) {
 
   return count;
 }
+
+/**
+ * find the distance between two adresses
+ * @param {Number} lat1 - latitude of the first address
+ * @param {Number} lon1 - longitude of the first address
+ * @param {Number} lat2 - latitude of the second address
+ * @param {Number} lon2 - longitude of the second address
+ */
 export function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
   var R = 6371; // Radius of the earth in km
   var dLat = deg2rad(lat2-lat1);  // deg2rad below
@@ -54,11 +62,18 @@ export function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
   return d;
 }
 
+/**
+ * convert degree to radius
+ * @param {Number} deg - degree
+ */
 function deg2rad(deg) {
   return deg * (Math.PI/180)
 }
 
-
+/**
+ * isPostalCode - validate the postal of an address
+ * @param {String} code - postal of the input
+ */
 export const isPostalCode = (code) => {
   console.log("code", code);
   const reg = new RegExp(/^[ABCEGHJ-NPRSTVXY][0-9][ABCEGHJ-NPRSTV-Z] [0-9][ABCEGHJ-NPRSTV-Z][0-9]$/);

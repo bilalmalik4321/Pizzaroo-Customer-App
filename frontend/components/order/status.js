@@ -188,8 +188,8 @@ const Status = props => {
             </View> 
 
             <View style={trackStep(props.status.order.progressStep) >3 ? {...barCompleted} : {...bar}} />
-            <View style={ trackStep(props.status.order.progressStep) <=4 ? {...stepBar} : {...stepBarCompleted }} >         
-              <Text style={trackStep(props.status.order.progressStep) <=4? {...stepBarText} : {...stepBarTextCompleted }}>
+            <View style={ trackStep(props.status.order.progressStep) <4 ? {...stepBar} : {...stepBarCompleted }} >         
+              <Text style={trackStep(props.status.order.progressStep) <4? {...stepBarText} : {...stepBarTextCompleted }}>
               4
               </Text>
             </View> 

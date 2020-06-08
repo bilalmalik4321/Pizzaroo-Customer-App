@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {Keyboard, Text, View, TouchableWithoutFeedback, KeyboardAvoidingView , Image} from 'react-native';
+import { Keyboard, Text, View, TouchableWithoutFeedback, KeyboardAvoidingView , Image } from 'react-native';
 import { Button } from 'react-native-elements';
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Input } from 'react-native-elements';
@@ -9,11 +9,11 @@ import styles from "../style";
 
 /**
  * Login component - render the login prompt for user
+ * You will be sent a reset password link in their email
  * @param {Object} props 
  */
 
 const ResetPassword = () => {
-
 
   const [returnError, setReturnError ] = useState('');
   const [clearEmail, setClearEmail] = useState(false);
@@ -21,6 +21,7 @@ const ResetPassword = () => {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
 
+  // call firebase api to send the reset password link
   const onReset = async () => {
     try {
       setLoading(true);
@@ -79,15 +80,13 @@ const ResetPassword = () => {
             errorMessage={returnError}
           />
 
-            {
-              toggleSuccess && 
-              <View style={{ flexDirection: 'row', justifyContent: 'center', paddingTop: 10, marginBottom: 10}}>
-                <Text style={{textAlign:'center', fontSize: 15, color: 'green', fontWeight: '300'}}>{"The reset password link has been sent your email."}</Text>
-              </View>
-            }
-       
-
-
+          {
+            toggleSuccess && 
+            <View style={{ flexDirection: 'row', justifyContent: 'center', paddingTop: 10, marginBottom: 10}}>
+              <Text style={{textAlign:'center', fontSize: 15, color: 'green', fontWeight: '300'}}>{"The reset password link has been sent your email."}</Text>
+            </View>
+          }
+      
           <Button
             disabled={loading}
             loading={loading}

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -15,36 +15,17 @@ import {
 } from "react-native-elements";
 
 import { subscribe } from "react-contextual";
-import { getDistanceFromLatLonInKm, convertDate } from '../_shared/utility';
-import moment from 'moment';
+import { getDistanceFromLatLonInKm } from '../_shared/utility';
 
- 
-var information = {
-  card: {
-    number: '4242424242424242',
-    exp_month: '02',
-    exp_year: '31',
-    cvc: '999',
-    name: 'Billy Joe'
-  }
-}
 /**
  * Restaurant screen
  * @param {Object} props - store of HOC
  */
 function RestaurantScreen(props) {
 
-
- 
   const [toggleModal, setModal] = useState(false);
 
   const { addresses } = props.user;
-
-  let list = [];
-  list.push(props.schema[0]);
-  list.push(props.schema[0]);  
-  list.push(props.schema[0]);
-
   const getLocation = addresses.length === 0;
  
   const { lat, lng } = !getLocation? addresses[0] : {};
