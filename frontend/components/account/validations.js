@@ -6,7 +6,6 @@ import firebase from '../../firebase';
 export const signup = props => {
   const error_signup = {};
   const { email , repeatPassword, password, isAccepted, phone, name} = props.user;
-
   const isPhone = new RegExp(/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/);
 
   if(!name) error_signup.name ="Please enter your name.";

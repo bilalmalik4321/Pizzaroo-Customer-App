@@ -89,19 +89,20 @@ exports.createPaymentIntent = functions.https
           }
 
         })
-        console.log('result',result)
+    
+          
         return res.status(200).send({
           result
         });
       }
-      
     
+      return res.status(400).send({
+        error: 'No connected id provided'
+      })
   
     } catch( err) {
       console.log("errror",err);
-      return res.status(400).send({
-        error: err
-      })
+      
     }
 
   });

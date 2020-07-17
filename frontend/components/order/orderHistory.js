@@ -1,14 +1,6 @@
 import React, { useEffect } from "react";
-import {
-  View,
-  TouchableOpacity,
-  SafeAreaView,
-} from "react-native";
-import {
-  Text,
-  Button,
-  Divider,
-} from "react-native-elements";
+import { View, TouchableOpacity, SafeAreaView } from "react-native";
+import { Text, Button, Divider } from "react-native-elements";
 import StickyHeaderFooterScrollView from 'react-native-sticky-header-footer-scroll-view';
 import moment from 'moment';
 import { subscribe } from 'react-contextual';

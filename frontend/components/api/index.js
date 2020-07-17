@@ -1,29 +1,11 @@
 import firebase from '../../firebase';
 import moment from 'moment';
-import { convertDate } from '../_shared/utility';
 import axios from 'axios';
-// access the database
 
-// const { firebase , firestore } = all;
-// console.log("aall", all);
 const db = firebase.firestore();
 // timestamp
-export const timestamp = moment().format('YYYY-MM-DD hh:mm:ss:SS:SSS a');
+export const timestamp = moment().format('YYYY MM DD hh:mm:ss:SS:SSS a');
 
-/**
- * firebase database is like json file using key-value pair 
- * each entitiy is called a collection
- * each row is called a document
- * in a document can contain many fields i.e primitive type, and object
- * 
- * How to do query for firebase:
- * @ Retrieve a document
- * option1: firebase.database().collection('users).doc('uid-123').get();
- * option2: firebase.database().doc(`users/${uid-123}`).get();
- * Explaination: to retrieve a document: we have specify path in the query
- * path: '/users/uid-123', option 1 is using finding 'users' collection first and then 
- * find the 'uid-123' unlike option 2 is using the '/users/uid-123' right away
- */
 /**
  * createUser - register user with firebase auth and save the user info in the database
  * @param {object} - users information 
@@ -39,17 +21,14 @@ export const createUser = async payload => {
         payload.password
       );
 		
+		// send verification email
 		signedUpUser.user.sendEmailVerification();
-		// console.log("user sign up", signedUpUser)
-    // send verification email TODO
-    // signedUpUser.user.sendEmailVerification();
 
     // delete password to secure
     const userInfo = payload;
     delete userInfo.password;
 
     // user is created in auth but not in the collection
-
 		await db
 			.collection('customers')
 			.doc(signedUpUser.user.uid)
@@ -71,6 +50,11 @@ export const createUser = async payload => {
 		}
   }
 };
+
+/**
+ * edit addresses of the user by updating the user doc
+ * @param {addresses} addresses - addresses input from the location screen
+ */
 
 export const editAddresses = async (addresses) => {
 	try  {
@@ -122,6 +106,10 @@ export const getUser = async uid => {
 	}
 };
 
+/**
+ * Generate the unique id 
+ * @return {String} uuid - return the unqiue string id
+ */
 export const uuidv4 = () => {
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
     var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -129,7 +117,10 @@ export const uuidv4 = () => {
   });
 }
 
-
+/**
+ * Create an order for the user
+ * @param {Object} payload - orders info and the status of the order
+ */
 export const createOrder = async (payload) => {
 	try {	
 		const userInfo = firebase.auth().currentUser;
@@ -145,28 +136,33 @@ export const createOrder = async (payload) => {
 				progressStep: 'waiting',
 				...payload
 			});
-
 	} catch (error) {
 		console.log('createOrder failed', error);
 	}
 }
 
+/**
+ * get an order from the firestore
+ * @param {String} orderId - the order id passed to get the order details
+ */
 
 export const getOrder = async (orderId) => {
 	try{
 
-		// console.log("getOrderwork?*******", orderId);
 		const order = await db
 			.collection('orders')
 			.doc(orderId)
 			.get();
-		// console.log("order by id", order.data())
+
 		return order.data();
 	} catch (error ){
 		console.log("error getOrder", error);
 	}
 }
-
+/**
+ * get all the orders and separate them by the status
+ * @param {functions} callback - update orders function to update the global store of the order
+ */
 export const getOrders = async (callback) => {
 	try {
 
@@ -182,75 +178,67 @@ export const getOrders = async (callback) => {
 			  const orderDate = (time) => moment(time,'YYYY-MM-DD').format('L');
 				const today = moment().format('MM/DD/YYYY');
 				
-
+				/**
+				 * find the diff of minutes between 2 dats
+				 * @param {Date} date - date of updatedAt of an order
+				 */
 				const getMinutesDiff = (date) => {
-				
-					const orderDate = (time) => moment(time,'YYYY-MM-DD HH:mm:ss a').format('LLL');
-					const rightNow = orderDate(timestamp);
-					const check = orderDate(date)
-			
-					return moment(rightNow).diff(check,'minutes');
-			
+					const rightNow = moment();
+					const check = moment(date,'YYYY MM DD hh:mm a');
+					return rightNow.diff(check,'minutes');
 				}
 		
+				// if the progressStep is enroute and the updatedAt has been 20mn 
+				// then close the order
 				snapshot.forEach( async doc => {
-					
-					if (getMinutesDiff(doc.data().updatedAt >= 20 && doc.data().progessStep === 'enroute')) {
-						await firebase.firebase().doc(`orders/${doc.uid}`).update({
-							progessStep: 'delivered',
-							status: 'closed',
-							updatedAt: timestamp
-						})
+					if (getMinutesDiff(doc.data().updatedAt) >= 20 && doc.data().progressStep === 'enroute') {
+						try {
+							await db.doc(`orders/${doc.id}`).update({
+								progressStep: 'delivered',
+								status: 'closed',
+								updatedAt: timestamp
+							});
+						} catch( err) {
+							console.log("err update progressStep", err);
+						}
 					}
-					
-				})
+				});
 			
-				// console.log("today", today)
+				// filter to find the open and today's orders
 				snapshot.forEach( doc => (
 					doc.data().status === 'open' && today === orderDate(doc.data().createdAt) && active.push({
 						id: doc.id,
 						...doc.data()
 					})
 				))
+
+				// filter to find the closed orders
 				snapshot.forEach( doc => (
 					(doc.data().status === 'closed' || doc.data().status === 'cancelled')&&completed.push({
 						id: doc.id,
 						...doc.data()
 					})
 				))
+		
+				// apply call back
+				// this will update the order in the global state
+				callback(active, completed);
 
-			callback(active, completed);
-
-			})
-
+			});
 	} catch (error) {
 		console.log("getOrders error", error);
 	}
 }
 
-export const onListenOnOrder = async (uuid) => {
-	try {
-		console.log("does it run?")
-		
-		let observer = await db.collection('orders').where('uuid', '==', uuid)
-		.onSnapshot(querySnapshot => {
-			querySnapshot.docChanges().forEach(change => {
-			
-				if (change.type === 'modified') {
-					console.log('*** changed---- ', change.doc.data());
-					return true;
-				}
-			});
-		});
-		 
-	} catch (err) {
-		console.log("error onListenOnOrder",err);
-	}
-}
+/**
+ * Update the order based on the editting 
+ * @param {Object} payload - order info
+ * @param {String} orderId - order id
+ * @param {String} status - order status
+ */
 export const updateOrder = async (payload, orderId, status) => {
 	try {	
-		const userInfo = firebase.auth().currentUser;
-		const { uid } = userInfo;
+	
 		return await db
 			.doc(`orders/${orderId}`)
 			.set({
@@ -266,7 +254,10 @@ export const updateOrder = async (payload, orderId, status) => {
 	}
 }
 
-
+/**
+ * Get all the restaurants to display menus
+ * @param {function} updateRestaurant - callback funtion to update the global store
+ */
 export const getRestaurants = async (updateRestaurant) => {
 	try {
 		return  await db
@@ -275,47 +266,33 @@ export const getRestaurants = async (updateRestaurant) => {
 			.get()
 			.then( snapshot => {
 				const withinRange = [];
-				// console.log("hello")
+		
 				snapshot.forEach( doc => (
 					doc.stripe_connected_account_id !== '' && withinRange.push({
 						storeId: doc.id,
 						...doc.data()
 					})
+				));
 
-				))
-
-				// console.log("data ---",withinRange)
+				// apply the callback to update the store data
 				updateRestaurant(withinRange)
-			})
+			});
+
 	} catch (error) {
-		
+		console.log("error getting the restaurant", error);
 	}
 }
 
-
-export const createPaymentIntent = async ( params = {}) => {
-
-	try {
-		const res = await axios.post(`https://us-central1-pizzaro-staging.cloudfunctions.net/createPaymentIntent`,{ ...params });
-
-		if(res.status !== 200)
-			return false;
-		if(!res.data)
-			return false;
-
-		return res.data;
-
-	} catch (err) {
-		console.log("error creating a payment", err);
-		return false;
-	
-	}
-
-}
-
+/**
+ * call cloud functions template for all the function
+ * check the production/localhost/development and use the url respectively
+ * @param {*} funcName - name the function
+ * @param {*} params - param as the payload in the body of the request
+ */
 
 export const callCloudFunctions = async (funcName, params = {} ) => {
 	try {
+
 		const isDevelopment = __DEV__ ;
 
 		// ---------- if run emulators function add the url here -----------// 
@@ -339,6 +316,5 @@ export const callCloudFunctions = async (funcName, params = {} ) => {
 	} catch (err) {
 		console.log("error get address", err);
 		return false;
-	
 	}
 }

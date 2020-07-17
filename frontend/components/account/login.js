@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {Keyboard, Text, View, TouchableWithoutFeedback, KeyboardAvoidingView , Image, ImageBackground} from 'react-native';
+import { Keyboard, Text, View, TouchableWithoutFeedback, KeyboardAvoidingView , Image, ImageBackground } from 'react-native';
 import { Button } from 'react-native-elements';
 import { subscribe } from 'react-contextual';
 import firebase from '../../firebase';
@@ -26,8 +26,8 @@ function Login(props) {
   
   const errors = props.errors.error_signin;
 
-  // console.log('user signed up---', justSignedUp);
-  // console.log("current user", firebase.auth().currentUser);
+  // use firebase api to keep user logged in unless they sign out
+  // to prevent logging out user when they come back to the app
   useEffect(()=> {
       try {
         firebase.auth().onAuthStateChanged(async user => {
@@ -43,10 +43,12 @@ function Login(props) {
               });
             }
 
+            // check if their email has been verified
             if(emailVerified) {
-           
+              // if yes get all the orders
               props.getCustomerOrders();
-
+              // if there is no address 
+              // bring user to the location screen
               if(userInfo.addresses !== undefined && userInfo.addresses.length !== 0)
                 props.navigation.navigate("Restaurants");
               else 
@@ -60,9 +62,12 @@ function Login(props) {
       }
   },[loggedIn, props.getCustomerOrders]);
 
+
+  // sign in user with firebase auth api
   const onLogin = async () => {
 
     setLoading(true);
+    // get email and password from the user
     const { email, password } = props.user;
     try{
       const signedInUser = await firebase
@@ -73,20 +78,23 @@ function Login(props) {
         );
 
       const { emailVerified } = firebase.auth().currentUser;
-
+      
+      
       if(signedInUser && emailVerified) {
         const user = await getUser(signedInUser.user.uid);
-        // console.log("find ui please", user);
+        // get user detail from database and update the global store
         props.updateUser({
           ...user,
           id: signedInUser.user.uid
         });
+        // navigate user to the home page
         props.navigation.navigate("Restaurants");
       } else {
+        // if they are not verified yet, render the message screen
         props.navigation.navigate('Verify');
       }
     } catch (error) {
-      // console.log("errrorr-----sign", error);
+    
       if(error) {
         const { message } = error;
         console.log("message", message)
@@ -100,66 +108,66 @@ function Login(props) {
   return (
     <KeyboardAvoidingView style={styles.containerView} behavior="padding">
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-	    
         <View style={styles.loginScreenContainer}>
-		 <ImageBackground style = {{flex: 1, resizeMode: 'stretch'}} source = {require('../../images/login-bg.jpg')}>
-          <View style={styles.loginFormView}> 
-			<View style={{}}>
-				<Image
-				  width="100"
-				  height="100"
-				  source={require('../../images/pizza.png')}
-				  
-				/>
-				<Text style={styles.logoText}>Pizzaro</Text>
-			</View>
-            <Input 
-            containerStyle={{paddingBottom: 25}}
-            label="Email"
-            value={props.user.email}
-            leftIcon={{ name: 'mail-outline', color: '#dddddd' }}
-            leftIconContainerStyle={{ alignSelf: 'flex-start', marginLeft: 0}}
-            inputStyle={{paddingLeft: 15, color: '#13aa52', fontWeight: '300'}}
-            rightIcon={clearEmail && <Icon 
-              style={{color: '#dddddd', fontWeight: '200', fontSize: 20}} 
-              name="close"
-              onPress={()=> {
-                setClearEmail(false);
-                props.updateUser({email: ""})
-              }}  
-              />}
-            onChangeText={text =>  {
-              setClearEmail(true)
-              props.updateUser({email: text})
-            }}
-            renderErrorMessage={(errors && errors.email) || returnError}
-            errorMessage={returnError || errors.email}
-          />
+		      <ImageBackground style = {{flex: 1, resizeMode: 'stretch'}} source = {require('../../images/login-bg.jpg')}>
+            <View style={styles.loginFormView}> 
+              <View style={{}}>
+                <Image
+                  width="100"
+                  height="100"
+                  source={require('../../images/pizza.png')}
+                  
+                />
+                <Text style={styles.logoText}>Pizzaro</Text>
+		        	</View>
+
+              <Input 
+                containerStyle={{paddingBottom: 25}}
+                label="Email"
+                value={props.user.email}
+                leftIcon={{ name: 'mail-outline', color: '#dddddd' }}
+                leftIconContainerStyle={{ alignSelf: 'flex-start', marginLeft: 0}}
+                inputStyle={{paddingLeft: 15, color: '#13aa52', fontWeight: '300'}}
+                rightIcon={clearEmail && <Icon 
+                  style={{color: '#dddddd', fontWeight: '200', fontSize: 20}} 
+                  name="close"
+                  onPress={()=> {
+                    setClearEmail(false);
+                    props.updateUser({email: ""})
+                  }}  
+                  />}
+                onChangeText={text =>  {
+                  setClearEmail(true)
+                  props.updateUser({email: text})
+                }}
+                renderErrorMessage={(errors && errors.email) || returnError}
+                errorMessage={returnError || errors.email}
+            />
 
             <Input 
-            secureTextEntry={true}
-            containerStyle={{paddingBottom: 25}}
-            label="Password"
-            value={props.user.password}
-            leftIcon={{ name: 'lock-outline', color: '#dddddd' }}
-            leftIconContainerStyle={{ alignSelf: 'flex-start', marginLeft: 0}}
-            inputStyle={{paddingLeft: 15, color: '#13aa52', fontWeight: '300'}}
-            rightIcon={clearPass && <Icon 
-              style={{color: '#dddddd', fontWeight: '200', fontSize: 20}} 
-              name="close"
-              onPress={()=> {
-                setClearPass(false);
-                props.updateUser({password: ""})
-              }}  
-              />}
-            onChangeText={text =>  {
-              setClearPass(true)
-              props.updateUser({password: text})
-            }}
-            renderErrorMessage={errors && errors.password}
-            errorMessage={errors.password}
-      
-          />
+              secureTextEntry={true}
+              containerStyle={{paddingBottom: 25}}
+              label="Password"
+              value={props.user.password}
+              leftIcon={{ name: 'lock-outline', color: '#dddddd' }}
+              leftIconContainerStyle={{ alignSelf: 'flex-start', marginLeft: 0}}
+              inputStyle={{paddingLeft: 15, color: '#13aa52', fontWeight: '300'}}
+              rightIcon={clearPass && <Icon 
+                style={{color: '#dddddd', fontWeight: '200', fontSize: 20}} 
+                name="close"
+                onPress={()=> {
+                  setClearPass(false);
+                  props.updateUser({password: ""})
+                }}  
+                />}
+              onChangeText={text =>  {
+                setClearPass(true)
+                props.updateUser({password: text})
+              }}
+              renderErrorMessage={errors && errors.password}
+              errorMessage={errors.password}
+        
+            />
            <View style={{ flexDirection: 'row', justifyContent: 'center', paddingTop: 10, marginBottom: 10}}>
             <TouchableOpacity
               onPress={() => {
