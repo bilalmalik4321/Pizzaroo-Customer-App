@@ -4,6 +4,7 @@ const admin = require('firebase-admin');
 
 const queryString = require('query-string');
 const axios = require('axios');
+const moment =  require('moment');
 // production until the hard launch we use test keys, same as development
 // stripe.sk
 // stripe.pk
@@ -36,6 +37,7 @@ if(!admin.apps.length)
     databaseURL: isDevelopment ? "https://pizzaro-staging.firebaseio.com" : "https://pizzaroo-34b58.firebaseio.com"
   });
 
+const timestamp = moment().format('YYYY-MM-DD hh:mm:ss:SS:SSS a');
 
 exports.createPaymentIntent = functions.https
   .onRequest( async (req, res) => {
@@ -61,7 +63,7 @@ exports.createPaymentIntent = functions.https
     try {
      
       const data = req.body;
-      // console.log("data\n\n", data);
+      console.log("data\n\n", data);
       const { customerEmail, connectedAccount, amount, token, storeId} = data;
       const sellerRef = await admin.firestore().doc(`stores/${storeId}`).get();
       const sellerInfo = sellerRef.data();
@@ -87,11 +89,13 @@ exports.createPaymentIntent = functions.https
           }
 
         })
+        console.log('result',result)
+        return res.status(200).send({
+          result
+        });
       }
       
-      return res.status(200).send({
-        result
-      });
+    
   
     } catch( err) {
       console.log("errror",err);

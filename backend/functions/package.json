@@ -11,7 +11,7 @@
     "logs": "firebase functions:log"
   },
   "engines": {
-    "node": "8"
+    "node": "10"
   },
   "dependencies": {
     "axios": "^0.19.2",
@@ -19,6 +19,7 @@
     "dotenv": "^8.2.0",
     "firebase-admin": "8.12.1",
     "firebase-functions": "^3.6.1",
+    "moment": "^2.26.0",
     "query-string": "^6.12.1",
     "stripe": "^8.55.0"
   },

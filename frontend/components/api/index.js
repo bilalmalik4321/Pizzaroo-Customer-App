@@ -321,11 +321,14 @@ export const callCloudFunctions = async (funcName, params = {} ) => {
 		// ---------- if run emulators function add the url here -----------// 
 		const localhostEmulator = `http://localhost:5001/pizzaro-staging/us-central1/${funcName}`
 	
-		console.log("localhost params", params)
+		console.log("localhost params", localhostEmulator)
 		const url = `https://us-central1-${isDevelopment? 'pizzaro-staging' : 'pizzaroo-34b58'}.cloudfunctions.net/${funcName}`
-
+		const hi = `https://us-central1-pizzaro-staging.cloudfunctions.net/createPaymentIntent`;
+		const host = `http://localhost:5001/pizzaro-staging/us-central1/createPaymentIntent`
 		// doing firebase end point ==> use localhostEmulator
-		const res = await axios.post(localhostEmulator, { ...params });
+		const res = await axios.post(url, { ...params });
+		
+		console.log('res', params)
 		if(res.status !== 200)
 			return false;
 		if(!res.data)

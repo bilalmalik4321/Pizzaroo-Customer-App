@@ -63,7 +63,6 @@ const  Checkout = props => {
 
         try {
 
-    
         const exp_month = expiry.split('/')[0];
         const exp_year = '20' + expiry.split('/')[1];
         const token = await stripe.createToken({
@@ -97,7 +96,7 @@ const  Checkout = props => {
             storeId: store.id,
             // connectedAccount: 'acct_1Gm0odJK4atiVEFX'
           })
-          console.log("result=====",result)
+          console.log("result of create payment Intent",result)
           if(result){
 
             const payload = {
