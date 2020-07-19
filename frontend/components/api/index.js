@@ -294,7 +294,7 @@ export const callCloudFunctions = async (funcName, params = {} ) => {
 	try {
 
 		const isDevelopment = __DEV__ ;
-
+		isDevelopment = true;
 		// ---------- if run emulators function add the url here -----------// 
 		const localhostEmulator = `http://localhost:5001/pizzaro-staging/us-central1/${funcName}`
 	

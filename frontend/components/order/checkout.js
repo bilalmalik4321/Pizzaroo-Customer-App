@@ -66,9 +66,11 @@ const  Checkout = props => {
           // connectedAccount from the firebase
           // prevent somenone from input their connected account and take the tranfer payment
           // retrieve seller connected account ID from the backend instead
-
+          const subtotal = total(items);
+          const tax = 1.13
+          const total = subtotal * tax
           const result = await callCloudFunctions(`createPaymentIntent`,{
-            amount: total(items),
+            amount: total,
             customerEmail: 'leanprakort@gmail.com',
             // is development ? then use 'tok_visa' to create paymentIntent
             token: __DEV__ ? 'tok_visa' : token.id,
@@ -90,7 +92,9 @@ const  Checkout = props => {
               storeId: store.id,
               store,
               numberOfItems,
-              total: total(items),
+              total,
+              subtotal,
+              tax
             }
             
             // creat eh order
