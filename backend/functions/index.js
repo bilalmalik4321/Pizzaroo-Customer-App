@@ -69,6 +69,7 @@ exports.createPaymentIntent = functions.https
       const sellerInfo = sellerRef.data();
       const { stripe_connected_account_id } = sellerInfo;
       // only if the stripe connected account id exists then make the payment
+     
       if(stripe_connected_account_id) {
 
         const result = await stripe.paymentIntents.create({
@@ -76,6 +77,8 @@ exports.createPaymentIntent = functions.https
           amount: amount * 100,
           currency: 'cad',
           payment_method_types: ['card'],
+          // charge 1$ for the application fee
+          application_fee_amount: 100,
           payment_method_data: {
             type: 'card',
             card: {
@@ -89,7 +92,6 @@ exports.createPaymentIntent = functions.https
           }
 
         })
-    
           
         return res.status(200).send({
           result
