@@ -16,7 +16,7 @@
     "firebase": "7.9.0",
     "loadash": "^1.0.0",
     "metro-react-native-babel-preset": "^0.59.0",
-    "moment": "^2.25.3",
+    "moment": "^2.29.2",
     "prop-types": "^15.7.2",
     "react": "~16.9.0",
     "react-contextual": "^5.0.2",
